@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bullet
+  - JumpSwitch
+  - Platform
+  - Ground
+  - Crate
+  - Player1
+  - Player2
+  - LightPlatform
+  - LightPlayer1
+  - LightPlayer2
+  - LightPlatform1
+  - LightPlatform2
+  - Glass
+  - SceneCam
+  - Teleporter
+  - SwitchPlatform1
+  - SwitchPlatform2
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ground
+  - Player
+  - Platform
+  - Crate
+  - NearBg
+  - FarBg
+  - Glass
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Platform1
+    uniqueID: 991420269
+    locked: 0
+  - name: Platform2
+    uniqueID: 1278169965
+    locked: 0

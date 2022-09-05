@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 16484e96d3fbfb64bafe543c606be86b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sideFriction: {fileID: 6200000, guid: 6779b55ba4a9e3a4ab015ff690450ae5, type: 2}
+  - groundFriction: {fileID: 6200000, guid: e995c0bba662a054db9b10bc6b4f1dbb, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
