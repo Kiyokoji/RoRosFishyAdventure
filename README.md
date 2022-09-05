@@ -8,3 +8,4 @@
 - Philip Nees
 - Lara Streppelmann
 - Maja Milas
+- Jambo the cat (in our hearts)
