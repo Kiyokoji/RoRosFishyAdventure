@@ -4,37 +4,33 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bullet
-  - JumpSwitch
-  - Platform
-  - Ground
-  - Crate
   - Player1
-  - Player2
-  - LightPlatform
   - LightPlayer1
-  - LightPlayer2
+  - Platform
+  - JumpSwitch
+  - Ground
+  - SwitchPlatform1
+  - Crate
+  - SwitchPlatform2
+  - Glass
   - LightPlatform1
   - LightPlatform2
-  - Glass
-  - SceneCam
   - Teleporter
-  - SwitchPlatform1
-  - SwitchPlatform2
+  - Player2
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - Ground
-  - Player
-  - Platform
-  - Crate
-  - NearBg
-  - FarBg
-  - Glass
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -57,10 +53,4 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Platform1
-    uniqueID: 991420269
-    locked: 0
-  - name: Platform2
-    uniqueID: 1278169965
     locked: 0

@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    private PlayerInputActions playerInputActions;
 
-    [HideInInspector] public bool chatActive = false;
 
     private void Awake()
     {
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
+
+        playerInputActions.Player.QuitGame.performed += QuitGame;
+
         if (instance)
         {
             Destroy(gameObject);
@@ -23,89 +30,13 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    [PunRPC]
-    public void Restart()
+    private void QuitGame(InputAction.CallbackContext obj)
     {
-        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
+        Application.Quit();
     }
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == "MainMenu")
-        {
-            PhotonNetwork.AutomaticallySyncScene = false;
-            PhotonNetwork.Disconnect();
-        }
 
-
-        /*
-
-        if (Input.GetKeyDown(KeyCode.P)) 
-        {
-            pingWindow.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("Tutorial1");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("Tutorial2");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("Tutorial3");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("Tutorial4");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("LevelAnton1");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("LevelAnton2");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("LevelKai1");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                PhotonNetwork.LoadLevel("LevelKai2");
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SceneManager.LoadScene("Ending");
-        }
-        */
     }
 }
