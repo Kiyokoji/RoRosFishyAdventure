@@ -284,41 +284,22 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Manager"",
-            ""id"": ""f10c706e-1515-4e59-b0be-fa0919a2144d"",
+            ""name"": ""Input"",
+            ""id"": ""32709cef-d475-4be6-a06f-b731bb72b946"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""ff83bd8b-145c-410d-bd73-cf3d04bfdd3a"",
+                    ""id"": ""b980e540-c6b6-43cd-aa53-11f607d92861"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
+                },
                 {
-                    ""name"": """",
-                    ""id"": ""e7366996-1b7e-4bc6-bd59-4a6ea8a08cd9"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""InputCheck"",
-            ""id"": ""32709cef-d475-4be6-a06f-b731bb72b946"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
+                    ""name"": ""Book"",
                     ""type"": ""Button"",
-                    ""id"": ""b980e540-c6b6-43cd-aa53-11f607d92861"",
+                    ""id"": ""15afc509-127e-4ae8-8e8e-2c53fb6d073a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -333,7 +314,51 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Mouse"",
-                    ""action"": ""New action"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""906783c4-b7c1-4489-97fe-0606c32069bf"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7a739ee-7d6e-4fbd-bada-7e21a14a0bba"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1c9f546-4c4c-45f0-bdc0-1f0a69d04773"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Book"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""533ef8e2-7412-4b76-9353-5a864938a980"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Book"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -384,12 +409,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_QuitGame = m_Player.FindAction("QuitGame", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_MousePos = m_Player.FindAction("MousePos", throwIfNotFound: true);
-        // Manager
-        m_Manager = asset.FindActionMap("Manager", throwIfNotFound: true);
-        m_Manager_Newaction = m_Manager.FindAction("New action", throwIfNotFound: true);
-        // InputCheck
-        m_InputCheck = asset.FindActionMap("InputCheck", throwIfNotFound: true);
-        m_InputCheck_Newaction = m_InputCheck.FindAction("New action", throwIfNotFound: true);
+        // Input
+        m_Input = asset.FindActionMap("Input", throwIfNotFound: true);
+        m_Input_Pause = m_Input.FindAction("Pause", throwIfNotFound: true);
+        m_Input_Book = m_Input.FindAction("Book", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -519,71 +542,46 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // Manager
-    private readonly InputActionMap m_Manager;
-    private IManagerActions m_ManagerActionsCallbackInterface;
-    private readonly InputAction m_Manager_Newaction;
-    public struct ManagerActions
+    // Input
+    private readonly InputActionMap m_Input;
+    private IInputActions m_InputActionsCallbackInterface;
+    private readonly InputAction m_Input_Pause;
+    private readonly InputAction m_Input_Book;
+    public struct InputActions
     {
         private @PlayerInputActions m_Wrapper;
-        public ManagerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Manager_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Manager; }
+        public InputActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_Input_Pause;
+        public InputAction @Book => m_Wrapper.m_Input_Book;
+        public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(ManagerActions set) { return set.Get(); }
-        public void SetCallbacks(IManagerActions instance)
+        public static implicit operator InputActionMap(InputActions set) { return set.Get(); }
+        public void SetCallbacks(IInputActions instance)
         {
-            if (m_Wrapper.m_ManagerActionsCallbackInterface != null)
+            if (m_Wrapper.m_InputActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_ManagerActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_ManagerActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_ManagerActionsCallbackInterface.OnNewaction;
+                @Pause.started -= m_Wrapper.m_InputActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnPause;
+                @Book.started -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
+                @Book.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
+                @Book.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
             }
-            m_Wrapper.m_ManagerActionsCallbackInterface = instance;
+            m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Book.started += instance.OnBook;
+                @Book.performed += instance.OnBook;
+                @Book.canceled += instance.OnBook;
             }
         }
     }
-    public ManagerActions @Manager => new ManagerActions(this);
-
-    // InputCheck
-    private readonly InputActionMap m_InputCheck;
-    private IInputCheckActions m_InputCheckActionsCallbackInterface;
-    private readonly InputAction m_InputCheck_Newaction;
-    public struct InputCheckActions
-    {
-        private @PlayerInputActions m_Wrapper;
-        public InputCheckActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_InputCheck_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_InputCheck; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(InputCheckActions set) { return set.Get(); }
-        public void SetCallbacks(IInputCheckActions instance)
-        {
-            if (m_Wrapper.m_InputCheckActionsCallbackInterface != null)
-            {
-                @Newaction.started -= m_Wrapper.m_InputCheckActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_InputCheckActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_InputCheckActionsCallbackInterface.OnNewaction;
-            }
-            m_Wrapper.m_InputCheckActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
-            }
-        }
-    }
-    public InputCheckActions @InputCheck => new InputCheckActions(this);
+    public InputActions @Input => new InputActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -620,12 +618,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
     }
-    public interface IManagerActions
+    public interface IInputActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
-    }
-    public interface IInputCheckActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnBook(InputAction.CallbackContext context);
     }
 }

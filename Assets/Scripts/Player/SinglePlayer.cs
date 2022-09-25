@@ -61,14 +61,14 @@ public class SinglePlayer : MonoBehaviour
         jump.started += JumpStarted;
         jump.canceled += JumpCanceled;
 
-        GameManager.gameStateChanged += GameManagerStateChanged;
+        GameManager.GameStateChanged += GameManagerStateChanged;
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
 
-        GameManager.gameStateChanged -= GameManagerStateChanged;
+        GameManager.GameStateChanged -= GameManagerStateChanged;
     }
 
     private void Awake()
@@ -79,15 +79,21 @@ public class SinglePlayer : MonoBehaviour
 
     private void GameManagerStateChanged(GameManager.GameState state)
     {
-        if(state == GameManager.GameState.Moving)
+        switch (state)
         {
-            canMove = true;
-        }
-
-        if(state == GameManager.GameState.Idle)
-        {
-            canMove = false;
-            rb.velocity = Vector2.zero;
+            case GameManager.GameState.Moving:
+                canMove = true;
+                break;
+            case GameManager.GameState.Idle:
+                canMove = false;
+                rb.velocity = Vector2.zero;
+                break;
+            case GameManager.GameState.Paused:
+                canMove = false;
+                rb.velocity = Vector2.zero;
+                break;
+            default:
+                break;
         }
     }
 

@@ -262,41 +262,22 @@
             ]
         },
         {
-            "name": "Manager",
-            "id": "f10c706e-1515-4e59-b0be-fa0919a2144d",
+            "name": "Input",
+            "id": "32709cef-d475-4be6-a06f-b731bb72b946",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "ff83bd8b-145c-410d-bd73-cf3d04bfdd3a",
+                    "id": "b980e540-c6b6-43cd-aa53-11f607d92861",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
-                    "name": "",
-                    "id": "e7366996-1b7e-4bc6-bd59-4a6ea8a08cd9",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "InputCheck",
-            "id": "32709cef-d475-4be6-a06f-b731bb72b946",
-            "actions": [
-                {
-                    "name": "New action",
+                    "name": "Book",
                     "type": "Button",
-                    "id": "b980e540-c6b6-43cd-aa53-11f607d92861",
+                    "id": "15afc509-127e-4ae8-8e8e-2c53fb6d073a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -311,7 +292,51 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse",
-                    "action": "New action",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "906783c4-b7c1-4489-97fe-0606c32069bf",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7a739ee-7d6e-4fbd-bada-7e21a14a0bba",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1c9f546-4c4c-45f0-bdc0-1f0a69d04773",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Book",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "533ef8e2-7412-4b76-9353-5a864938a980",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Book",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

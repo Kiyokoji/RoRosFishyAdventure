@@ -5,13 +5,14 @@ using UnityEngine.InputSystem;
 
 public class Door : MonoBehaviour
 {
-    SceneLoader loader;
+    private SceneLoader loader;
+    private Animator anim;
 
     public SpriteRenderer interaction;
     private PlayerInputActions playerInputActions;
     private bool entered = false;
 
-    public SceneLoader.Level SceneToLoad = SceneLoader.Level.Menu;
+    public SceneLoader.Level sceneToLoad = SceneLoader.Level.Menu;
 
     private void OnEnable()
     {
@@ -28,15 +29,16 @@ public class Door : MonoBehaviour
 
     private void Interacted(InputAction.CallbackContext obj)
     {
-        if (entered)
-        {
-            loader.LoadNextLevel();
-            GameManager.instance.UpdateGameState(GameManager.GameState.Idle);
-        }
+        if (!entered) return;
+        
+        loader.LoadNextLevel();
+        GameManager.Instance.UpdateGameState(GameManager.GameState.Idle);
     }
 
-    void Start()
+    private void Start()
     {
+        anim = GetComponent<Animator>();
+
         interaction.enabled = false;
         loader = FindObjectOfType<SceneLoader>();
     }
@@ -60,12 +62,14 @@ public class Door : MonoBehaviour
     private void Entered()
     {
         interaction.enabled = true;
+        anim.SetBool("Door", true);
         entered = true;
     }
 
     private void Left()
     {
         interaction.enabled = false;
+        anim.SetBool("Door", false);
         entered = false;
     }
 }

@@ -10,7 +10,7 @@ public class Flashlight : NetworkBehaviour
 {
     private PlayerInputActions playerInputActions;
 
-    Vector3 mousePos;
+    private Vector3 mousePos;
 
     public GameObject flashLight;
 

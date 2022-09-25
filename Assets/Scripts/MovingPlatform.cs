@@ -1,7 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Level;
 using UnityEngine;
 public class MovingPlatform : Activatable
 {
@@ -63,12 +60,12 @@ public class MovingPlatform : Activatable
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
     }
 
-    public void MoveUp()
+    private void MoveUp()
     {
         transform.position = Vector2.MoveTowards(transform.position, waypoints[0].transform.position, speed * Time.deltaTime);
     }
 
-    public void MoveDown()
+    private void MoveDown()
     {
         transform.position = Vector2.MoveTowards(transform.position, waypoints[1].transform.position, speed * Time.deltaTime);
     }

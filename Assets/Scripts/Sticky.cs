@@ -37,7 +37,7 @@ public class Sticky : MonoBehaviour
         }
     }
 
-    public void UnParentCrate()
+    private void UnParentCrate()
     {
         foreach (Transform child in transform)
         {
@@ -48,7 +48,7 @@ public class Sticky : MonoBehaviour
         }
     }
 
-    public void UnParentPlayer1()
+    private void UnParentPlayer1()
     {
         foreach(Transform child in transform)
         {
@@ -59,7 +59,7 @@ public class Sticky : MonoBehaviour
         }
     }
 
-    public void UnParentPlayer2()
+    private void UnParentPlayer2()
     {
         foreach (Transform child in transform)
         {

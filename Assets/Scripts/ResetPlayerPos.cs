@@ -8,10 +8,8 @@ public class ResetPlayerPos : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            collision.transform.position = respawnPos.position;
-            collision.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        }
+        if (!collision.CompareTag("Player")) return;
+        collision.transform.position = respawnPos.position;
+        collision.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
 }
