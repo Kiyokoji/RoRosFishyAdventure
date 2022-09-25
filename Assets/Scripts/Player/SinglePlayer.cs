@@ -10,7 +10,10 @@ public class SinglePlayer : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private float moveAcceleration;
+    [SerializeField] private float maxMoveSpeed;
     private bool facingRight = false;
+    private bool canMove = true;
     private float moveDirection;
 
     [Header("Jump Physics")]
@@ -37,7 +40,7 @@ public class SinglePlayer : MonoBehaviour
 
     // Jump button input
     private bool jumpButtonDown = false;
-    private bool jumpButtonUp   = false;
+    private bool jumpButtonUp = false;
     private bool jumpButtonHold = false;
 
     [Header("References")]
@@ -57,17 +60,35 @@ public class SinglePlayer : MonoBehaviour
         jump.performed += JumpPerformed;
         jump.started += JumpStarted;
         jump.canceled += JumpCanceled;
+
+        GameManager.gameStateChanged += GameManagerStateChanged;
     }
 
     private void OnDisable()
     {
         playerInputActions.Player.Disable();
+
+        GameManager.gameStateChanged -= GameManagerStateChanged;
     }
 
     private void Awake()
     {
         animator = skeleton.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void GameManagerStateChanged(GameManager.GameState state)
+    {
+        if(state == GameManager.GameState.Moving)
+        {
+            canMove = true;
+        }
+
+        if(state == GameManager.GameState.Idle)
+        {
+            canMove = false;
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private void Start()
@@ -77,6 +98,8 @@ public class SinglePlayer : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove) return;
+
         moveDirection = move.ReadValue<Vector2>().x;
         JumpCheck();
         GroundCheck();
@@ -84,17 +107,29 @@ public class SinglePlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canMove) return;
+
         Move();
         JumpPhysics();
     }
 
     private void LateUpdate()
     {
-        
+
     }
 
     private void Move()
     {
+        //Floaty movement
+        /*    
+        rb.AddForce(new Vector2(moveDirection, 0f) * moveAcceleration);
+
+        if(Mathf.Abs(rb.velocity.x) > maxMoveSpeed)
+        {
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMoveSpeed, rb.velocity.y);
+        }
+        */
+
         rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);
 
         if (moveDirection > 0 && facingRight)
@@ -131,7 +166,7 @@ public class SinglePlayer : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        if (jumpButtonDown)
+        if (jumpButtonDown && isGrounded)
         {
             jumpTimeCounter = jumpTime;
             jumpBufferCounter = jumpButterTime;
@@ -145,7 +180,7 @@ public class SinglePlayer : MonoBehaviour
         {
             isJumping = true;
             //Jump();
-            //jumpBufferCounter = 0f;
+            jumpBufferCounter = 0f;
         }
 
         if (jumpButtonHold && isJumping)
@@ -181,7 +216,7 @@ public class SinglePlayer : MonoBehaviour
     {
         bool changingDirections = moveDirection > 0 && rb.velocity.x < 0 || moveDirection < 0 && rb.velocity.x > 0;
 
-        if(rb.velocity.y < 0.2)
+        if (rb.velocity.y < 0.2)
         {
             jumpButtonHold = false;
             isJumping = false;
