@@ -304,6 +304,24 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffa41c27-cbbf-48ae-a860-99b8ca21733f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""96b9726e-b5db-4289-93f0-d19254ee4f0a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -361,6 +379,72 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Book"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9336c8c1-e01a-446a-9ec9-aa485598c989"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b598d124-6768-4c3d-8a47-e41c020cc984"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8c1e06b-75a5-4a71-9d2a-9d479db49ee3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06f37631-67fe-4123-83c9-6f2e6729b96b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8997bfee-0f5c-4e95-b46f-0dfe38eb7f53"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""deab6763-840e-4dc7-b00d-9f2143b37d7c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -413,6 +497,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Input = asset.FindActionMap("Input", throwIfNotFound: true);
         m_Input_Pause = m_Input.FindAction("Pause", throwIfNotFound: true);
         m_Input_Book = m_Input.FindAction("Book", throwIfNotFound: true);
+        m_Input_Left = m_Input.FindAction("Left", throwIfNotFound: true);
+        m_Input_Right = m_Input.FindAction("Right", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -547,12 +633,16 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private IInputActions m_InputActionsCallbackInterface;
     private readonly InputAction m_Input_Pause;
     private readonly InputAction m_Input_Book;
+    private readonly InputAction m_Input_Left;
+    private readonly InputAction m_Input_Right;
     public struct InputActions
     {
         private @PlayerInputActions m_Wrapper;
         public InputActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Pause => m_Wrapper.m_Input_Pause;
         public InputAction @Book => m_Wrapper.m_Input_Book;
+        public InputAction @Left => m_Wrapper.m_Input_Left;
+        public InputAction @Right => m_Wrapper.m_Input_Right;
         public InputActionMap Get() { return m_Wrapper.m_Input; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -568,6 +658,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Book.started -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
                 @Book.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
                 @Book.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnBook;
+                @Left.started -= m_Wrapper.m_InputActionsCallbackInterface.OnLeft;
+                @Left.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnLeft;
+                @Left.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnLeft;
+                @Right.started -= m_Wrapper.m_InputActionsCallbackInterface.OnRight;
+                @Right.performed -= m_Wrapper.m_InputActionsCallbackInterface.OnRight;
+                @Right.canceled -= m_Wrapper.m_InputActionsCallbackInterface.OnRight;
             }
             m_Wrapper.m_InputActionsCallbackInterface = instance;
             if (instance != null)
@@ -578,6 +674,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Book.started += instance.OnBook;
                 @Book.performed += instance.OnBook;
                 @Book.canceled += instance.OnBook;
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
             }
         }
     }
@@ -622,5 +724,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     {
         void OnPause(InputAction.CallbackContext context);
         void OnBook(InputAction.CallbackContext context);
+        void OnLeft(InputAction.CallbackContext context);
+        void OnRight(InputAction.CallbackContext context);
     }
 }

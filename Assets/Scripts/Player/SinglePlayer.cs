@@ -1,7 +1,5 @@
-using FMOD;
-using System;
-using System.Collections.Generic;
 using Unity.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +11,7 @@ public class SinglePlayer : MonoBehaviour
     [SerializeField] private float moveAcceleration;
     [SerializeField] private float maxMoveSpeed;
     private bool facingRight = false;
-    private bool canMove = true;
+    [HideInInspector]public bool canMove = true;
     private float moveDirection;
 
     [Header("Jump Physics")]
@@ -25,28 +23,34 @@ public class SinglePlayer : MonoBehaviour
     [SerializeField] private float jumpTime = 0.2f;
     private float jumpTimeCounter;
 
-    [SerializeField] Transform groundCheckCollider;
+    [SerializeField] private Transform groundCheckCollider;
+    [SerializeField] private Transform ceilingCheckCollider;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask ceilingLayer;
     [SerializeField] private float groundCheckRadius = 0.3f;
+    [SerializeField] private float ceilingCheckRadius = 0.3f;
     [ReadOnly] public bool isGrounded;
-
-
+    [ReadOnly] public bool hittingCeiling;
+    
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
-    private bool isJumping;
+    [HideInInspector] public bool isJumping;
+    [HideInInspector] public bool isFalling;
 
     private InputAction move, jump;
     private PlayerInputActions playerInputActions;
 
     // Jump button input
-    private bool jumpButtonDown = false;
-    private bool jumpButtonUp = false;
-    private bool jumpButtonHold = false;
+    private bool jumpButtonDown;
+    private bool jumpButtonUp;
+    private bool jumpButtonHold;
 
     [Header("References")]
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] private Transform skeleton;
+
+    private FlashlightSingle flashlight;
 
     private void OnEnable()
     {
@@ -75,6 +79,7 @@ public class SinglePlayer : MonoBehaviour
     {
         animator = skeleton.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        flashlight = GetComponentInChildren<FlashlightSingle>();
     }
 
     private void GameManagerStateChanged(GameManager.GameState state)
@@ -83,14 +88,17 @@ public class SinglePlayer : MonoBehaviour
         {
             case GameManager.GameState.Moving:
                 canMove = true;
+                Freeze(false);
                 break;
             case GameManager.GameState.Idle:
                 canMove = false;
-                rb.velocity = Vector2.zero;
                 break;
             case GameManager.GameState.Paused:
                 canMove = false;
-                rb.velocity = Vector2.zero;
+                break;
+            case GameManager.GameState.Flashlight:
+                canMove = false;
+                Freeze(true);
                 break;
             default:
                 break;
@@ -107,8 +115,11 @@ public class SinglePlayer : MonoBehaviour
         if (!canMove) return;
 
         moveDirection = move.ReadValue<Vector2>().x;
-        JumpCheck();
+        
+        if(!hittingCeiling) JumpCheck();
+        
         GroundCheck();
+        CeilingCheck();
     }
 
     private void FixedUpdate()
@@ -140,15 +151,27 @@ public class SinglePlayer : MonoBehaviour
 
         if (moveDirection > 0 && facingRight)
         {
-            Flip();
+            FlipServerRpc();
         }
 
         if (moveDirection < 0 && !facingRight)
         {
-            Flip();
+            FlipServerRpc();
         }
     }
 
+    private void CeilingCheck()
+    {
+        hittingCeiling = false;
+        
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(ceilingCheckCollider.position, ceilingCheckRadius - Physics.defaultContactOffset, ceilingLayer);
+        
+        if (colliders.Length > 0)
+        {
+            hittingCeiling = true;
+        }
+    }
+    
     private void GroundCheck()
     {
         isGrounded = false;
@@ -227,7 +250,7 @@ public class SinglePlayer : MonoBehaviour
             jumpButtonHold = false;
             isJumping = false;
         }
-
+        
         if (isGrounded)
         {
             if (Mathf.Abs(moveDirection) < 0.4f || changingDirections)
@@ -257,12 +280,20 @@ public class SinglePlayer : MonoBehaviour
         }
     }
 
-    private void Flip()
+    [ServerRpc]
+    private void FlipServerRpc()
     {
         facingRight = !facingRight;
         skeleton.transform.RotateAround(transform.position, transform.up, 180f);
     }
 
+    public void Freeze(bool state)
+    {
+        rb.isKinematic = state;
+
+        rb.velocity = new Vector2(0, 0);
+    }
+    
     private void JumpPerformed(InputAction.CallbackContext obj)
     {
         jumpButtonDown = true;

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         Instance = this;
     }
 
@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Paused:
                 break;
+            case GameState.Flashlight:
+                break;
             default:
                 break;
         }
@@ -71,6 +73,7 @@ public class GameManager : MonoBehaviour
         Moving,
         Idle,
         Paused,
+        Flashlight,
     }
 
 }
