@@ -127,12 +127,12 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (moveDirection > 0 && facingRight)
         {
-            Flip();
+            FlipServerRpc();
         }
 
         if (moveDirection < 0 && !facingRight)
         {
-            Flip();
+            FlipServerRpc();
         }
     }
     
@@ -232,7 +232,8 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void Flip()
+    [ServerRpc]
+    private void FlipServerRpc()
     {
         facingRight = !facingRight;
         skeleton.transform.RotateAround(transform.position, transform.up, 180f);

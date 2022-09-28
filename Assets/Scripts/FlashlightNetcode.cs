@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
-public class FlashlightSingle : MonoBehaviour
+public class FlashlightNetcode : NetworkBehaviour
 {
     private SinglePlayer player;
     private Camera mainCam;
@@ -37,13 +38,15 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Flashlight_performed(InputAction.CallbackContext obj)
     {
+        if (!IsOwner) return;
         if(!player.isGrounded) return;
         if (GameManager.Instance.state == GameManager.GameState.Paused) return;
 
-        ToggleFlashlight();
+        ToggleFlashlightServerRpc();
     }
-    
-    private void ToggleFlashlight()
+
+    [ServerRpc]
+    private void ToggleFlashlightServerRpc()
     {
         flashlightToggle = !flashlightToggle;
         
@@ -58,6 +61,7 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) return;
         if (!flashlightToggle) return;
         
         RotateWeapon();

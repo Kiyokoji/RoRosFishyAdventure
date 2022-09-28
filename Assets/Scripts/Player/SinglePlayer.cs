@@ -10,7 +10,7 @@ public class SinglePlayer : MonoBehaviour
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private float moveAcceleration;
     [SerializeField] private float maxMoveSpeed;
-    private bool facingRight = false;
+    private bool facingRight;
     [HideInInspector]public bool canMove = true;
     private float moveDirection;
 
@@ -49,6 +49,7 @@ public class SinglePlayer : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] private Transform skeleton;
+    [SerializeField] private ParticleSystem dust;
 
     private FlashlightSingle flashlight;
 
@@ -151,12 +152,12 @@ public class SinglePlayer : MonoBehaviour
 
         if (moveDirection > 0 && facingRight)
         {
-            FlipServerRpc();
+            Flip();
         }
 
         if (moveDirection < 0 && !facingRight)
         {
-            FlipServerRpc();
+            Flip();
         }
     }
 
@@ -239,6 +240,7 @@ public class SinglePlayer : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         jumpButtonDown = false;
+        dust.Play();
     }
 
     private void JumpPhysics()
@@ -279,12 +281,13 @@ public class SinglePlayer : MonoBehaviour
             }
         }
     }
-
-    [ServerRpc]
-    private void FlipServerRpc()
+    
+    private void Flip()
     {
         facingRight = !facingRight;
         skeleton.transform.RotateAround(transform.position, transform.up, 180f);
+        
+        if(isGrounded) dust.Play();
     }
 
     public void Freeze(bool state)
