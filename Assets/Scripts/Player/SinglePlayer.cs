@@ -1,15 +1,19 @@
-using Unity.Collections;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SinglePlayer : MonoBehaviour
+public class SinglePlayer : NetworkBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 8f;
-    [SerializeField] private float moveAcceleration;
-    [SerializeField] private float maxMoveSpeed;
+    //[SerializeField] private float moveAcceleration;
+    //[SerializeField] private float moveDeceleration;
+    //[SerializeField] private float maxMoveSpeed;
+
+    //private NetworkVariable<bool> facingRight = new NetworkVariable<bool>(false);
     private bool facingRight;
     [HideInInspector]public bool canMove = true;
     private float moveDirection;
@@ -17,20 +21,24 @@ public class SinglePlayer : MonoBehaviour
     [Header("Jump Physics")]
     [SerializeField] private float coyoteTime = 0.1f;
     [SerializeField] private float jumpButterTime = 0.1f;
+    [Title("Jump Physics")]
+    [InfoBox("Gravity multiplier when falling")]
+    [OdinSerialize]
     [SerializeField] private float fallMultiplier = 6f;
+    [InfoBox("Jump length")]
+    [SerializeField] private float jumpTime = 0.2f;
     [SerializeField] private float linearDrag = 4f;
     [SerializeField] private float gravity = 3;
-    [SerializeField] private float jumpTime = 0.2f;
+    
     private float jumpTimeCounter;
-
-    [SerializeField] private Transform groundCheckCollider;
+    
     [SerializeField] private Transform ceilingCheckCollider;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask ceilingLayer;
-    [SerializeField] private float groundCheckRadius = 0.3f;
+    [SerializeField] private float groundColliderRadius = 0.3f;
     [SerializeField] private float ceilingCheckRadius = 0.3f;
-    [ReadOnly] public bool isGrounded;
-    [ReadOnly] public bool hittingCeiling;
+    [Unity.Collections.ReadOnly] public bool isGrounded;
+    [Unity.Collections.ReadOnly] public bool hittingCeiling;
     
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
@@ -48,6 +56,7 @@ public class SinglePlayer : MonoBehaviour
     [Header("References")]
     private Rigidbody2D rb;
     private Animator animator;
+    private BoxCollider2D boxCol;
     [SerializeField] private Transform skeleton;
     [SerializeField] private ParticleSystem dust;
 
@@ -80,40 +89,14 @@ public class SinglePlayer : MonoBehaviour
     {
         animator = skeleton.GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        boxCol = GetComponent<BoxCollider2D>();
         flashlight = GetComponentInChildren<FlashlightSingle>();
-    }
-
-    private void GameManagerStateChanged(GameManager.GameState state)
-    {
-        switch (state)
-        {
-            case GameManager.GameState.Moving:
-                canMove = true;
-                Freeze(false);
-                break;
-            case GameManager.GameState.Idle:
-                canMove = false;
-                break;
-            case GameManager.GameState.Paused:
-                canMove = false;
-                break;
-            case GameManager.GameState.Flashlight:
-                canMove = false;
-                Freeze(true);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void Start()
-    {
-
     }
 
     private void Update()
     {
         if (!canMove) return;
+        if (!IsOwner) return;
 
         moveDirection = move.ReadValue<Vector2>().x;
         
@@ -126,22 +109,17 @@ public class SinglePlayer : MonoBehaviour
     private void FixedUpdate()
     {
         if (!canMove) return;
+        if (!IsOwner) return;
 
         Move();
         JumpPhysics();
     }
 
-    private void LateUpdate()
-    {
-
-    }
-
     private void Move()
     {
         //Floaty movement
-        /*    
+        /*
         rb.AddForce(new Vector2(moveDirection, 0f) * moveAcceleration);
-
         if(Mathf.Abs(rb.velocity.x) > maxMoveSpeed)
         {
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxMoveSpeed, rb.velocity.y);
@@ -176,13 +154,23 @@ public class SinglePlayer : MonoBehaviour
     private void GroundCheck()
     {
         isGrounded = false;
+        RaycastHit2D hit = Physics2D.BoxCast(boxCol.bounds.center,boxCol.bounds.size,0f,Vector2.down, groundColliderRadius, groundLayer);
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position, groundCheckRadius - Physics.defaultContactOffset, groundLayer);
-
-        if (colliders.Length > 0)
+        if (hit)
         {
             isGrounded = true;
         }
+        
+        Debug.DrawRay(boxCol.bounds.center, Vector2.down * (boxCol.bounds.extents.y + groundColliderRadius));
+        
+        
+        
+        //Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheckCollider.position, groundCheckRadius - Physics.defaultContactOffset, groundLayer);
+
+        //if (colliders.Length > 0)
+        //{
+        //    isGrounded = true;
+        //}
     }
 
     private void JumpCheck()
@@ -310,5 +298,28 @@ public class SinglePlayer : MonoBehaviour
     private void JumpCanceled(InputAction.CallbackContext obj)
     {
         jumpButtonUp = true; jumpButtonHold = false; jumpButtonDown = false;
+    }
+    
+    private void GameManagerStateChanged(GameManager.GameState state)
+    {
+        switch (state)
+        {
+            case GameManager.GameState.Moving:
+                canMove = true;
+                Freeze(false);
+                break;
+            case GameManager.GameState.Idle:
+                canMove = false;
+                break;
+            case GameManager.GameState.Paused:
+                canMove = false;
+                break;
+            case GameManager.GameState.Flashlight:
+                canMove = false;
+                Freeze(true);
+                break;
+            default:
+                break;
+        }
     }
 }

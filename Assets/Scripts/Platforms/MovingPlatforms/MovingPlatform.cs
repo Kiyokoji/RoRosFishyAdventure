@@ -1,19 +1,41 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class MovingPlatform : Activatable
 {
-    public bool isElevator;
-    [SerializeField] private bool alwaysMoving;
+    [SerializeField] private Transform[] waypoints;
     [SerializeField] private float speed = 2f;
+    [SerializeField] private float checkDistance = 0.05f;
+    [SerializeField] private bool loop;
+    
+    public bool isElevator;
+
+    private Transform targetWaypoint;
+    private int currentWaypointIndex = 0;
     
     private bool active;
     
-    [SerializeField] private GameObject[] waypoints;
+    //[SerializeField] private GameObject[] waypoints;
     [SerializeField] private Transform platform;
 
-    private int currentWaypointIndex = 0;
-    
+    private void Start()
+    {
+        targetWaypoint = waypoints[0];
+    }
+
+    private Transform GetNextWaypoint()
+    {
+        currentWaypointIndex++;
+
+        if (currentWaypointIndex >= waypoints.Length)
+        {
+            currentWaypointIndex = 0;
+        }
+
+        return waypoints[currentWaypointIndex];
+    }
+
     private void FixedUpdate()
     {
         if (isElevator)
@@ -28,7 +50,7 @@ public class MovingPlatform : Activatable
         }
         else 
         {
-            if (alwaysMoving)
+            if (loop)
             {
                 active = true;
                 SimpleMove();
@@ -41,6 +63,18 @@ public class MovingPlatform : Activatable
 
     private void SimpleMove()
     {
+        platform.transform.position = 
+                Vector2.MoveTowards(
+                platform.position, 
+                targetWaypoint.position, 
+                speed * Time.fixedDeltaTime
+                );
+
+        if (Vector2.Distance(platform.position, targetWaypoint.position) < checkDistance)
+        {
+            targetWaypoint = GetNextWaypoint();
+        }
+        /*
         if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, platform.position) < .1f)
         {
             currentWaypointIndex++;
@@ -52,6 +86,7 @@ public class MovingPlatform : Activatable
         }
 
         platform.position = Vector2.MoveTowards(platform.position, waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
+        */
     }
 
     private void MoveUp()

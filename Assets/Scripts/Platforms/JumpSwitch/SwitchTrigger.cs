@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class SwitchTrigger : MonoBehaviour
 {
-    public float seconds = 0.5f;
     private JumpSwitch jumpSwitch;
-
-    public SinglePlayer SinglePlayer;
 
     private void Awake()
     {
