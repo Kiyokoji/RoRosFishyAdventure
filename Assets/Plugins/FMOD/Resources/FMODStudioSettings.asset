@@ -711,7 +711,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
-  - StarTest
+  - Music Bank
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

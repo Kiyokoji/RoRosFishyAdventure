@@ -945,6 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1412427177}
   - component: {fileID: 1412427178}
+  - component: {fileID: 1412427179}
   m_Layer: 0
   m_Name: Fmod
   m_TagString: Untagged
@@ -974,7 +975,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412427175}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
@@ -982,11 +983,41 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1884782435
-      Data2: 1226501229
-      Data3: 828196002
-      Data4: 527351362
-    Path: event:/Waafe
+      Data1: 1074557545
+      Data2: 1119482665
+      Data3: -1421465697
+      Data4: -600103615
+    Path: event:/title screen
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &1412427179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412427175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1393163108
+      Data2: 1074806014
+      Data3: -179116638
+      Data4: -1799390479
+    Path: event:/waves
   Event: 
   PlayEvent: 1
   StopEvent: 2

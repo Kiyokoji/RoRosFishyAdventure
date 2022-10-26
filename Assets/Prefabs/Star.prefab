@@ -203,11 +203,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starSound:
     Guid:
-      Data1: -1588686396
-      Data2: 1107698460
-      Data3: 1216428446
-      Data4: -1818311492
-    Path: event:/StarBingBong
+      Data1: -884340622
+      Data2: 1301146372
+      Data3: 596816000
+      Data4: 1976162841
+    Path: event:/stars/stars
   starSprite: {fileID: 3769312005303122298}
   size: 0.5
 --- !u!114 &4990782058056117069
