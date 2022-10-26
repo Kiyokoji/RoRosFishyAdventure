@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Level2.unity
     guid: ea66edfb05dc92e40bbe970da7336557
+  - enabled: 0
+    path: Assets/Scenes/KaiTestScene.unity
+    guid: 1c44c4cb65149a14e953b5961458f9a4
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: cfdbe08161aba494b8dd2433aa447520, type: 2}
