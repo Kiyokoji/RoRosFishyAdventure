@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class AnimatorFunctions : MonoBehaviour
 {
-	void PlaySound(string sound){
-
+	//public string starSound;
+	public EventReference sound;
+	
+	void PlaySound(){
+		
+		FMODUnity.RuntimeManager.PlayOneShot(sound);
 	}
 }	

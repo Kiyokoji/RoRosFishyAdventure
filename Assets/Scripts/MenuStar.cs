@@ -5,31 +5,36 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using FMODUnity;
 
-public class MenuStar : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class MenuStar : MonoBehaviour
 {
-    public EventReference EventReference;
+    public EventReference starSound;
+    public GameObject starSprite;
+    
+    public float size = 0.5f;
 
     private Animator anim;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
+    }
+    
+    [ExecuteInEditMode]
+    private void Update()
+    {
+        starSprite.transform.localScale = new Vector2(size, size);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnHover()
     {
         anim.SetTrigger("starHover");
-        
-        Debug.Log("STAR GO BING");
-        
-        FMODUnity.RuntimeManager.PlayOneShot(EventReference);
+        FMODUnity.RuntimeManager.PlayOneShot(starSound);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnExit()
     {
         anim.SetTrigger("starBob");
-        
-        Debug.Log("pointer exit");
     }
+
 
 }

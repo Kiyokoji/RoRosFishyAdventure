@@ -20,7 +20,7 @@ public class SinglePlayer : NetworkBehaviour
 
     [Header("Jump Physics")]
     [SerializeField] private float coyoteTime = 0.1f;
-    [SerializeField] private float jumpButterTime = 0.1f;
+    [SerializeField] private float jumpBufferTime = 0.1f;
     [Title("Jump Physics")]
     [InfoBox("Gravity multiplier when falling")]
     [OdinSerialize]
@@ -187,7 +187,7 @@ public class SinglePlayer : NetworkBehaviour
         if (jumpButtonDown && isGrounded)
         {
             jumpTimeCounter = jumpTime;
-            jumpBufferCounter = jumpButterTime;
+            jumpBufferCounter = jumpBufferTime;
         }
         else
         {
