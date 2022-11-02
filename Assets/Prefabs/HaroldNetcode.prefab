@@ -6712,13 +6712,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17904b8a1440d0c499c6bec8752fb39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9.67
-  jumpForce: 19.2
+  moveSpeed: 9.95
+  jumpForce: 19.27
   canMove: 1
   coyoteTime: 0.45
   jumpButterTime: 0.3
   fallMultiplier: 10
-  jumpTime: 0.2
+  jumpTime: 0.25
   linearDrag: 5
   gravity: 5
   ceilingCheckCollider: {fileID: 1387322415118851734}
