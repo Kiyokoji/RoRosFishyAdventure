@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Unity.Netcode;
@@ -16,6 +17,8 @@ public class SinglePlayer : NetworkBehaviour
     //private NetworkVariable<bool> facingRight = new NetworkVariable<bool>(false);
     private bool facingRight;
     [HideInInspector]public bool canMove = true;
+    [HideInInspector]public bool isMoving = true;
+    
     private float moveDirection;
 
     [Header("Jump Physics")]
@@ -60,6 +63,10 @@ public class SinglePlayer : NetworkBehaviour
     [SerializeField] private Transform skeleton;
     [SerializeField] private ParticleSystem dust;
 
+    [Header("Bite")] 
+    [SerializeField] private bool isGrabbing;
+    private bool canGrab;
+    
     private FlashlightSingle flashlight;
 
     private void OnEnable()
@@ -74,6 +81,9 @@ public class SinglePlayer : NetworkBehaviour
         jump.performed += JumpPerformed;
         jump.started += JumpStarted;
         jump.canceled += JumpCanceled;
+
+        playerInputActions.Player.Interact.started += Bite;
+        playerInputActions.Player.Interact.canceled += ReleaseBite;
 
         GameManager.GameStateChanged += GameManagerStateChanged;
     }
@@ -128,6 +138,12 @@ public class SinglePlayer : NetworkBehaviour
 
         rb.velocity = new Vector2(moveDirection * moveSpeed, rb.velocity.y);
 
+        if (rb.velocity.y > 0.01 || rb.velocity.x > 0.01)
+        {
+            isMoving = true;
+        }
+        else isMoving = false;
+        
         if (moveDirection > 0 && facingRight)
         {
             Flip();
@@ -235,7 +251,7 @@ public class SinglePlayer : NetworkBehaviour
     {
         bool changingDirections = moveDirection > 0 && rb.velocity.x < 0 || moveDirection < 0 && rb.velocity.x > 0;
 
-        if (rb.velocity.y < 0.2)
+        if (rb.velocity.y < 0.1)
         {
             jumpButtonHold = false;
             isJumping = false;
@@ -269,6 +285,20 @@ public class SinglePlayer : NetworkBehaviour
             }
         }
     }
+
+    private void Bite(InputAction.CallbackContext obj)
+    {
+        if (!canGrab) return;
+        isGrabbing = true;
+        Freeze(true);
+    }
+    
+    private void ReleaseBite(InputAction.CallbackContext obj)
+    {
+        if (!isGrabbing) return;
+        isGrabbing = false;
+        Freeze(false);
+    }
     
     private void Flip()
     {
@@ -280,9 +310,25 @@ public class SinglePlayer : NetworkBehaviour
 
     public void Freeze(bool state)
     {
+        canMove = !state;
         rb.isKinematic = state;
-
         rb.velocity = new Vector2(0, 0);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Hook"))
+        {
+            canGrab = true;
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("Hook"))
+        {
+            canGrab = false;
+        }
     }
     
     private void JumpPerformed(InputAction.CallbackContext obj)

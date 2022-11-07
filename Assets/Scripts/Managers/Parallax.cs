@@ -27,7 +27,8 @@ public class Parallax : MonoBehaviour
 
     float parallaxFactor => Mathf.Abs(distanceFromSubject) / clippingPlane;
 
-    float distanceFromSubject => transform.position.z - subject.position.z;
+    float distanceFromSubject => transform.position.z;
+    //float distanceFromSubject => transform.position.z - subject.position.z;
     
     Vector2 travel => (Vector2)cam.transform.position - startPosition;
 
@@ -42,8 +43,14 @@ public class Parallax : MonoBehaviour
 
     void Update()
     {
+
         Vector2 newPos = startPosition + travel * parallaxFactor;
         transform.position = new Vector3(newPos.x, newPos.y, startZ);
 
+    }
+
+    public void FindCam()
+    {
+        cam = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CinemachineVirtualCamera>();
     }
 }

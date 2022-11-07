@@ -17,6 +17,8 @@ TagManager:
   - LightPlatform2
   - Teleporter
   - Player2
+  - Hook
+  - DashObjects
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 

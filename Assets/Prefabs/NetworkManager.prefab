@@ -861,10 +861,10 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 4977501164055020550}
-    PlayerPrefab: {fileID: 5846077235474277936, guid: e6b4624624c9c4e41880577f32f5e591, type: 3}
+    PlayerPrefab: {fileID: 5846077235474277936, guid: 5b29375952f5c974694eca5b303b4b7c, type: 3}
     NetworkPrefabs:
     - Override: 0
-      Prefab: {fileID: 5846077235474277936, guid: e6b4624624c9c4e41880577f32f5e591, type: 3}
+      Prefab: {fileID: 5846077235474277936, guid: 5b29375952f5c974694eca5b303b4b7c, type: 3}
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
