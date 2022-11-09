@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/KaiTestScene.unity
     guid: 1c44c4cb65149a14e953b5961458f9a4
+  - enabled: 0
+    path: Assets/Scenes/RubbleArea.unity
+    guid: a3c595ea0d4a8e84d8ac4d44daf23341
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: cfdbe08161aba494b8dd2433aa447520, type: 2}
