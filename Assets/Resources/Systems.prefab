@@ -227,7 +227,7 @@ MonoBehaviour:
   LoadEvent: 1
   UnloadEvent: 0
   Banks:
-  - Mastertest
+  - Master
   CollisionTag: 
   PreloadSamples: 0
 --- !u!1 &646174171707375160

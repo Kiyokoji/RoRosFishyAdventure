@@ -10,6 +10,7 @@ public class PlayerFootsteps : MonoBehaviour
     {
         Wood,
         Stone,
+        Metal,
         Grass
     };
 
@@ -37,6 +38,10 @@ public class PlayerFootsteps : MonoBehaviour
             {
                 currentTerrain = CurrentTerrain.Stone;
             }
+            else if (rayHit.transform.gameObject.layer == LayerMask.NameToLayer("Metal"))
+            {
+                currentTerrain = CurrentTerrain.Metal;
+            }
             else if (rayHit.transform.gameObject.layer == LayerMask.NameToLayer("Grass"))
             {
                 currentTerrain = CurrentTerrain.Grass;
@@ -53,13 +58,17 @@ public class PlayerFootsteps : MonoBehaviour
                 break;
             
             case CurrentTerrain.Stone:
-                PlayFootstep(1);
-                break;
-            
-            case CurrentTerrain.Grass:
                 PlayFootstep(2);
                 break;
             
+            case CurrentTerrain.Grass:
+                PlayFootstep(3);
+                break;
+
+            case CurrentTerrain.Metal:
+                PlayFootstep(1);
+                break;
+
             default:
                 PlayFootstep(0);
                 break;
