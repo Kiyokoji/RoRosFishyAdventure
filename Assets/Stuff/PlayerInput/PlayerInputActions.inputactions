@@ -51,13 +51,22 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Join",
+                    "type": "Button",
+                    "id": "4fb5a93b-8294-4114-b451-fb35aa8a334b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MousePos",
-                    "type": "Value",
-                    "id": "63c28dc0-cefa-49cb-aa9c-dd6abeb6afdf",
+                    "type": "PassThrough",
+                    "id": "254ffc25-ab59-47a9-8f93-e139a88e95c2",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -133,7 +142,7 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Mouse",
+                    "groups": "Keyboard",
                     "action": "Flashlight",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -228,17 +237,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a7b3ac56-ac14-4c60-9940-719e47fea926",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Mouse",
-                    "action": "MousePos",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6341a293-87e4-4607-8cc8-240533ea4ff3",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -256,6 +254,39 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4ff8f0f-18da-4974-b178-d7be76c9ab3f",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2a808b7-dc19-4615-87e1-d2158aa63ae3",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0272c889-c269-4e3a-a663-2a0d760d2891",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MousePos",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

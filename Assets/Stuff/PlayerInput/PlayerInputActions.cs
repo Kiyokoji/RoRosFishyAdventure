@@ -73,13 +73,22 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Join"",
+                    ""type"": ""Button"",
+                    ""id"": ""4fb5a93b-8294-4114-b451-fb35aa8a334b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""MousePos"",
-                    ""type"": ""Value"",
-                    ""id"": ""63c28dc0-cefa-49cb-aa9c-dd6abeb6afdf"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""254ffc25-ab59-47a9-8f93-e139a88e95c2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -155,7 +164,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -250,17 +259,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a7b3ac56-ac14-4c60-9940-719e47fea926"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mouse"",
-                    ""action"": ""MousePos"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6341a293-87e4-4607-8cc8-240533ea4ff3"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
@@ -278,6 +276,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4ff8f0f-18da-4974-b178-d7be76c9ab3f"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2a808b7-dc19-4615-87e1-d2158aa63ae3"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0272c889-c269-4e3a-a663-2a0d760d2891"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MousePos"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -492,6 +523,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_QuitGame = m_Player.FindAction("QuitGame", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
         m_Player_MousePos = m_Player.FindAction("MousePos", throwIfNotFound: true);
         // Input
         m_Input = asset.FindActionMap("Input", throwIfNotFound: true);
@@ -563,6 +595,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_QuitGame;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Join;
     private readonly InputAction m_Player_MousePos;
     public struct PlayerActions
     {
@@ -573,6 +606,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @QuitGame => m_Wrapper.m_Player_QuitGame;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputAction @MousePos => m_Wrapper.m_Player_MousePos;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -598,6 +632,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Join.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
+                @Join.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
+                @Join.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @MousePos.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
                 @MousePos.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
                 @MousePos.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
@@ -620,6 +657,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Join.started += instance.OnJoin;
+                @Join.performed += instance.OnJoin;
+                @Join.canceled += instance.OnJoin;
                 @MousePos.started += instance.OnMousePos;
                 @MousePos.performed += instance.OnMousePos;
                 @MousePos.canceled += instance.OnMousePos;
@@ -718,6 +758,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnFlashlight(InputAction.CallbackContext context);
         void OnQuitGame(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnJoin(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
     }
     public interface IInputActions
