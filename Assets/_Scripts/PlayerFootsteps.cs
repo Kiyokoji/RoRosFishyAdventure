@@ -9,8 +9,10 @@ public class PlayerFootsteps : MonoBehaviour
     private enum CurrentTerrain
     {
         Wood,
-        Stone,
         Metal,
+        Stone,
+        Gravel,
+        Water,
         Grass
     };
 
@@ -42,6 +44,14 @@ public class PlayerFootsteps : MonoBehaviour
             {
                 currentTerrain = CurrentTerrain.Metal;
             }
+            else if (rayHit.transform.gameObject.layer == LayerMask.NameToLayer("Gravel"))
+            {
+                currentTerrain = CurrentTerrain.Gravel;
+            }
+            else if (rayHit.transform.gameObject.layer == LayerMask.NameToLayer("Water"))
+            {
+                currentTerrain = CurrentTerrain.Water;
+            }
             else if (rayHit.transform.gameObject.layer == LayerMask.NameToLayer("Grass"))
             {
                 currentTerrain = CurrentTerrain.Grass;
@@ -56,17 +66,25 @@ public class PlayerFootsteps : MonoBehaviour
             case CurrentTerrain.Wood:
                 PlayFootstep(0);
                 break;
-            
-            case CurrentTerrain.Stone:
-                PlayFootstep(2);
-                break;
-            
-            case CurrentTerrain.Grass:
-                PlayFootstep(3);
-                break;
 
             case CurrentTerrain.Metal:
                 PlayFootstep(1);
+                break;
+
+            case CurrentTerrain.Stone:
+                PlayFootstep(2);
+                break;
+
+            case CurrentTerrain.Gravel:
+                PlayFootstep(3);
+                break;
+
+            case CurrentTerrain.Water:
+                PlayFootstep(4);
+                break;
+
+            case CurrentTerrain.Grass:
+                PlayFootstep(5);
                 break;
 
             default:
