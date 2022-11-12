@@ -16,7 +16,7 @@ MonoBehaviour:
   Acceleration: 120
   GroundDeceleration: 60
   AirDeceleration: 30
-  GroundingForce: 0
+  GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
   MaxAirJumps: 1
   JumpPower: 40
