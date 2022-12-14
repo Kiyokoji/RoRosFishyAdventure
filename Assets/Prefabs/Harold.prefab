@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7754464893577182048}
   - component: {fileID: 1708770803215640522}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Light 2D
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 1387322413749936738}
   - component: {fileID: 1387322413749936740}
   - component: {fileID: 1387322413749936739}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1387322415215410428}
   - component: {fileID: 4718709515290693348}
   - component: {fileID: 3408018493021654612}
-  m_Layer: 13
+  m_Layer: 21
   m_Name: VirtualCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -317,7 +317,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6143
+    m_Bits: 3153919
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 8267857906387891318}
   - component: {fileID: 4544440493887914759}
   - component: {fileID: 3875906603083969011}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: PlayerHud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 8361045277030320176}
   - component: {fileID: 5676294342797885671}
   - component: {fileID: 5767801642508829489}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Dust
   m_TagString: Player1
   m_Icon: {fileID: 0}
@@ -5300,7 +5300,7 @@ GameObject:
   - component: {fileID: 2253671041808098138}
   - component: {fileID: 6135054667222243676}
   - component: {fileID: 3431862156754706031}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: PlayerName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5436,7 +5436,7 @@ GameObject:
   - component: {fileID: 1817092345800827305}
   - component: {fileID: 8470859026035934662}
   - component: {fileID: 1645253260401445926}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5557,7 +5557,7 @@ GameObject:
   - component: {fileID: 2418634957952983843}
   - component: {fileID: 3342203518627882471}
   - component: {fileID: 5265496216357014771}
-  m_Layer: 13
+  m_Layer: 21
   m_Name: Harold
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5635,6 +5635,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 8f3e4ac96e9fac84e96172956137e1c4, type: 2}
+  pInput: {fileID: 0}
+  manager: {fileID: 0}
+  controlScheme:
+    m_Name: 
+    m_BindingGroup: 
+    m_DeviceRequirements: []
   _standingCollider: {fileID: 6894080385049360121}
   skeleton: {fileID: 1056999180540169118}
   dust: {fileID: 5676294342797885671}
@@ -5677,7 +5683,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4718709515290693348}
@@ -5691,7 +5697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6692028197248091895}
   - component: {fileID: 6300060825857170370}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Sprite Mask
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5775,7 +5781,7 @@ GameObject:
   - component: {fileID: 4467725420041005872}
   - component: {fileID: 4118010929125256978}
   - component: {fileID: 7808879736058311982}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Flashlight
   m_TagString: LightPlayer1
   m_Icon: {fileID: 0}
@@ -5855,7 +5861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7118980058250140111}
   - component: {fileID: 59040448831903504}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

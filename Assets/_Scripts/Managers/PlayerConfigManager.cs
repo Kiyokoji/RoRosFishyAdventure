@@ -8,26 +8,29 @@ using UnityEngine.SceneManagement;
 
 public class PlayerConfigManager : MonoBehaviour
 {
-    private List<InputDevice> devices = new List<InputDevice>();
-    
     public static PlayerConfigManager Instance { get; private set; }
     
     private List<PlayerConfiguration> playerConfigs;
 
+    private PlayerInputManager manager;
+
     [SerializeField] private int MaxPlayers = 2;
+
+    public GameObject player1Menu;
+    public GameObject player2Menu;
+
+    public GameObject player1Prefab;
+    public GameObject player2Prefab;
+
+    [HideInInspector] public bool player1Ready;
+    [HideInInspector] public bool player2Ready;
 
     private void Awake()
     {
-        foreach (InputDevice device in InputSystem.devices)
-        {
-            Debug.Log(device.name);
-            Debug.Log(device.description);
-            devices.Add(device);
-        }
+        manager = GetComponent<PlayerInputManager>();
 
-        
-        
-        if (Instance != null) { /**/ } else
+        if (Instance != null) { /**/ } 
+        else
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
@@ -35,19 +38,41 @@ public class PlayerConfigManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+
+    }
+
     public void ReadyPlayer(int index)
     {
-        playerConfigs[index].IsReady = true;
-
-        //check to see if all players are joined and set to ready
-        if (playerConfigs.Count == MaxPlayers && playerConfigs.All(p => p.IsReady == true))
+        if (index == 1)
         {
+            player1Ready = true;
+        } else if (index == 2)
+        {
+            player2Ready = true;
+        }
+        
+        if (player1Ready && player2Ready)
+        {
+            Debug.Log("Loading Scene");
             SceneManager.LoadScene("Game");
         }
+        
     }
 
     public void HandlePlayerJoin(PlayerInput player)
     {
+        if (player.playerIndex == 0)
+        {
+            manager.playerPrefab = player1Prefab;
+            player1Menu.SetActive(false);
+            manager.playerPrefab = player2Prefab;
+        } else if (player.playerIndex == 1)
+        {
+            player2Menu.SetActive(false);
+        }
+
         Debug.Log("Player joined: " + player.playerIndex);
         player.transform.SetParent(transform);
         
@@ -56,6 +81,11 @@ public class PlayerConfigManager : MonoBehaviour
         {
             playerConfigs.Add(new PlayerConfiguration(player));
         }
+    }
+
+    public List<PlayerConfiguration> GetPlayerConfigs()
+    {
+        return playerConfigs;
     }
 }
 

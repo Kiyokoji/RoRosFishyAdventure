@@ -32,7 +32,7 @@ public class LocalPlayerManager : MonoBehaviour
     {
         foreach (PlayerInput pInput in players)
         {
-            //Debug.Log(pInput.name);
+            Debug.Log(pInput.currentControlScheme);
         }
     }
 
@@ -50,7 +50,6 @@ public class LocalPlayerManager : MonoBehaviour
 
     public void SwapPlayer(PlayerInput player)
     {
-
         if (players.Count == 0)
         {
             //playerInputManager.playerPrefab = player1;

@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxPlayers: 2
+  player1Menu: {fileID: 0}
+  player2Menu: {fileID: 0}
+  player1Prefab: {fileID: 7376397658888474843, guid: bd99534c51fe81b428ed8f01de9be9b0, type: 3}
+  player2Prefab: {fileID: 6468537207237274538, guid: b340c54d511ec984ab1f4228b4c52503, type: 3}
+  player1Ready: 0
+  player2Ready: 0
 --- !u!114 &5731503596298096979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,38 +67,26 @@ MonoBehaviour:
   m_NotificationBehavior: 2
   m_MaxPlayerCount: 2
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 2
   m_PlayerJoinedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1922872954280276200}
-        m_TargetAssemblyTypeName: PlayerConfigManager, Assembly-CSharp
-        m_MethodName: HandlePlayerJoin
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_PlayerLeftEvent:
     m_PersistentCalls:
       m_Calls: []
   m_JoinAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
-      m_Name: 
+      m_Name: Join
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 
+      m_Id: b0dd179d-c8a3-4a48-96d7-524e466380e4
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 0}
+    m_Reference: {fileID: 3065550969453753417, guid: eaf412a85444ac04d918a7555cdd5301, type: 3}
+  m_PlayerPrefab: {fileID: 7376397658888474843, guid: bd99534c51fe81b428ed8f01de9be9b0, type: 3}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
   m_FixedNumberOfSplitScreens: 2

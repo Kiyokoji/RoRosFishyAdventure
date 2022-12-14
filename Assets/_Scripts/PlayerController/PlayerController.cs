@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PlayerController
 {
@@ -10,6 +11,10 @@ namespace PlayerController
         
         //reference for scriptable object player stats
         [SerializeField] private ScriptableStats _stats;
+
+        public PlayerInput pInput;
+        public PlayerInputManager manager;
+        public InputControlScheme controlScheme;
 
         #region Internal
 
@@ -63,6 +68,8 @@ namespace PlayerController
 
         protected virtual void Awake()
         {
+            manager = GetComponent<PlayerInputManager>();
+            pInput = GetComponent<PlayerInput>();
             anim = GetComponentInChildren<Animator>();
             _rb = GetComponent<Rigidbody2D>();
             _input = GetComponent<PlayerInputs>();
@@ -74,6 +81,7 @@ namespace PlayerController
         protected virtual void Update() {
             GatherInput();
             UpdateAnimator();
+
         }
 
         protected virtual void GatherInput() {

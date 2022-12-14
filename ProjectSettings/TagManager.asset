@@ -5,20 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Player1
-  - LightPlayer1
   - Platform
   - JumpSwitch
   - Ground
-  - SwitchPlatform1
   - Crate
-  - SwitchPlatform2
   - Glass
-  - LightPlatform1
-  - LightPlatform2
   - Teleporter
   - Player2
   - Hook
-  - DashObjects
   layers:
   - Default
   - TransparentFX
@@ -31,8 +25,8 @@ TagManager:
   - Metal
   - Stone
   - Gravel
-  - Water
   - Grass
+  - 
   - 
   - 
   - 
