@@ -110,8 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9756092226ae1464da10e9017e96a758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activatableList:
-  - {fileID: 0}
+  activatableList: []
   speed: 3
   weighted: 0
   toggled: 0

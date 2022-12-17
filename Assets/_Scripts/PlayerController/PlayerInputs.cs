@@ -45,7 +45,8 @@ namespace PlayerController {
                 JumpHeld = _jump.IsPressed(),
                 Move = _move.ReadValue<Vector2>(),
                 InteractDown = _interact.WasPressedThisFrame(),
-                InteractHeld = _interact.IsPressed()
+                InteractHeld = _interact.IsPressed(),
+                InteractUp = _interact.WasReleasedThisFrame()
             };
         }
 
@@ -66,5 +67,6 @@ namespace PlayerController {
         public bool JumpHeld;
         public bool InteractDown;
         public bool InteractHeld;
+        public bool InteractUp;
     }
 }

@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,14 +15,10 @@ namespace PlayerController
         //reference for scriptable object player stats
         [SerializeField] private ScriptableStats _stats;
 
-        //public PlayerInput pInput;
-        //public PlayerInputManager manager;
-        //public InputControlScheme controlScheme;
-
         #region Internal
 
-        [HideInInspector] private Rigidbody2D _rb;
-        [SerializeField] private CapsuleCollider2D _standingCollider;
+        private Rigidbody2D _rb;
+        private CapsuleCollider2D _standingCollider;
         private CapsuleCollider2D _col; // current active collider
         private PlayerInputs _input;
         private bool _cachedTriggerSetting;
@@ -34,6 +33,8 @@ namespace PlayerController
 
         [SerializeField] private Transform skeleton;
         [SerializeField] private ParticleSystem dust;
+        [SerializeField] private BoxCollider2D _playerPlatform;
+        [SerializeField] private Transform _mouth;
         private Animator anim;
         
         #endregion
@@ -48,6 +49,7 @@ namespace PlayerController
         public Vector2 Input => _frameInput.Move;
         public Vector2 Speed => _speed;
         public Vector2 GroundNormal => _groundNormal;
+        
 
         public virtual void ApplyVelocity(Vector2 vel, PlayerForce forceType) {
             if (forceType == PlayerForce.Burst) _speed += vel;
@@ -71,10 +73,12 @@ namespace PlayerController
             //manager = GetComponent<PlayerInputManager>();
             //pInput = GetComponent<PlayerInput>();
             anim = GetComponentInChildren<Animator>();
+            _standingCollider = GetComponent<CapsuleCollider2D>();
             _rb = GetComponent<Rigidbody2D>();
             _input = GetComponent<PlayerInputs>();
             _cachedTriggerSetting = Physics2D.queriesHitTriggers;
             _col = _standingCollider;
+            _playerPlatform.enabled = false;
             Physics2D.queriesStartInColliders = false;
         }
 
@@ -82,7 +86,7 @@ namespace PlayerController
             GatherInput();
             UpdateAnimator();
             Grab();
-
+            Nom();
         }
 
         protected virtual void GatherInput() {
@@ -92,16 +96,6 @@ namespace PlayerController
                 _jumpToConsume = true;
                 _frameJumpWasPressed = _fixedFrame;
             }
-
-            
-            if (_frameInput.InteractHeld)
-            {
-                holdingInteract = true;
-            }
-            else
-            {
-                holdingInteract = false;
-            }
         }
 
         protected virtual void FixedUpdate() {
@@ -110,9 +104,6 @@ namespace PlayerController
             CheckCollisions();
             HandleCollisions();
             HandleJump();
-            
-
-            if (isGrabbing) return;
             HandleHorizontal();
             HandleVertical();
             ApplyVelocity();
@@ -188,7 +179,7 @@ namespace PlayerController
         private bool _bufferedJumpUsable;
         private int _frameJumpWasPressed = int.MinValue;
         private int _airJumpsRemaining;
-        [ShowInInspector] private bool inAir;
+        private bool inAir;
 
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
         private bool HasBufferedJump => _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
@@ -259,14 +250,19 @@ namespace PlayerController
                 var inputX = _frameInput.Move.x * (1);
                 _speed.x = Mathf.MoveTowards(_speed.x, inputX * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
             }
-            
         }
-        
+
         private void Flip()
         {
             facingRight = !facingRight;
             skeleton.transform.RotateAround(transform.position, transform.up, 180f);
-        
+
+            if (crate != null && hasCrate)
+            {
+                crate.transform.position = _mouth.transform.position;
+                crate.transform.rotation = Quaternion.Euler(0,0,0);
+            }
+            
             if(_grounded) dust.Play();
         }
 
@@ -301,31 +297,105 @@ namespace PlayerController
         #region Grab
 
         private bool canGrab;
-        private bool holdingInteract;
+        private bool grabToggle;
         private bool isGrabbing;
-        private bool collidingWithHook;
-        
+
         protected virtual void Grab()
         {
-            if (holdingInteract)
+            if (_frameInput.InteractDown && canGrab && grabToggle)
             {
-                isGrabbing = true;
-                ResetJump();
-                _speed.y = 0;
-                _rb.velocity = new Vector2(0, 0);
+                if (_frameInput.InteractHeld && grabToggle)
+                {
+                    isGrabbing = true;
+                    grabToggle = false;
+                    ResetSpeed();
+                }
+                else
+                {
+                    isGrabbing = false;
+                }
             }
 
-            if (canGrab && _frameInput.InteractDown)
-            {
-
-            }
-            else
+            if (_frameInput.InteractUp && canGrab && isGrabbing)
             {
                 isGrabbing = false;
+                ResetSpeed();
             }
+
+            _playerPlatform.enabled = isGrabbing;
+
+        }
+        
+        protected virtual void ResetSpeed()
+        {
+            _rb.velocity = new Vector2(0, 0);
+            _speed.x = 0;
+            _speed.y = 0;
         }
         
         #endregion        
+        
+        #region Crate
+        
+        private bool canNom;
+        private bool hasCrate;
+        private GameObject crate;
+        private Rigidbody2D crateBody;
+        private bool nomAvailable = true;
+        private bool _hittingWall;
+
+        protected virtual void Nom()
+        {
+            DetectWall();
+            
+            if (_frameInput.InteractDown && canNom && !hasCrate && nomAvailable)
+            {
+                SwallowCrate();
+                StartCoroutine(StartCooldown());
+            }
+            
+            else if(_frameInput.InteractDown && hasCrate && !_hittingWall)
+            {
+                StartCoroutine(StartCooldown());
+                SpitCrate();
+            }
+        }
+
+        protected virtual void DetectWall()
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, facingRight ? Vector2.left : Vector2.right, _stats._detectionRange, _stats._detectionLayer);
+
+            Debug.DrawRay(transform.position, facingRight ? Vector2.left * _stats._detectionRange : Vector2.right * _stats._detectionRange, Color.red);
+            
+            _hittingWall = hit;
+        }
+
+        protected virtual void SwallowCrate()
+        {
+            hasCrate = true;
+            crate.transform.SetParent(_mouth);
+            crate.transform.position = _mouth.position;
+            crate.SetActive(false);
+        }
+        
+        protected virtual void SpitCrate()
+        {
+            crate.transform.SetParent(null);
+            crate.SetActive(true);
+            crateBody.AddForce(facingRight ? Vector2.left * (_stats._spitForce * 10) : Vector2.right * (_stats._spitForce * 10), ForceMode2D.Impulse);
+            //add some spin
+            crateBody.AddTorque(facingRight ? (_stats._spinForce * 10) : (-_stats._spinForce * 10));
+            hasCrate = false;
+        }
+        
+        public IEnumerator StartCooldown()
+        {
+            nomAvailable = false;
+            yield return new WaitForSeconds(_stats._nomCooldown);
+            nomAvailable = true;
+        }
+        
+        #endregion
         
         protected virtual void UpdateAnimator()
         {
@@ -338,6 +408,7 @@ namespace PlayerController
         
         protected virtual void ApplyVelocity() {
             if (!_hasControl) return;
+            if (isGrabbing) return;
             _rb.velocity = _speed + _currentExternalVelocity;
 
             _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
@@ -348,6 +419,14 @@ namespace PlayerController
             if (col.CompareTag("Hook"))
             {
                 canGrab = true;
+                grabToggle = true;
+            }
+
+            if (col.CompareTag("Crate"))
+            {
+                crate = col.gameObject;
+                crateBody = crate.GetComponent<Rigidbody2D>();
+                canNom = true;
             }
         }
 
@@ -355,12 +434,17 @@ namespace PlayerController
         {
             if (col.CompareTag("Hook"))
             {
+                grabToggle = false;
                 canGrab = false;
             }
+            
+            if (col.CompareTag("Crate"))
+            {
+                canNom = false;
+            }
         }
+
     }
-    
-    
 
     public enum PlayerForce {
         /// <summary>

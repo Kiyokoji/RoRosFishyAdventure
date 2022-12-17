@@ -57,6 +57,18 @@ namespace PlayerController {
         [Tooltip("Bounds for detecting walls on either side. Ensure it's wider than your vertical capsule collider")]
         public Vector2 WallDetectorSize = new(0.75f, 1.25f);
 
+        [Header("CRATES")] 
+        [Tooltip("How far the crate should be spit out")] 
+        public float _spitForce = 50f;
+        [Tooltip("How much spin to add to the crate")] 
+        public float _spinForce = 500f;
+        [Tooltip("Cooldown to prevent spamming")] 
+        public float _nomCooldown = .5f;
+        [Tooltip("Range to detect walls and obstacles to prevent crate clipping")] 
+        public float _detectionRange = 3f;
+        [Tooltip("Which layers should prevent clipping")] 
+        public LayerMask _detectionLayer;
+        
         [Header("EXTERNAL")] 
         [Tooltip("The rate at which external velocity decays")]
         public int ExternalVelocityDecay = 100;
