@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b823639e543694d890e5f8a77be1af, type: 3}
   m_Name: TestStats
   m_EditorClassIdentifier: 
-  MaxSpeed: 14
-  Acceleration: 120
+  MaxSpeed: 50
+  Acceleration: 100
   GroundDeceleration: 60
-  AirDeceleration: 30
+  AirDeceleration: 80
   GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
   MaxAirJumps: 1
   JumpPower: 40
-  MaxFallSpeed: 60
-  FallAcceleration: 110
+  MaxFallSpeed: 50
+  FallAcceleration: 100
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 4
   JumpBufferFrames: 4

@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
 
-        playerInputActions.Player.QuitGame.performed += QuitGame;
+        //playerInputActions.Player.QuitGame.performed += QuitGame;
 
         //GameManager instance
         if (Instance)

@@ -12,9 +12,9 @@ namespace PlayerController
         //reference for scriptable object player stats
         [SerializeField] private ScriptableStats _stats;
 
-        public PlayerInput pInput;
-        public PlayerInputManager manager;
-        public InputControlScheme controlScheme;
+        //public PlayerInput pInput;
+        //public PlayerInputManager manager;
+        //public InputControlScheme controlScheme;
 
         #region Internal
 
@@ -68,8 +68,8 @@ namespace PlayerController
 
         protected virtual void Awake()
         {
-            manager = GetComponent<PlayerInputManager>();
-            pInput = GetComponent<PlayerInput>();
+            //manager = GetComponent<PlayerInputManager>();
+            //pInput = GetComponent<PlayerInput>();
             anim = GetComponentInChildren<Animator>();
             _rb = GetComponent<Rigidbody2D>();
             _input = GetComponent<PlayerInputs>();
@@ -81,6 +81,7 @@ namespace PlayerController
         protected virtual void Update() {
             GatherInput();
             UpdateAnimator();
+            Grab();
 
         }
 
@@ -91,6 +92,16 @@ namespace PlayerController
                 _jumpToConsume = true;
                 _frameJumpWasPressed = _fixedFrame;
             }
+
+            
+            if (_frameInput.InteractHeld)
+            {
+                holdingInteract = true;
+            }
+            else
+            {
+                holdingInteract = false;
+            }
         }
 
         protected virtual void FixedUpdate() {
@@ -99,7 +110,9 @@ namespace PlayerController
             CheckCollisions();
             HandleCollisions();
             HandleJump();
+            
 
+            if (isGrabbing) return;
             HandleHorizontal();
             HandleVertical();
             ApplyVelocity();
@@ -285,6 +298,35 @@ namespace PlayerController
 
         #endregion
 
+        #region Grab
+
+        private bool canGrab;
+        private bool holdingInteract;
+        private bool isGrabbing;
+        private bool collidingWithHook;
+        
+        protected virtual void Grab()
+        {
+            if (holdingInteract)
+            {
+                isGrabbing = true;
+                ResetJump();
+                _speed.y = 0;
+                _rb.velocity = new Vector2(0, 0);
+            }
+
+            if (canGrab && _frameInput.InteractDown)
+            {
+
+            }
+            else
+            {
+                isGrabbing = false;
+            }
+        }
+        
+        #endregion        
+        
         protected virtual void UpdateAnimator()
         {
             //anim.SetFloat("VerticalSpeed",   Mathf.Abs(_speed.y));
@@ -300,7 +342,25 @@ namespace PlayerController
 
             _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
         }
+
+        public void OnTriggerEnter2D(Collider2D col)
+        {
+            if (col.CompareTag("Hook"))
+            {
+                canGrab = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D col)
+        {
+            if (col.CompareTag("Hook"))
+            {
+                canGrab = false;
+            }
+        }
     }
+    
+    
 
     public enum PlayerForce {
         /// <summary>

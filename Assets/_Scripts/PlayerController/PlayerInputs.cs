@@ -16,7 +16,7 @@ namespace PlayerController {
         private InputActionMap player;
 
         //private PlayerInputActions _actions;
-        private InputAction _move, _jump;
+        private InputAction _move, _jump, _interact;
 
         private void Awake()
         {
@@ -27,7 +27,8 @@ namespace PlayerController {
 
             _move = player.FindAction("Movement");
             _jump = player.FindAction("Jump");
-            
+            _interact = player.FindAction("Interact");
+
             //_actions = new PlayerInputActions();
             //_move = _actions.Player.Movement;
             //_jump = _actions.Player.Jump;
@@ -42,7 +43,9 @@ namespace PlayerController {
             return new FrameInput {
                 JumpDown = _jump.WasPressedThisFrame(),
                 JumpHeld = _jump.IsPressed(),
-                Move = _move.ReadValue<Vector2>()
+                Move = _move.ReadValue<Vector2>(),
+                InteractDown = _interact.WasPressedThisFrame(),
+                InteractHeld = _interact.IsPressed()
             };
         }
 
@@ -61,5 +64,7 @@ namespace PlayerController {
         public Vector2 Move;
         public bool JumpDown;
         public bool JumpHeld;
+        public bool InteractDown;
+        public bool InteractHeld;
     }
 }
