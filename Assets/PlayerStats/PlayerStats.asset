@@ -30,7 +30,7 @@ MonoBehaviour:
     m_Bits: 64
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 2008
+    m_Bits: 6104
   GrounderDistance: 0.15
   WallDetectorSize: {x: 0.75, y: 1.25}
   _spitForce: 70
@@ -39,5 +39,5 @@ MonoBehaviour:
   _detectionRange: 3
   _detectionLayer:
     serializedVersion: 2
-    m_Bits: 3976
+    m_Bits: 3848
   ExternalVelocityDecay: 100

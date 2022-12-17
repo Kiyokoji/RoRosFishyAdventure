@@ -324,6 +324,15 @@ namespace PlayerController
 
             _playerPlatform.enabled = isGrabbing;
 
+            if (isGrabbing)
+            {
+                _rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+            else
+            {
+                _rb.bodyType = RigidbodyType2D.Dynamic;
+            }
+            
         }
         
         protected virtual void ResetSpeed()
@@ -348,7 +357,7 @@ namespace PlayerController
         {
             DetectWall();
             
-            if (_frameInput.InteractDown && canNom && !hasCrate && nomAvailable)
+            if (_frameInput.InteractDown && canNom && !hasCrate && nomAvailable && !_hittingWall)
             {
                 SwallowCrate();
                 StartCoroutine(StartCooldown());
@@ -363,11 +372,20 @@ namespace PlayerController
 
         protected virtual void DetectWall()
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, facingRight ? Vector2.left : Vector2.right, _stats._detectionRange, _stats._detectionLayer);
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, facingRight ? Vector2.left : Vector2.right, _stats._detectionRange, _stats._detectionLayer);
+            RaycastHit2D hitCrate = Physics2D.Raycast(transform.position, facingRight ? Vector2.left : Vector2.right, _stats._detectionRange);
 
             Debug.DrawRay(transform.position, facingRight ? Vector2.left * _stats._detectionRange : Vector2.right * _stats._detectionRange, Color.red);
-            
-            _hittingWall = hit;
+
+            _hittingWall = hitWall;
+
+            if (hitCrate)
+            {
+                if (hitCrate.transform.gameObject.layer == 12)
+                {
+                    _hittingWall = false;
+                }
+            }
         }
 
         protected virtual void SwallowCrate()

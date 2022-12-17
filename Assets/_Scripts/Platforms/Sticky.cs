@@ -6,9 +6,14 @@ public class Sticky : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player") || collision.CompareTag("Crate"))
+        if(collision.CompareTag("Player"))
         {
             collision.transform.SetParent(transform);
+        }
+        
+        if(collision.CompareTag("Object"))
+        {
+            collision.transform.parent.SetParent(transform);
         }
     }
 
@@ -16,18 +21,12 @@ public class Sticky : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            UnParentPlayer();
+            collision.transform.SetParent(null);
         }
-    }
-
-    private void UnParentCrate()
-    {
-        foreach (Transform child in transform)
+        
+        if (collision.CompareTag("Object"))
         {
-            if (child.CompareTag("Crate"))
-            {
-                child.transform.SetParent(null);
-            }
+            collision.transform.parent.SetParent(null);
         }
     }
 
