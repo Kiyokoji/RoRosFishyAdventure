@@ -11,8 +11,8 @@ public class Scale : MonoBehaviour
     [HideInInspector] public bool leftTrigger;
     [HideInInspector] public bool rightTrigger;
     
-    [ReadOnly] public int leftObjects;
-    [ReadOnly] public int rightObjects;
+    [HideInInspector] public int leftObjects;
+    [HideInInspector] public int rightObjects;
 
     public float speed = 5f;
 
@@ -38,12 +38,5 @@ public class Scale : MonoBehaviour
             rightScale.GoDown();
             leftScale.GoUp();
         }
-        
     }
-    
-}
-
-public class ReadOnlyAttribute : Attribute
-{
-    
 }
