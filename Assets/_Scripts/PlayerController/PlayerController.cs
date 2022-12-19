@@ -30,6 +30,11 @@ namespace PlayerController
 
         private bool facingRight;
         private bool canMove;
+        public bool CanMove // Robert
+        {
+            get => canMove;
+            set => canMove = value;
+        }
 
         [SerializeField] private Transform skeleton;
         [SerializeField] private ParticleSystem dust;
@@ -79,6 +84,7 @@ namespace PlayerController
             _cachedTriggerSetting = Physics2D.queriesHitTriggers;
             _col = _standingCollider;
             _playerPlatform.enabled = false;
+            canMove = true; // Robert
             Physics2D.queriesStartInColliders = false;
         }
 
@@ -121,6 +127,7 @@ namespace PlayerController
         private int _ladderHitCount;
         private int _frameLeftGrounded = int.MinValue;
         private bool _grounded;
+        public bool Grounded => _grounded; // Robert
 
         protected virtual void CheckCollisions() {
             Physics2D.queriesHitTriggers = false;
@@ -186,7 +193,7 @@ namespace PlayerController
         private bool CanAirJump => _airJumpsRemaining > 0;
 
         protected virtual void HandleJump() {
-            if (_jumpToConsume || HasBufferedJump) {
+            if ((_jumpToConsume || HasBufferedJump) && canMove) { // Robert
                 if (_grounded || CanUseCoyote) NormalJump();
                 else if (_jumpToConsume && CanAirJump) AirJump();
             }
@@ -239,7 +246,7 @@ namespace PlayerController
             }
             
             // Deceleration
-            if (Mathf.Abs(_frameInput.Move.x) < _stats.HorizontalDeadzoneThreshold)
+            if (Mathf.Abs(_frameInput.Move.x) < _stats.HorizontalDeadzoneThreshold || !canMove) // Robert
                 _speed.x = Mathf.MoveTowards(_speed.x, 0, (_grounded ? _stats.GroundDeceleration : _stats.AirDeceleration) * Time.fixedDeltaTime);
             // Regular Horizontal Movement
             else {
