@@ -25,8 +25,8 @@ public class StarCluster : MonoBehaviour
     private int clusterSize;
     public int ClusterSize => clusterSize;
 
-    private int currentOperatedStar;
-    
+    public int CurrentOperatedStar { get; private set; }
+
     [InfoBox("Max Cluster Size - will affect the biggest value of the slider above", InfoMessageType.None)]
     [SerializeField]
     private int maxClusterSize = 10;
@@ -66,16 +66,31 @@ public class StarCluster : MonoBehaviour
     public Transform placedContainer;
     private bool IsPlacedContainerUsed() { return !(placedContainer != null); }
 
+    [InfoBox("Put the connector container (found in the children) in here", InfoMessageType.Error, "IsConnectorContainerUsed")]
+    [SerializeField] 
+    public Transform connectorContainer;
+    private bool IsConnectorContainerUsed() { return !(connectorContainer != null); }
+
+    [InfoBox("Put the connector container (found in the children) in here", InfoMessageType.Error, "IsConnectorPrefabUsed")]
+    [SerializeField] 
+    public Transform connectorPrefab;
+    private bool IsConnectorPrefabUsed() { return !(connectorPrefab != null); }
+    
     private Vector3 center;
     
-    private bool updated = false;
-    private bool starPlaced = false;
-    
-    
+    private bool updated;
+    private bool starPlaced;
+    public bool FinishedPlacing { get; private set; }
+
+
     // Start is called before the first frame update
     void Start()
     {
-        currentOperatedStar = 0;
+        CurrentOperatedStar = 0;
+
+        updated = false;
+        starPlaced = false;
+        FinishedPlacing = false;
     }
 
     // Update is called once per frame
@@ -86,7 +101,7 @@ public class StarCluster : MonoBehaviour
         
         CheckActualClusterProperties();
 
-        for (int i = 0 + currentOperatedStar; i < stars.Count; i++)
+        for (int i = 0 + CurrentOperatedStar; i < stars.Count; i++)
         {
             //stars[i].transform.RotateAround(unplacedContainer.transform.position, Vector3.forward, starSpeed * Time.deltaTime);
             stars[i].transform.RotateAround(center, transform.forward, starSpeed * Time.deltaTime);
@@ -142,15 +157,15 @@ public class StarCluster : MonoBehaviour
     {
         starPlaced = false;
         // ReSharper disable once PossibleLossOfFraction
-        double angle = 360.0 / (clusterSize - 1 - currentOperatedStar);
+        double angle = 360.0 / (clusterSize - 1 - CurrentOperatedStar);
 
-        if (0 + currentOperatedStar < stars.Count) stars[0 + currentOperatedStar].transform.localPosition = Vector3.zero;
+        if (0 + CurrentOperatedStar < stars.Count) stars[0 + CurrentOperatedStar].transform.localPosition = Vector3.zero;
         //else stars[currentOperatedStar].transform.localPosition = Vector3.zero;
         
-        if (1 + currentOperatedStar < stars.Count) stars[1 + currentOperatedStar].transform.localPosition = Vector2.up * radius;
+        if (1 + CurrentOperatedStar < stars.Count) stars[1 + CurrentOperatedStar].transform.localPosition = Vector2.up * radius;
         //else stars[currentOperatedStar].transform.localPosition = Vector3.zero;
         
-        for (int i = 2 + currentOperatedStar; i < stars.Count; i++)
+        for (int i = 2 + CurrentOperatedStar; i < stars.Count; i++)
         {
             stars[i].transform.localPosition = CalculateVectorFromAngle(stars[i - 1].transform.localPosition, (float)angle);
         }
@@ -168,17 +183,37 @@ public class StarCluster : MonoBehaviour
 
     public void NextStar()
     {
-        if (stars.Count == currentOperatedStar)
+        if (FinishedPlacing)
         {
-            Debug.Log("bruh");
             return;
         }
-        stars[currentOperatedStar].placed = true;
-        stars[currentOperatedStar].transform.SetParent(placedContainer);
-        //if (currentOperatedStar + 1 != stars.Count) 
-        currentOperatedStar++;
-        Debug.Log(currentOperatedStar + " " + stars.Count);
+        stars[CurrentOperatedStar].placed = true;
+        stars[CurrentOperatedStar].transform.SetParent(placedContainer);
+        
+        Transform starConnector; 
+        
+        if (CurrentOperatedStar == 0)
+        {
+            Debug.Log("first star placed");
+        }
+        else
+        {
+            starConnector = Instantiate(connectorPrefab, connectorContainer);
+            starConnector.GetComponent<StarConnector>().InitializeConnectorLine(stars[CurrentOperatedStar - 1], stars[CurrentOperatedStar], this);
+            
+            if (CurrentOperatedStar + 1 == stars.Count)
+            {
+                EndClusterPlacing();
+            }
+        }
+
+        CurrentOperatedStar++;
+        Debug.Log(CurrentOperatedStar + " " + stars.Count);
         starPlaced = true;
-        //updated = true;
+    }
+
+    public void EndClusterPlacing()
+    {
+        FinishedPlacing = true;
     }
 }

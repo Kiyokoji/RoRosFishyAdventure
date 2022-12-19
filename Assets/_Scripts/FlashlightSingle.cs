@@ -133,15 +133,22 @@ public class FlashlightSingle : MonoBehaviour
 
     private void ClusterAction()
     {
-        if (currentStarCluster.ClusterSize > 0)
+        if (currentStarCluster.CurrentOperatedStar < currentStarCluster.ClusterSize)
         {
             currentStarCluster.NextStar();
         }
-        else
+
+        if (currentStarCluster.CurrentOperatedStar == currentStarCluster.ClusterSize)
         {
             currentStarCluster.unplacedContainer.transform.SetParent(currentStarCluster.transform);
             currentStarCluster = null;
         }
+        
+        //else
+        //{
+        //    currentStarCluster.unplacedContainer.transform.SetParent(currentStarCluster.transform);
+        //    currentStarCluster = null;
+        //}
 
     }
 
@@ -159,14 +166,17 @@ public class FlashlightSingle : MonoBehaviour
     {
         if (other.CompareTag("StarConnector"))
         {
-            Vector2[] points = new Vector2[2];
+            if (currentStarCluster != null) return;
+            
+            Vector2?[] points = new Vector2?[2];
             
             RaycastHit2D hit1 = Physics2D.Raycast(transform.position, flashLeft);
             if (hit1.collider != null) points[0] = hit1.point;
-            Debug.Log(hit1.point);
+            else points[0] = null;
             
             RaycastHit2D hit2 = Physics2D.Raycast(transform.position, flashRight);
             if (hit2.collider != null) points[1] = hit2.point;
+            else points[1] = null;
             
             other.GetComponent<StarConnector>().UpdateActiveColliderSpace(points);
         }

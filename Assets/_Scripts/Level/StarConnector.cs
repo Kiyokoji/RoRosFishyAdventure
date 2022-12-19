@@ -13,6 +13,8 @@ public class StarConnector : MonoBehaviour
     [ReadOnly]
     private Star star2;
 
+    private StarCluster starCluster;
+
     private LineRenderer lineRenderer;
     private EdgeCollider2D edgeColliderTrigger;
    
@@ -20,12 +22,12 @@ public class StarConnector : MonoBehaviour
     private EdgeCollider2D edgeCollider;
     
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         edgeColliderTrigger = GetComponent<EdgeCollider2D>();
-        
-        InitializeConnectorLine();
+
+        edgeCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -34,19 +36,57 @@ public class StarConnector : MonoBehaviour
         
     }
 
-    private void InitializeConnectorLine()
+    public void InitializeConnectorLine(Star starOne, Star starTwo, StarCluster starCluster)
     {
-        Vector3[] points = new Vector3[2];
-        points[0] = star1.transform.position;
-        points[1] = star2.transform.position;
+        if (starCluster.CurrentOperatedStar == 0) return;
         
+        star1 = starOne;
+        
+        star2 = starTwo;
+
+        this.starCluster = starCluster;
+        
+        Vector3[] points = new Vector3[2];
+        points[0] = starOne.transform.position;
+        points[1] = starTwo.transform.position;
+
         lineRenderer.SetPositions(points);
         
-        //edgeColliderTrigger
+        Vector2[] triggerPoints = new Vector2[2];
+        triggerPoints[0] = points[0];
+        triggerPoints[1] = points[1];
+        
+        edgeColliderTrigger.points = triggerPoints;
     }
 
-    public void UpdateActiveColliderSpace(Vector2[] points)
+    public void UpdateActiveColliderSpace(Vector2?[] points)
     {
-        edgeCollider.points = points;
+        if (!starCluster.FinishedPlacing) return;
+        
+        Vector2[] colliderPoints = new Vector2[2];
+        if (points[0] == null && points[1] == null)
+        {
+            edgeCollider.enabled = false;
+            return;
+        }
+        
+        if (points[0] == null && points[1] != null)
+        {
+            colliderPoints[0] = edgeCollider.points[0];
+            colliderPoints[1] = (Vector2)points[1];
+        }
+        else if (points[0] != null && points[1] == null)
+        {
+            colliderPoints[0] = (Vector2)points[0];
+            colliderPoints[1] = edgeCollider.points[1];
+        }
+        else
+        {
+            colliderPoints[0] = (Vector2)points[0];
+            colliderPoints[1] = (Vector2)points[1];
+        }
+
+        if (starCluster.FinishedPlacing) edgeCollider.enabled = true;
+        edgeCollider.points = colliderPoints;
     }
 }
