@@ -97,18 +97,18 @@ public class StarCluster : MonoBehaviour
     void Update()
     {
         center = unplacedContainer.transform.position;
-        //stars[currentOperatedStar].transform.position
         
         CheckActualClusterProperties();
 
         for (int i = 0 + CurrentOperatedStar; i < stars.Count; i++)
         {
-            //stars[i].transform.RotateAround(unplacedContainer.transform.position, Vector3.forward, starSpeed * Time.deltaTime);
             stars[i].transform.RotateAround(center, transform.forward, starSpeed * Time.deltaTime);
-
         }
     }
 
+    /// <summary>
+    /// Checks if any of the star cluster properties has been changed in the editor or if a star has been placed. Checks every frame and adjusts the rotating star cluster's alignment.
+    /// </summary>
     private void CheckActualClusterProperties()
     {
         updated = false;
@@ -119,7 +119,6 @@ public class StarCluster : MonoBehaviour
             {
                 Star star = Instantiate(starPrefab, unplacedContainer);
                 stars.Add(star);
-                //stars[stars.Count - 2].nextStar = star;
             }
 
             updated = true;
@@ -129,13 +128,13 @@ public class StarCluster : MonoBehaviour
         {
             for (int i = stars.Count; i > clusterSize; i--)
             {
-                //Debug.Log(stars.Count + " " + i);
                 DeleteStar(i);
             }
 
             updated = true;
         }
         
+        /*
         float distanceBetweenCenterAndEdgeStars = Mathf.Round(
             Vector2.Distance(
                 stars[0].transform.localPosition, 
@@ -144,15 +143,24 @@ public class StarCluster : MonoBehaviour
         
         //if (updated || distanceBetweenCenterAndEdgeStars < radius || distanceBetweenCenterAndEdgeStars > radius)
             //SetStarPositions();
+            */
+        
         if (updated || starPlaced) SetStarPositions();
     }
 
+    /// <summary>
+    /// Deletes a star if the Star Cluster was updated in the Unity Editor.
+    /// </summary>
+    /// <param name="index">The star in question</param>
     private void DeleteStar(int index)
     {
         Destroy(stars[index - 1].gameObject);
         stars.RemoveAt(index - 1);
     }
 
+    /// <summary>
+    /// Calculates the angles relative to the amount of the stars of the outer circle and places them accordingly.
+    /// </summary>
     private void SetStarPositions()
     {
         starPlaced = false;
@@ -171,16 +179,25 @@ public class StarCluster : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Helping method to calculate the Vector from a given angle. Used in SetStarPosition()
+    /// </summary>
+    /// <param name="vector"></param>
+    /// <param name="angle"></param>
+    /// <returns>The new Vector2 calculated from the given vector and angle.</returns>
     private Vector2 CalculateVectorFromAngle(Vector2 vector, float angle)
     {
         float angleDeg2Rad = angle * Mathf.Deg2Rad;
         
         return new Vector2(
-            (Mathf.Cos(angleDeg2Rad) * vector.x) - (Mathf.Sin(angleDeg2Rad) * vector.y),  // 
-            (Mathf.Sin(angleDeg2Rad) * vector.x) + (Mathf.Cos(angleDeg2Rad) * vector.y)   //
+            (Mathf.Cos(angleDeg2Rad) * vector.x) - (Mathf.Sin(angleDeg2Rad) * vector.y),
+            (Mathf.Sin(angleDeg2Rad) * vector.x) + (Mathf.Cos(angleDeg2Rad) * vector.y)
         );
     }
 
+    /// <summary>
+    /// Places a star and goes to the next one. Creates a connector if at least one star has been placed prior.
+    /// </summary>
     public void NextStar()
     {
         if (FinishedPlacing)

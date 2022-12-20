@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,24 +11,33 @@ using Vector3 = UnityEngine.Vector3;
 
 public class FlashlightSingle : MonoBehaviour
 {
+    [Title("Game Objects")]
+    [InfoBox("The Player Camera of the Player operating this flashlight", InfoMessageType.None)]
+    [InfoBox("Put the Player Camera of the operating Player in here", InfoMessageType.Error, "IsPlayerCameraPrefabUsed")]
+    [SerializeField]
+    private Camera playerCamera;
+    private bool IsPlayerCameraPrefabUsed() { return !(playerCamera != null); }
+    
+    [InfoBox("The Light2D object - basically the flashlight", InfoMessageType.None)]
+    [InfoBox("Put the Light2D (found in the children) in here", InfoMessageType.Error, "IsLight2DPrefabUsed")]
+    [SerializeField]
+    private Light2D light2D;
+    private bool IsLight2DPrefabUsed() { return !(light2D != null); }
+    
     private PlayerController.PlayerController player;
-    public Camera playerCamera;
     private PlayerInputActions playerInputActions;
     private Vector3 mousePos;
-    public GameObject flashlight;
-    private bool flashlightToggle;
     
-    private bool clusterGrabbable;
     private StarCluster currentStarCluster, currentGrabbableStarCluster;
     private PolygonCollider2D polygonCollider;
     
-    private Light2D light2D;
+    private bool flashlightToggle;
+    private bool clusterGrabbable;
 
     private Vector2 flashLeft, flashRight;
 
     private void Start()
     {
-        light2D = flashlight.GetComponent<Light2D>();
         polygonCollider = GetComponent<PolygonCollider2D>();
     }
 
@@ -143,13 +153,6 @@ public class FlashlightSingle : MonoBehaviour
             currentStarCluster.unplacedContainer.transform.SetParent(currentStarCluster.transform);
             currentStarCluster = null;
         }
-        
-        //else
-        //{
-        //    currentStarCluster.unplacedContainer.transform.SetParent(currentStarCluster.transform);
-        //    currentStarCluster = null;
-        //}
-
     }
 
     private void OnTriggerEnter2D(Collider2D col)

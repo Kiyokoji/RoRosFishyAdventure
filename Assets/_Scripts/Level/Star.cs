@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Star : MonoBehaviour
 {
-    public Star nextStar;
     public bool placed;
 
     private void Awake()

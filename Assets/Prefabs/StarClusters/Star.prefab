@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2723070182917626443}
   - component: {fileID: 2723070182917626442}
-  - component: {fileID: 2723070182917626441}
+  - component: {fileID: -3520524638323804630}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2723070182917626441
+--- !u!114 &-3520524638323804630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

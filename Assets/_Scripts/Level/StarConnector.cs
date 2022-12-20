@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StarConnector : MonoBehaviour
 {
+    [Title("Connecting Stars")]
+    [InfoBox("Star 1 will be connected with Star 2", InfoMessageType.None)]
     [SerializeField]
     [ReadOnly]
     private Star star1;
@@ -17,9 +19,14 @@ public class StarConnector : MonoBehaviour
 
     private LineRenderer lineRenderer;
     private EdgeCollider2D edgeColliderTrigger;
-   
+    
+    [Title("Edge Collider")]
+    [InfoBox("Put the Edge Collider (found in the only child of this prefab) in here", InfoMessageType.Error, "IsEdgeColliderUsed")]
+    [InfoBox("This is a reference to the actual collider. The Edge Collider in this GameObject is merely a trigger used to determine from where to where the collider should form.", InfoMessageType.None)]
+    [HideInPlayMode]
     [SerializeField]
     private EdgeCollider2D edgeCollider;
+    private bool IsEdgeColliderUsed() { return !(edgeCollider != null); }
     
     // Start is called before the first frame update
     private void Awake()
@@ -30,12 +37,12 @@ public class StarConnector : MonoBehaviour
         edgeCollider.enabled = false;
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Sets the two points which will be used to create a line with the LineRenderer as well as the bounds of the EdgeCollider trigger.
+    /// </summary>
+    /// <param name="starOne">The first star</param>
+    /// <param name="starTwo">The connecting star</param>
+    /// <param name="starCluster">The Star Cluster in which the stars are</param>
     public void InitializeConnectorLine(Star starOne, Star starTwo, StarCluster starCluster)
     {
         if (starCluster.CurrentOperatedStar == 0) return;
@@ -59,6 +66,10 @@ public class StarConnector : MonoBehaviour
         edgeColliderTrigger.points = triggerPoints;
     }
 
+    /// <summary>
+    /// Sets the active edge collider bounds when lit with a flashlight.
+    /// </summary>
+    /// <param name="points">Contact points calculated with Raycasts</param>
     public void UpdateActiveColliderSpace(Vector2?[] points)
     {
         if (!starCluster.FinishedPlacing) return;
