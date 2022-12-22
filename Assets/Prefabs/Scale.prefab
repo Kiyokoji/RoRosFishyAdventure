@@ -1160,7 +1160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 7543257444680921577}
   target: {fileID: 8194282538028576698}
-  scale: {fileID: 1723671096125045494}
+  parent: {fileID: 1723671096125045494}
 --- !u!120 &382447000496766766
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1683,7 +1683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   start: {fileID: 274457423703318958}
   target: {fileID: 6498780996164224484}
-  scale: {fileID: 1723671096125045494}
+  parent: {fileID: 1723671096125045494}
 --- !u!120 &6441690728355709809
 LineRenderer:
   m_ObjectHideFlags: 0

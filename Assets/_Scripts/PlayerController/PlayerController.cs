@@ -469,6 +469,22 @@ namespace PlayerController
             }
         }
 
+        private void OnTriggerStay2D(Collider2D col)
+        {
+            if (col.CompareTag("Hook"))
+            {
+                if (isGrabbing)
+                {
+                    canMove = false;
+                    transform.SetParent(col.gameObject.transform);
+                }
+                else
+                {
+                    canMove = true;
+                    transform.SetParent(null);
+                }
+            }
+        }
     }
 
     public enum PlayerForce {

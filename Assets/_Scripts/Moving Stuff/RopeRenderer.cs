@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class RopeRenderer : MonoBehaviour
@@ -8,7 +9,7 @@ public class RopeRenderer : MonoBehaviour
     private LineRenderer rope;
     public Transform start;
     public Transform target;
-    public Transform scale;
+    public Transform parent;
 
     private void Awake()
     {
@@ -17,7 +18,9 @@ public class RopeRenderer : MonoBehaviour
 
     void Update()
     {
-        rope.SetPosition(0, start.position - scale.position);
-        rope.SetPosition(1, target.position - scale.position);
+        if (GUI.changed) EditorUtility.SetDirty (this);
+        
+        rope.SetPosition(0, start.position - parent.position);
+        rope.SetPosition(1, target.position - parent.position);
     }
 }
