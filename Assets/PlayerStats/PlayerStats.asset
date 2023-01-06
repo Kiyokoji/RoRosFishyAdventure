@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b823639e543694d890e5f8a77be1af, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  MaxSpeed: 14
+  MaxSpeed: 15.2
   Acceleration: 120
   GroundDeceleration: 60
   AirDeceleration: 30
   GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
-  MaxAirJumps: 1
+  MaxAirJumps: 0
   JumpPower: 40
   MaxFallSpeed: 60
   FallAcceleration: 110
