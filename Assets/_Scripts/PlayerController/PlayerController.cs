@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 namespace PlayerController
 {
@@ -205,6 +206,7 @@ namespace PlayerController
 
         protected virtual void NormalJump()
         {
+            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);
             _endedJumpEarly = false;
             _bufferedJumpUsable = false;
             _coyoteUsable = false;
@@ -439,6 +441,8 @@ namespace PlayerController
             _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
         }
 
+        #region Triggers
+        
         public void OnTriggerEnter2D(Collider2D col)
         {
             if (col.CompareTag("Hook"))
@@ -485,6 +489,9 @@ namespace PlayerController
                 }
             }
         }
+        
+        #endregion
+        
     }
 
     public enum PlayerForce {

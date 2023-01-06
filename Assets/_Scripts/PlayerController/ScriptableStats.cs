@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 namespace PlayerController {
     [CreateAssetMenu]
@@ -72,5 +73,8 @@ namespace PlayerController {
         [Header("EXTERNAL")] 
         [Tooltip("The rate at which external velocity decays")]
         public int ExternalVelocityDecay = 100;
+
+        [Header("Sounds")] 
+        public EventReference playerJumpSound;
     }
 }

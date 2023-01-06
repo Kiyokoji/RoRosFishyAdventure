@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class Door : MonoBehaviour
 {
+    
+    
     private SceneLoader loader;
     private Animator anim;
 
+    public EventReference doorSound;
     public SpriteRenderer interaction;
     private PlayerInputActions playerInputActions;
     private bool entered = false;
@@ -61,6 +65,8 @@ public class Door : MonoBehaviour
 
     private void Entered()
     {
+        FMODUnity.RuntimeManager.PlayOneShot(doorSound);
+        
         interaction.enabled = true;
         anim.SetBool("Door", true);
         entered = true;

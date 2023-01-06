@@ -100,6 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542332204bba3be4eab1bc03969d0ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doorSound:
+    Guid:
+      Data1: -1491637117
+      Data2: 1114414602
+      Data3: -966891363
+      Data4: -195812329
+    Path: event:/door
   interaction: {fileID: 3787804006189847603}
   sceneToLoad: 0
 --- !u!61 &468720123287108824
