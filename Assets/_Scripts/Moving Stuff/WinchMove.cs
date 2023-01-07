@@ -9,16 +9,21 @@ public class WinchMove : MonoBehaviour
     
     public Transform _up;
     public Transform _down;
+    public Transform wheel;
     
     private float _speed;
 
     private void Awake()
     {
-        _speed = winch.speed;
+        _speed = winch.winchSpeed;
     }
 
     public void GoUp()
     {
+        if (transform.position == _up.position) return;
+        
+        wheel.transform.Rotate(0f, 0f, -_speed);
+        
         this.transform.position = 
             Vector2.MoveTowards(
                 this.transform.position, 
@@ -29,6 +34,10 @@ public class WinchMove : MonoBehaviour
     
     public void GoDown()
     {
+        if (transform.position == _down.position) return;
+        
+        wheel.transform.Rotate(0f, 0f, _speed);
+        
         this.transform.position = 
             Vector2.MoveTowards(
                 this.transform.position, 

@@ -16,7 +16,7 @@ namespace PlayerController {
         private InputActionMap player;
 
         //private PlayerInputActions _actions;
-        private InputAction _move, _jump, _interact;
+        private InputAction _move, _jump, _interact, _interactLeft, _interactRight;
 
         private void Awake()
         {
@@ -28,6 +28,8 @@ namespace PlayerController {
             _move = player.FindAction("Movement");
             _jump = player.FindAction("Jump");
             _interact = player.FindAction("Interact");
+            _interactLeft = player.FindAction("InteractLeft");
+            _interactRight = player.FindAction("InteractRight");
 
             //_actions = new PlayerInputActions();
             //_move = _actions.Player.Movement;
@@ -35,7 +37,6 @@ namespace PlayerController {
         }
 
         private void OnEnable() => player.Enable();
-        
 
         private void OnDisable() => player.Disable();
 
@@ -46,7 +47,10 @@ namespace PlayerController {
                 Move = _move.ReadValue<Vector2>(),
                 InteractDown = _interact.WasPressedThisFrame(),
                 InteractHeld = _interact.IsPressed(),
-                InteractUp = _interact.WasReleasedThisFrame()
+                InteractUp = _interact.WasReleasedThisFrame(),
+                LeftInteract = _interactLeft.IsPressed(),
+                RightInteract = _interactRight.IsPressed(),
+                
             };
         }
 
@@ -68,5 +72,7 @@ namespace PlayerController {
         public bool InteractDown;
         public bool InteractHeld;
         public bool InteractUp;
+        public bool LeftInteract;
+        public bool RightInteract;
     }
 }

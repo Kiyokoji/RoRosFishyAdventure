@@ -18,10 +18,15 @@ public class ScaleMove : MonoBehaviour
     private void Awake()
     {
         _speed = scale.speed;
+        
+        scale.leftTrigger = true;
+        scale.rightTrigger = true;
     }
 
     public void GoUp()
     {
+        
+        
         this.transform.position = 
             Vector2.MoveTowards(
                 this.transform.position, 
@@ -63,6 +68,18 @@ public class ScaleMove : MonoBehaviour
                 scale.rightTrigger = true;
             }
         }
+        
+        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        {
+            if (isLeftScale)
+            {
+                scale.leftObjects += 2;
+            }
+            else
+            {
+                scale.rightObjects += 2;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -78,6 +95,18 @@ public class ScaleMove : MonoBehaviour
                 scale.rightObjects++;
             }
         }
+        
+        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        {
+            if (isLeftScale)
+            {
+                scale.leftObjects += 2;
+            }
+            else
+            {
+                scale.rightObjects += 2;
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D col)
@@ -86,13 +115,31 @@ public class ScaleMove : MonoBehaviour
         {
             if (isLeftScale)
             {
+                if (scale.leftTrigger != true)
+                {
+                    scale.leftTrigger = false;
+                }
                 scale.leftObjects--;
-                scale.leftTrigger = false;
             }
             else
             {
+                if (scale.rightTrigger != true)
+                {
+                    scale.rightTrigger = false;
+                }
                 scale.rightObjects--;
-                scale.rightTrigger = false;
+            }
+        }
+        
+        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        {
+            if (isLeftScale)
+            {
+                scale.leftObjects -= 2;
+            }
+            else
+            {
+                scale.rightObjects -= 2;
             }
         }
     }

@@ -94,6 +94,7 @@ namespace PlayerController
             UpdateAnimator();
             Grab();
             Nom();
+            Winch();
         }
 
         protected virtual void GatherInput() {
@@ -216,6 +217,7 @@ namespace PlayerController
 
         protected virtual void AirJump()
         {
+            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);
             _endedJumpEarly = false;
             _airJumpsRemaining--;
             _speed.y = _stats.JumpPower;
@@ -356,7 +358,7 @@ namespace PlayerController
         #region Crate
         
         private bool canNom;
-        private bool hasCrate;
+        [HideInInspector] public bool hasCrate;
         private GameObject crate;
         private Rigidbody2D crateBody;
         private bool nomAvailable = true;
@@ -399,14 +401,16 @@ namespace PlayerController
 
         protected virtual void SwallowCrate()
         {
+            crate.SetActive(false);
             hasCrate = true;
             crate.transform.SetParent(_mouth);
             crate.transform.position = _mouth.position;
-            crate.SetActive(false);
         }
         
         protected virtual void SpitCrate()
         {
+            crate.transform.SetParent(gameObject.transform);
+            crate.transform.position = _mouth.transform.position;
             crate.transform.SetParent(null);
             crate.SetActive(true);
             crateBody.AddForce(facingRight ? Vector2.left * (_stats._spitForce * 10) : Vector2.right * (_stats._spitForce * 10), ForceMode2D.Impulse);
@@ -420,6 +424,44 @@ namespace PlayerController
             nomAvailable = false;
             yield return new WaitForSeconds(_stats._nomCooldown);
             nomAvailable = true;
+        }
+        
+        #endregion
+        
+        #region Winch
+
+        private bool winchTrigger;
+        private Winch winch;
+
+        protected virtual void Winch()
+        {
+            if (winch == null) return;
+
+            winch.isPressing = _frameInput.LeftInteract || _frameInput.RightInteract;
+            winch.goingUp = _frameInput.LeftInteract;
+            winch.goingDown = _frameInput.RightInteract;
+
+            
+            
+            if (winchTrigger && winch.isPressing)
+            {
+                canMove = false;
+
+                if (winch.goingDown && facingRight)
+                {
+                    Flip();
+                }
+                
+                if (winch.goingUp && !facingRight)
+                {
+                    Flip();
+                }
+            }
+            else
+            {
+                canMove = true;
+            }
+            
         }
         
         #endregion
@@ -445,6 +487,13 @@ namespace PlayerController
         
         public void OnTriggerEnter2D(Collider2D col)
         {
+            if (col.CompareTag("Winch"))
+            {
+                winch = col.gameObject.transform.GetComponent<Winch>();
+
+                winchTrigger = true;
+            }
+            
             if (col.CompareTag("Hook"))
             {
                 canGrab = true;
@@ -461,6 +510,12 @@ namespace PlayerController
 
         private void OnTriggerExit2D(Collider2D col)
         {
+            if (col.CompareTag("Winch"))
+            {
+                winch = null;
+                winchTrigger = false;
+            }
+            
             if (col.CompareTag("Hook"))
             {
                 grabToggle = false;

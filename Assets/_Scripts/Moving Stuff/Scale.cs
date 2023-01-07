@@ -16,6 +16,8 @@ public class Scale : MonoBehaviour
 
     public float speed = 5f;
 
+    public float waitForSeconds = .2f;
+
     private void FixedUpdate()
     {
         if ((leftTrigger && rightTrigger) && (leftObjects == rightObjects))
@@ -37,6 +39,11 @@ public class Scale : MonoBehaviour
         {
             rightScale.GoDown();
             leftScale.GoUp();
+        }
+        else
+        {
+            rightScale.GoDefault();
+            leftScale.GoDefault();
         }
     }
 }

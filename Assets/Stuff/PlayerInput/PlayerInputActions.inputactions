@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "InteractRight",
+                    "type": "Button",
+                    "id": "cd12881b-67d4-45ae-8c5b-a0a25ce21591",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InteractLeft",
+                    "type": "Button",
+                    "id": "35cfd3f3-5d47-4756-bc3a-ed4bff1d40f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -259,17 +277,6 @@
                 },
                 {
                     "name": "",
-                    "id": "9fe7878f-b048-42c6-89da-89bc74dbcb61",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a4ff8f0f-18da-4974-b178-d7be76c9ab3f",
                     "path": "<Keyboard>/anyKey",
                     "interactions": "",
@@ -300,6 +307,72 @@
                     "action": "MousePos",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe0a3a30-a808-47a8-ae82-4459a430d1dc",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InteractRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fef8cdd-e782-48ed-be44-e9be4c1665f5",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "InteractRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dee5f5e4-cb7b-4427-bf17-3e10781c413f",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InteractRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "334503ea-1108-474b-8928-434163572e9a",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InteractLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "934d0510-ca01-4221-bfaa-70eff91fc118",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "InteractLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1f6af86-b1c9-417c-87d7-4c0c9d7f1c46",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InteractLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -317,18 +390,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Book",
-                    "type": "Button",
-                    "id": "15afc509-127e-4ae8-8e8e-2c53fb6d073a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Left",
                     "type": "Button",
-                    "id": "ffa41c27-cbbf-48ae-a860-99b8ca21733f",
+                    "id": "cd58e17f-ce61-4c12-b1c1-ac57a70a6ed5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -337,7 +401,16 @@
                 {
                     "name": "Right",
                     "type": "Button",
-                    "id": "96b9726e-b5db-4289-93f0-d19254ee4f0a",
+                    "id": "59285d9b-1953-4265-8b2e-be96426aa1e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Book",
+                    "type": "Button",
+                    "id": "15afc509-127e-4ae8-8e8e-2c53fb6d073a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -391,40 +464,7 @@
                 },
                 {
                     "name": "",
-                    "id": "9336c8c1-e01a-446a-9ec9-aa485598c989",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b598d124-6768-4c3d-8a47-e41c020cc984",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8c1e06b-75a5-4a71-9d2a-9d479db49ee3",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "06f37631-67fe-4123-83c9-6f2e6729b96b",
+                    "id": "e38b156d-d3c6-47df-ae67-d6156aadd9c5",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
@@ -435,7 +475,7 @@
                 },
                 {
                     "name": "",
-                    "id": "8997bfee-0f5c-4e95-b46f-0dfe38eb7f53",
+                    "id": "e54972d5-eedb-4c57-b157-833ad5b4e887",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
@@ -446,12 +486,45 @@
                 },
                 {
                     "name": "",
-                    "id": "deab6763-840e-4dc7-b00d-9f2143b37d7c",
+                    "id": "97824366-dd38-4a04-90b6-72256f6766eb",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a13f4049-3768-493c-bd16-06233fc11273",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "197d08a5-5c5b-4b26-8fee-c9c3adfa8218",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f2daeecd-f0ff-478a-8fde-fd8fff09de24",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Left",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
