@@ -33,4 +33,18 @@ MonoBehaviour:
     m_Bits: 920
   GrounderDistance: 0.15
   WallDetectorSize: {x: 0.75, y: 1.25}
+  _spitForce: 50
+  _spinForce: 500
+  _nomCooldown: 0.5
+  _detectionRange: 3
+  _detectionLayer:
+    serializedVersion: 2
+    m_Bits: 0
   ExternalVelocityDecay: 100
+  playerJumpSound:
+    Guid:
+      Data1: -243035072
+      Data2: 1309239486
+      Data3: -1514568292
+      Data4: 804277605
+    Path: event:/harold jump

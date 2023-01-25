@@ -18,7 +18,7 @@ MonoBehaviour:
   AirDeceleration: 30
   GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
-  MaxAirJumps: 0
+  MaxAirJumps: 1
   JumpPower: 40
   MaxFallSpeed: 60
   FallAcceleration: 110
@@ -41,3 +41,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3848
   ExternalVelocityDecay: 100
+  playerJumpSound:
+    Guid:
+      Data1: -1780822142
+      Data2: 1329426439
+      Data3: 55574438
+      Data4: -42273167
+    Path: event:/rodney jump

@@ -6,7 +6,7 @@ public class Sticky : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
             collision.transform.SetParent(transform);
         }
@@ -19,7 +19,7 @@ public class Sticky : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
             collision.transform.SetParent(null);
         }
@@ -34,7 +34,7 @@ public class Sticky : MonoBehaviour
     {
         foreach(Transform child in transform)
         {
-            if (child.CompareTag("Player"))
+            if (child.CompareTag("Player1") || child.CompareTag("Player2"))
             {
                 child.transform.SetParent(null);
             }

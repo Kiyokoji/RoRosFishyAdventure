@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FMOD;
+using Sirenix.Serialization;
 using TMPro.Examples;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class MultiTargetCam : MonoBehaviour
 {
@@ -12,35 +14,53 @@ public class MultiTargetCam : MonoBehaviour
     
     public List<Transform> targets;
     public float smoothTime = .5f;
+    public float smoothTimeClose = 2f;
     public Vector3 offset;
-
+    
+    public float minDistance = 5f;
     public float minZoom = 40f;
     public float maxZoom = 10f;
     public float zoomLimiter = 50f;
 
+    public float buffer = 10f;
+
+    private float smoothTemp;
+
     private void Start()
     {
         cam = GetComponent<Camera>();
+        smoothTemp = smoothTime;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (targets.Count == 0) return;
+
+        if (GetDistance() <= minDistance)
+        {
+            smoothTime = smoothTimeClose;
+        }
+        else
+        {
+            smoothTime = Mathf.Lerp(smoothTemp, smoothTimeClose, Time.deltaTime);
+            //smoothTime = smoothTemp;
+        }
         
         Move();
+        
+        if (GetDistance() <= minDistance) return;
         Zoom();
+
     }
 
     public void Zoom()
     {
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, (GetDistance() + 10f)/ zoomLimiter);
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
+        float newZoom = Mathf.Lerp(maxZoom, minZoom, GetDistance()/ zoomLimiter);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom + buffer, Time.deltaTime);
     }
     
     public void Move()
     {
-        
-        
         Vector3 centerPoint = GetCenterPoint();
 
         Vector3 newPosition = centerPoint + offset;

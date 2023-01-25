@@ -249,7 +249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1387322415215410427
 Transform:
   m_ObjectHideFlags: 0
@@ -5664,9 +5664,10 @@ GameObject:
   - component: {fileID: 2418634957952983843}
   - component: {fileID: 3342203518627882471}
   - component: {fileID: 5265496216357014771}
+  - component: {fileID: 3559119581516744288}
   m_Layer: 21
   m_Name: Harold
-  m_TagString: Player
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5747,7 +5748,10 @@ MonoBehaviour:
   dust: {fileID: 5676294342797885671}
   _playerPlatform: {fileID: 8169505825696385539}
   _mouth: {fileID: 8714196499697267284}
+  playerID: 0
   _speed: {x: 0, y: 0}
+  weight: 1
+  hasCrate: 0
 --- !u!114 &3342203518627882471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5785,11 +5789,23 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 4718709515290693348}
+  m_Camera: {fileID: 0}
+--- !u!114 &3559119581516744288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5846077235474277936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3d0487e64364742ac3debcbf073199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6486764973989755281
 GameObject:
   m_ObjectHideFlags: 0
@@ -5952,8 +5968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0639bc248ac608a4088d909c781b845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashLight: {fileID: 751112188485485532}
-  isToggled: 0
+  playerCamera: {fileID: 0}
+  light2D: {fileID: 0}
 --- !u!1 &8704598909952517008
 GameObject:
   m_ObjectHideFlags: 0

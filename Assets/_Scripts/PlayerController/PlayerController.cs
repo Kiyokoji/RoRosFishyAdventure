@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using FMODUnity;
+using UnityEngine.SceneManagement;
 
 namespace PlayerController
 {
@@ -41,11 +42,14 @@ namespace PlayerController
         [SerializeField] private ParticleSystem dust;
         [SerializeField] private BoxCollider2D _playerPlatform;
         [SerializeField] private Transform _mouth;
-        private Animator anim;
+        private MultiTargetCam _mainCam;
+        private Animator _anim;
         
         #endregion
 
         #region External
+
+        public int playerID = 0;
         
         [HideInInspector] public Vector2 _speed;
         public event Action<bool, float> GroundedChanged;
@@ -78,7 +82,9 @@ namespace PlayerController
         {
             //manager = GetComponent<PlayerInputManager>();
             //pInput = GetComponent<PlayerInput>();
-            anim = GetComponentInChildren<Animator>();
+
+            _mainCam = Camera.main.GetComponent<MultiTargetCam>();
+            _anim = GetComponentInChildren<Animator>();
             _standingCollider = GetComponent<CapsuleCollider2D>();
             _rb = GetComponent<Rigidbody2D>();
             _input = GetComponent<PlayerInputs>();
@@ -87,6 +93,9 @@ namespace PlayerController
             _playerPlatform.enabled = false;
             canMove = true; // Robert
             Physics2D.queriesStartInColliders = false;
+            
+            //add player transform to list of targets on the main camera
+            AddToCam(_mainCam);
         }
 
         protected virtual void Update() {
@@ -95,17 +104,9 @@ namespace PlayerController
             Grab();
             Nom();
             Winch();
+            ManageSpawn();
         }
-
-        protected virtual void GatherInput() {
-            _frameInput = _input.FrameInput;
-
-            if (_frameInput.JumpDown) {
-                _jumpToConsume = true;
-                _frameJumpWasPressed = _fixedFrame;
-            }
-        }
-
+        
         protected virtual void FixedUpdate() {
             _fixedFrame++;
 
@@ -116,6 +117,16 @@ namespace PlayerController
             HandleVertical();
             ApplyVelocity();
         }
+
+        protected virtual void GatherInput() {
+            _frameInput = _input.FrameInput;
+
+            if (_frameInput.JumpDown) {
+                _jumpToConsume = true;
+                _frameJumpWasPressed = _fixedFrame;
+            }
+        }
+        
 
         #region Collisions
 
@@ -356,7 +367,8 @@ namespace PlayerController
         #endregion        
         
         #region Crate
-        
+
+        [HideInInspector] public int weight = 1;
         private bool canNom;
         [HideInInspector] public bool hasCrate;
         private GameObject crate;
@@ -401,6 +413,7 @@ namespace PlayerController
 
         protected virtual void SwallowCrate()
         {
+            weight = 2;
             crate.SetActive(false);
             hasCrate = true;
             crate.transform.SetParent(_mouth);
@@ -409,6 +422,7 @@ namespace PlayerController
         
         protected virtual void SpitCrate()
         {
+            weight = 1;
             crate.transform.SetParent(gameObject.transform);
             crate.transform.position = _mouth.transform.position;
             crate.transform.SetParent(null);
@@ -465,23 +479,47 @@ namespace PlayerController
         }
         
         #endregion
+
+        #region Spawn
+
+        private SpawnManager spawnManager;
         
-        protected virtual void UpdateAnimator()
+        public void AddToCam(MultiTargetCam camera)
         {
-            //anim.SetFloat("VerticalSpeed",   Mathf.Abs(_speed.y));
-            anim.SetFloat("HorizontalSpeed", Mathf.Abs(_speed.x));
-
-            anim.SetBool("IsJumping", inAir ? true : false);
-            
+            camera.targets.Add(this.gameObject.transform);
+            if (camera.targets.Count == 1)
+            {
+                playerID = 1;
+            }
+            else
+            {
+                playerID = 2;
+            }
         }
         
-        protected virtual void ApplyVelocity() {
-            if (!_hasControl) return;
-            if (isGrabbing) return;
-            _rb.velocity = _speed + _currentExternalVelocity;
-
-            _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
+        protected virtual void ManageSpawn()
+        {
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
+
+        private void OnActiveSceneChanged(Scene currentScene, Scene nextScene)
+        {
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            
+            if (spawnManager != null)
+            {
+                if (playerID == 1)
+                {
+                    spawnManager.RespawnPlayer1();
+                } else if (playerID == 2)
+                {
+                    spawnManager.RespawnPlayer2();
+                }
+            }
+        }
+
+        
+        #endregion Spawn
 
         #region Triggers
         
@@ -512,6 +550,8 @@ namespace PlayerController
         {
             if (col.CompareTag("Winch"))
             {
+                canMove = true;
+                winch.isPressing = false;
                 winch = null;
                 winchTrigger = false;
             }
@@ -546,7 +586,24 @@ namespace PlayerController
         }
         
         #endregion
+
         
+        protected virtual void UpdateAnimator()
+        {
+            //anim.SetFloat("VerticalSpeed",   Mathf.Abs(_speed.y));
+            _anim.SetFloat("HorizontalSpeed", Mathf.Abs(_speed.x));
+
+            _anim.SetBool("IsJumping", inAir ? true : false);
+        }
+        
+        protected virtual void ApplyVelocity() {
+            if (!_hasControl) return;
+            if (isGrabbing) return;
+            _rb.velocity = _speed + _currentExternalVelocity;
+
+            _currentExternalVelocity = Vector2.MoveTowards(_currentExternalVelocity, Vector2.zero, _stats.ExternalVelocityDecay * Time.fixedDeltaTime);
+        }
+
     }
 
     public enum PlayerForce {

@@ -18,6 +18,7 @@ TagManager:
   - StarCluster
   - StarConnector
   - Winch
+  - SpawnManager
   layers:
   - Default
   - TransparentFX

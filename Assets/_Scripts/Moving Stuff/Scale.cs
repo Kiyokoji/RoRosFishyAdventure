@@ -11,12 +11,23 @@ public class Scale : MonoBehaviour
     [HideInInspector] public bool leftTrigger;
     [HideInInspector] public bool rightTrigger;
     
-    [HideInInspector] public int leftObjects;
-    [HideInInspector] public int rightObjects;
+    public int leftObjects;
+    public int rightObjects;
 
     public float speed = 5f;
-
-    public float waitForSeconds = .2f;
+    
+    private void Update()
+    {
+        if (leftObjects < 0)
+        {
+            leftObjects = 0;
+        }
+        
+        if (rightObjects < 0)
+        {
+            rightObjects = 0;
+        }
+    }
 
     private void FixedUpdate()
     {

@@ -14,7 +14,7 @@ public class ResetPlayerPos : MonoBehaviour
             collision.GetComponentInParent<Rigidbody2D>().velocity = Vector2.zero;
         }
         
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
             collision.transform.position = respawnPos.position;
             collision.GetComponent<Rigidbody2D>().velocity = Vector2.zero;

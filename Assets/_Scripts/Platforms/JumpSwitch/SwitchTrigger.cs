@@ -16,19 +16,19 @@ public class SwitchTrigger : MonoBehaviour
     {
         if (jumpSwitch.weighted)
         {
-            if(col.CompareTag("Player") || col.CompareTag("Object"))
+            if(col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object"))
             {
                 jumpSwitch.Activate();
             }
         }
         else 
         {
-            if (!jumpSwitch.toggled && (col.CompareTag("Player") || col.CompareTag("Object")))
+            if (!jumpSwitch.toggled && (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object")))
             {
                 jumpSwitch.Activate();
                 jumpSwitch.toggled = true;
             }
-            else if (jumpSwitch.toggled && (col.CompareTag("Player") || col.CompareTag("Object")))
+            else if (jumpSwitch.toggled && (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object")))
             {
                 jumpSwitch.Deactivate();
                 jumpSwitch.toggled = false;

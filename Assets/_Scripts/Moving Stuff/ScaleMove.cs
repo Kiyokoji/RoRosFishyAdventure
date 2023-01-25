@@ -10,7 +10,8 @@ public class ScaleMove : MonoBehaviour
     public Transform _up;
     public Transform _down;
     public Transform _default;
-
+    private int weight;
+    
     public bool isLeftScale;
     
     private float _speed;
@@ -25,8 +26,6 @@ public class ScaleMove : MonoBehaviour
 
     public void GoUp()
     {
-        
-        
         this.transform.position = 
             Vector2.MoveTowards(
                 this.transform.position, 
@@ -57,11 +56,14 @@ public class ScaleMove : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (col.CompareTag("Player") || col.CompareTag("Object"))
+        if (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object"))
         {
+            weight = col.GetComponent<PlayerController.PlayerController>().weight;
+            
             if (isLeftScale)
             {
                 scale.leftTrigger = true;
+                
             }
             else
             {
@@ -69,49 +71,102 @@ public class ScaleMove : MonoBehaviour
             }
         }
         
-        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        if (col.CompareTag("Player1") || col.CompareTag("Player2"))
         {
-            if (isLeftScale)
-            {
-                scale.leftObjects += 2;
-            }
-            else
-            {
-                scale.rightObjects += 2;
-            }
-        }
+            weight = col.GetComponent<PlayerController.PlayerController>().weight;
+            
+        }     
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player") || col.CompareTag("Object"))
+        if (col.CompareTag("Player1") || col.CompareTag("Player2"))
+        {
+            weight = col.GetComponent<PlayerController.PlayerController>().weight;
+            if (isLeftScale) { scale.leftObjects += weight; }
+            else { scale.rightObjects += weight; }
+        }
+
+        if (col.CompareTag("Object"))
+        {
+            col.GetComponent<CrateDisable>().onScale = true;
+            col.GetComponent<CrateDisable>().SetScaleMove(this);
+        
+            if (isLeftScale) { scale.leftObjects++; }
+            else { scale.rightObjects++; }
+        }
+        /*
+
+        if (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object"))
         {
             if (isLeftScale)
             {
-                scale.leftObjects++;
+                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+                {
+                    scale.leftObjects += 2;
+                }
+                else
+                {
+                    scale.leftObjects++;
+                }
             }
             else
             {
-                scale.rightObjects++;
+                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+                {
+                    scale.rightObjects += 2;
+                }
+                else
+                {
+                    scale.rightObjects++;
+                }
             }
         }
         
-        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        if (col.CompareTag("Object"))
         {
-            if (isLeftScale)
-            {
-                scale.leftObjects += 2;
-            }
-            else
-            {
-                scale.rightObjects += 2;
-            }
+            col.GetComponent<CrateDisable>().onScale = true;
+            col.GetComponent<CrateDisable>().SetScaleMove(this);
         }
+        
+        */
     }
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        if (col.CompareTag("Player") || col.CompareTag("Object"))
+        if (col.CompareTag("Player1") || col.CompareTag("Player2"))
+        {
+            if (isLeftScale)
+            {
+                scale.leftObjects -= weight;
+                
+                if (scale.leftTrigger != true)
+                {
+                    scale.leftTrigger = false;
+                }
+            }
+            else
+            {
+                scale.rightObjects -= weight;
+                
+                if (scale.rightTrigger != true)
+                {
+                    scale.rightTrigger = false;
+                }
+            }
+        }
+
+        if (col.CompareTag("Object"))
+        {
+            col.GetComponent<CrateDisable>().onScale = false;
+            col.GetComponent<CrateDisable>().ResetScaleMove();
+        
+            if (isLeftScale) { scale.leftObjects--; }
+            else { scale.rightObjects--; }
+        }
+        
+        /*
+        if (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object"))
         {
             if (isLeftScale)
             {
@@ -119,7 +174,15 @@ public class ScaleMove : MonoBehaviour
                 {
                     scale.leftTrigger = false;
                 }
-                scale.leftObjects--;
+                
+                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+                {
+                    scale.leftObjects -= 2;
+                }
+                else
+                {
+                    scale.leftObjects--;
+                }
             }
             else
             {
@@ -127,20 +190,24 @@ public class ScaleMove : MonoBehaviour
                 {
                     scale.rightTrigger = false;
                 }
-                scale.rightObjects--;
+                
+                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+                {
+                    scale.rightObjects -= 2;
+                }
+                else
+                {
+                    scale.rightObjects--;
+                }
             }
         }
         
-        else if (col.CompareTag("Player") && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
+        if (col.CompareTag("Object"))
         {
-            if (isLeftScale)
-            {
-                scale.leftObjects -= 2;
-            }
-            else
-            {
-                scale.rightObjects -= 2;
-            }
+            col.GetComponent<CrateDisable>().onScale = false;
+            col.GetComponent<CrateDisable>().ResetScaleMove();
         }
+        
+        */
     }
 }

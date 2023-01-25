@@ -8,14 +8,15 @@ public class SceneLoader : MonoBehaviour
 {
     private Animator transition;
 
-    public Level SceneToLoad = Level.Menu;
+    public Level SceneToLoad = Level.Test1;
 
     public enum Level
     {
         Menu,
         Game,
         Level1,
-        Level2
+        Level2,
+        Test1,
     };
 
     private void Start()

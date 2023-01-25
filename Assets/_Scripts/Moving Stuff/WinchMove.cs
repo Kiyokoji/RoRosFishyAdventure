@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 public class WinchMove : MonoBehaviour
 {
@@ -10,17 +11,21 @@ public class WinchMove : MonoBehaviour
     public Transform _up;
     public Transform _down;
     public Transform wheel;
-    
+
+    private EventReference wheelSound;
     private float _speed;
 
     private void Awake()
     {
+        wheelSound = winch.wheelSound;
         _speed = winch.winchSpeed;
     }
 
     public void GoUp()
     {
         if (transform.position == _up.position) return;
+        
+        FMODUnity.RuntimeManager.PlayOneShot(wheelSound);
         
         wheel.transform.Rotate(0f, 0f, -_speed);
         
