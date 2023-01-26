@@ -200,6 +200,8 @@ namespace PlayerController
         private int _frameJumpWasPressed = int.MinValue;
         private int _airJumpsRemaining;
         private bool inAir;
+        private bool isHanging; //added Hangtime bool - Kai
+        private float hangTimer = 0f; //added Hangtimer - Kai
 
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
         private bool HasBufferedJump => _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
@@ -226,12 +228,13 @@ namespace PlayerController
             Jumped?.Invoke(false);
         }
 
-        protected virtual void AirJump()
+        protected virtual void AirJump()//Im just gonna bastardize this into the Hangtime, yaaay - Kai
         {
-            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);
+            //FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);     commented out because it's less of a jump and more of a halt in momentum)
+            isHanging = true;
             _endedJumpEarly = false;
             _airJumpsRemaining--;
-            _speed.y = _stats.JumpPower;
+            _speed.y = 0f; //_stats.JumpPower;      Just thought I'd comment everywhere that I do a change
             AirJumped?.Invoke();
         }
 
@@ -239,6 +242,8 @@ namespace PlayerController
             _coyoteUsable = true;
             _bufferedJumpUsable = true;
             _endedJumpEarly = false;
+            isHanging = false; //resetting the isHanging thing here 'cause Im too lazy to figure out how to insert it in ResetAirJumps
+            hangTimer = 0f; //same as above
             ResetAirJumps();
         }
 
@@ -307,9 +312,14 @@ namespace PlayerController
             // In Air
             else
             {
+                // TODO: Get Hangtime to cancel when player let's go of Jump Button (also what happens when player keeps jump button pressed or full duration)
                 inAir = true;
                 var inAirGravity = _stats.FallAcceleration;
-                if (_endedJumpEarly && _speed.y > 0) inAirGravity *= _stats.JumpEndEarlyGravityModifier;
+                if (isHanging && hangTimer < _stats.HangtimeDuration) {// lol, no idea how to best setup conditions here but we got hangtime gravity now - Kai (this do be good enough)
+                    inAirGravity *= _stats.HangtimeGravityModifier;
+                    hangTimer += Time.deltaTime;
+                }
+                if (_endedJumpEarly || hangTimer > _stats.HangtimeDuration /*&& _speed.y < 0.1f*/) inAirGravity *= _stats.JumpEndEarlyGravityModifier;
                 _speed.y = Mathf.MoveTowards(_speed.y, -_stats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
             }
         }

@@ -24,8 +24,14 @@ namespace PlayerController {
         public float HorizontalDeadzoneThreshold = 0.1f;
 
         [Header("JUMP")] 
-        [Tooltip("Amount of air jumps allowed. e.g. 1 is a standard double jump"), Min(0)]
+        [Tooltip("Amount of times Hangtime can be initiated. e.g. 1 let's you activate it only once"), Min(0)]
         public int MaxAirJumps = 1;
+
+        [Tooltip("The amount of time for which the player can enter Hangtime")] //added HangtimeDuration
+        public float HangtimeDuration = 0.15f;
+
+        [Tooltip("The gravity multiplier applied when the player enters Hangtime")] //added HangtimeGrav
+        public float HangtimeGravityModifier = 0.5f;
 
         [Tooltip("The immediate velocity applied when jumping")]
         public float JumpPower = 36;
