@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.Rendering.Universal;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -26,7 +27,7 @@ public class FlashlightSingle : MonoBehaviour
     
     private PlayerController.PlayerController player;
     private PlayerInputActions playerInputActions;
-    private Vector3 mousePos;
+    private Vector3 mousePos, screenPos;
     
     private StarCluster currentStarCluster, currentGrabbableStarCluster;
     private PolygonCollider2D polygonCollider;
@@ -36,9 +37,13 @@ public class FlashlightSingle : MonoBehaviour
 
     private Vector2 flashLeft, flashRight;
 
+    private string controlScheme;
+
     private void Start()
     {
         polygonCollider = GetComponent<PolygonCollider2D>();
+
+        controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
     }
 
     private void OnEnable()
@@ -48,7 +53,7 @@ public class FlashlightSingle : MonoBehaviour
         
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
-
+        
         playerInputActions.Player.Flashlight.performed += Flashlight_performed;
     }
 
@@ -82,18 +87,31 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log(playerInputActions.devices.);
+        
         if (!flashlightToggle) return;
+        UpdateScreenPos();
         
         RotateWeapon();
-        //UpdateCluster();
         
-        mousePos = playerInputActions.Player.MousePos.ReadValue<Vector2>();
+        Debug.Log(playerCamera.WorldToScreenPoint(player.transform.position) + " | " + mousePos);
 
+        //UpdateCluster();
+
+        //Debug.Log(mousePos + " || " + playerCamera.transform.localPosition);
         //Vector3 dir = Quaternion.AngleAxis(transform.eulerAngles.z + light2D.pointLightOuterAngle / 2)
-        flashLeft = Quaternion.AngleAxis(transform.rotation.z + light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
-        flashRight = Quaternion.AngleAxis(transform.rotation.z - light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
+        //flashLeft = Quaternion.AngleAxis(transform.rotation.z + light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
+        //flashRight = Quaternion.AngleAxis(transform.rotation.z - light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
     }
-    
+
+    private void UpdateScreenPos()
+    {
+        if (controlScheme == "Gamepad") return;
+        mousePos = playerInputActions.Player.MousePos.ReadValue<Vector2>();
+        screenPos = mousePos;
+        screenPos.z = playerCamera.nearClipPlane + Math.Abs(playerCamera.transform.position.z);
+    }
+
     public void FlashLightOn()
     {
         flashlightToggle = true;
@@ -113,11 +131,9 @@ public class FlashlightSingle : MonoBehaviour
     private void RotateWeapon()
     {
         if (!playerCamera) return;
-        
-        Vector2 direction = playerCamera.ScreenToWorldPoint(mousePos + playerCamera.WorldToScreenPoint(playerCamera.transform.localPosition)) - transform.localPosition;
-        //Debug.Log(mainCam.ScreenToWorldPoint(player.transform.position) + " || " + mainCam.ScreenToWorldPoint(mousePos) + " || " + direction);
-        //Debug.Log(playerCamera.ScreenToWorldPoint(mousePos));
-        
+
+        Vector2 direction = controlScheme == "Keyboard" ? playerCamera.ScreenToWorldPoint(screenPos) - transform.position : playerInputActions.Player.MousePos.ReadValue<Vector2>();
+
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = rotation;

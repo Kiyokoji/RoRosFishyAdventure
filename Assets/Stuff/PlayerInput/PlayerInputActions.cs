@@ -332,6 +332,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1cc88bf6-adca-4485-a50a-27e108649a68"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MousePos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fe0a3a30-a808-47a8-ae82-4459a430d1dc"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
