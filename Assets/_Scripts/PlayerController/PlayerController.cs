@@ -44,6 +44,8 @@ namespace PlayerController
         [SerializeField] private Transform _mouth;
         private MultiTargetCam _mainCam;
         private Animator _anim;
+
+        [Range(1, 2)] [SerializeField] private int controlScheme = 1;
         
         #endregion
 
@@ -59,6 +61,7 @@ namespace PlayerController
         public Vector2 Input => _frameInput.Move;
         public Vector2 Speed => _speed;
         public Vector2 GroundNormal => _groundNormal;
+        public int ControlScheme => controlScheme;
         
 
         public virtual void ApplyVelocity(Vector2 vel, PlayerForce forceType) {
