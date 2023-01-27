@@ -10,6 +10,8 @@ public class LevelMusic : MonoBehaviour
     public EventReference levelMusic;
     private EventInstance levelMusicInstance;
 
+    public float musicStartDelay = 5f;
+
     public void Stop()
     {
         levelMusicInstance.stop(STOP_MODE.ALLOWFADEOUT);
@@ -17,11 +19,17 @@ public class LevelMusic : MonoBehaviour
 
     public void Play()
     {
-        levelMusicInstance.start();
+        StartCoroutine(MusicStartDelay());
     }
     
     void Start()
     {
         levelMusicInstance = FMODUnity.RuntimeManager.CreateInstance(levelMusic);
+    }
+
+    public IEnumerator MusicStartDelay()
+    {
+        yield return new WaitForSeconds(musicStartDelay);
+        levelMusicInstance.start();
     }
 }
