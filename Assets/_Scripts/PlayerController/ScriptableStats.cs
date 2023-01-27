@@ -42,6 +42,12 @@ namespace PlayerController {
         [Tooltip("The player's capacity to gain fall speed")]
         public float FallAcceleration = 110;
 
+        [Tooltip("The amount of time for which the player has reduced gravity at the top of their jump")] //added HangtimeDuration
+        public float BraceDuration = 0.05f;
+
+        [Tooltip("The gravity multiplier applied when the player is at the top of their jump and holding the jump button")] //added HangtimeGrav
+        public float BraceGravityModifier = 0.5f;
+
         [Tooltip("The gravity multiplier added when jump is released early")]
         public float JumpEndEarlyGravityModifier = 3;
 

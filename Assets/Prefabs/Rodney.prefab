@@ -5685,11 +5685,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61c64124c8575748994f087b9dc1b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 8f3e4ac96e9fac84e96172956137e1c4, type: 2}
+  _stats: {fileID: 11400000, guid: 2168cddd033205845b713445573f8cf9, type: 2}
   skeleton: {fileID: 1056999180540169118}
   dust: {fileID: 5676294342797885671}
   _playerPlatform: {fileID: 4637758015537888414}
   _mouth: {fileID: 990939798944128291}
+  controlScheme: 1
   playerID: 0
   _speed: {x: 0, y: 0}
   weight: 1

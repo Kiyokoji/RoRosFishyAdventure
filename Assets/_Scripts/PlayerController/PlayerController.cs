@@ -205,6 +205,7 @@ namespace PlayerController
         private bool inAir;
         private bool isHanging; //added Hangtime bool - Kai
         private float hangTimer = 0f; //added Hangtimer - Kai
+        private float braceTimer = 0f; //added Bracetimer - Kai
 
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
         private bool HasBufferedJump => _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
@@ -218,7 +219,8 @@ namespace PlayerController
             
             _jumpToConsume = false; // Always consume the flag
 
-            if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.velocity.y > 0) _endedJumpEarly = true; // Early end detection
+            if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld /*&& _rb.velocity.y > 0*/) _endedJumpEarly = true; // Early end detection
+            //Yo, Kai here, commented out the velocity check because that's actually stupid from a design perspective even on the normal jump and also happens to be preventing Hangtime cancelling
         }
 
         protected virtual void NormalJump()
@@ -233,7 +235,7 @@ namespace PlayerController
 
         protected virtual void AirJump()//Im just gonna bastardize this into the Hangtime, yaaay - Kai
         {
-            //FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);     commented out because it's less of a jump and more of a halt in momentum)
+            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerJumpSound);
             isHanging = true;
             _endedJumpEarly = false;
             _airJumpsRemaining--;
@@ -247,6 +249,7 @@ namespace PlayerController
             _endedJumpEarly = false;
             isHanging = false; //resetting the isHanging thing here 'cause Im too lazy to figure out how to insert it in ResetAirJumps
             hangTimer = 0f; //same as above
+            braceTimer = 0F; //same as above
             ResetAirJumps();
         }
 
@@ -315,10 +318,14 @@ namespace PlayerController
             // In Air
             else
             {
-                // TODO: Get Hangtime to cancel when player let's go of Jump Button (also what happens when player keeps jump button pressed or full duration)
+                // TODO: what happens when player keeps jump button pressed or full duration
                 inAir = true;
                 var inAirGravity = _stats.FallAcceleration;
-                if (isHanging && hangTimer < _stats.HangtimeDuration) {// lol, no idea how to best setup conditions here but we got hangtime gravity now - Kai (this do be good enough)
+                /*if (!isHanging && !_endedJumpEarly && braceTimer <= _stats.BraceDuration && _speed.y < 0.1f) {
+                    inAirGravity *= _stats.BraceGravityModifier;
+                    braceTimer += Time.deltaTime;
+                }*/
+                if (isHanging && hangTimer <= _stats.HangtimeDuration && !_endedJumpEarly) {// lol, no idea how to best setup conditions here but we got hangtime gravity now - Kai (this do be good enough)
                     inAirGravity *= _stats.HangtimeGravityModifier;
                     hangTimer += Time.deltaTime;
                 }

@@ -19,7 +19,9 @@ MonoBehaviour:
   GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
   MaxAirJumps: 1
-  JumpPower: 40
+  HangtimeDuration: 0.2
+  HangtimeGravityModifier: 0.25
+  JumpPower: 45
   MaxFallSpeed: 60
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3

@@ -12,17 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b823639e543694d890e5f8a77be1af, type: 3}
   m_Name: RodneyStats
   m_EditorClassIdentifier: 
-  MaxSpeed: 15.2
-  Acceleration: 120
-  GroundDeceleration: 60
+  MaxSpeed: 15.65
+  Acceleration: 130
+  GroundDeceleration: 42
   AirDeceleration: 30
   GroundingForce: -1
   HorizontalDeadzoneThreshold: 0.1
   MaxAirJumps: 1
-  JumpPower: 40
-  MaxFallSpeed: 60
+  HangtimeDuration: 0.25
+  HangtimeGravityModifier: 0.2
+  JumpPower: 46.5
+  MaxFallSpeed: 65
   FallAcceleration: 110
-  JumpEndEarlyGravityModifier: 3
+  BraceDuration: 0.05
+  BraceGravityModifier: 0.5
+  JumpEndEarlyGravityModifier: 2.5
   CoyoteFrames: 4
   JumpBufferFrames: 4
   PlayerLayer:
@@ -33,8 +37,8 @@ MonoBehaviour:
     m_Bits: 3151832
   GrounderDistance: 0.15
   WallDetectorSize: {x: 0.75, y: 1.25}
-  _spitForce: 70
-  _spinForce: 500
+  _spitForce: 80
+  _spinForce: 900
   _nomCooldown: 0.5
   _detectionRange: 3
   _detectionLayer:
