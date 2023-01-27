@@ -2209,6 +2209,7 @@ MonoBehaviour:
       Data3: -880300149
       Data4: -1932319701
     Path: event:/level music
+  musicStartDelay: 3
 --- !u!1 &6715598893786326097
 GameObject:
   m_ObjectHideFlags: 0
