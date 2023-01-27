@@ -1,8 +1,10 @@
 using System;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using Debug = FMOD.Debug;
+using FMODUnity;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class BookManager : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class BookManager : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject mapMenu;
     public GameObject stuffMenu;
+
+    public LevelMusic levelMusic;
+    
+    private bool isPLaying = false;
 
     private BookManager.MenuType currentMenu = BookManager.MenuType.Settings;
 
@@ -33,6 +39,25 @@ public class BookManager : MonoBehaviour
         inputActions.Input.Disable();
     }
     
+    private void Update()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+
+        if (sceneName == "StarMenu")
+        {
+            levelMusic.Stop();
+            isPLaying = false;
+        }
+
+        if (!isPLaying && sceneName != "StarMenu")
+        {
+            levelMusic.Play();
+            isPLaying = true;
+        }
+        
+    }
+
     private enum MenuType
     {
         Settings,
@@ -47,12 +72,15 @@ public class BookManager : MonoBehaviour
         switch (menuType)
         {
             case MenuType.Map:
+                Pause();
                 Map();
                 break;
             case MenuType.Settings:
+                Pause();
                 Settings();
                 break;
             case MenuType.Stuff:
+                Pause();
                 Stuff();
                 break;
         }
@@ -145,6 +173,8 @@ public class BookManager : MonoBehaviour
 
     private void CloseMenus()
     {
+        UnPause();
+        
         gamePaused = false;
         
         settingsMenu.SetActive(false);
@@ -153,10 +183,20 @@ public class BookManager : MonoBehaviour
 
         GameManager.Instance.UpdateGameState(GameManager.GameState.Moving);
     }
+
+    private void Pause()
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Pause Menu", 1);
+    }
+
+    private void UnPause()
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Pause Menu", 0);
+    }
     
     public void MainMenu()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("StarMenu");
     }
 
     public void QuitGame()

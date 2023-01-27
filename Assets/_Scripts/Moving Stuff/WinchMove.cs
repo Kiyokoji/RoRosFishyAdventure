@@ -11,22 +11,22 @@ public class WinchMove : MonoBehaviour
     public Transform _up;
     public Transform _down;
     public Transform wheel;
-
-    private EventReference wheelSound;
+    
     private float _speed;
 
     private void Awake()
     {
-        wheelSound = winch.wheelSound;
         _speed = winch.winchSpeed;
     }
 
     public void GoUp()
     {
-        if (transform.position == _up.position) return;
-        
-        FMODUnity.RuntimeManager.PlayOneShot(wheelSound);
-        
+        if (transform.position == _up.position)
+        {
+            winch.wheelSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            return;
+        }
+
         wheel.transform.Rotate(0f, 0f, -_speed);
         
         this.transform.position = 
@@ -39,7 +39,11 @@ public class WinchMove : MonoBehaviour
     
     public void GoDown()
     {
-        if (transform.position == _down.position) return;
+        if (transform.position == _down.position)
+        {
+            winch.wheelSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            return;
+        }
         
         wheel.transform.Rotate(0f, 0f, _speed);
         

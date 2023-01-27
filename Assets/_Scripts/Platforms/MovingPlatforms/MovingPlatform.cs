@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class MovingPlatform : Activatable
 {
@@ -8,7 +11,7 @@ public class MovingPlatform : Activatable
     [SerializeField] private float speed = 2f;
     [SerializeField] private float checkDistance = 0.05f;
     [SerializeField] private bool loop;
-    
+ 
     public bool isElevator;
 
     private Transform targetWaypoint;
@@ -16,11 +19,17 @@ public class MovingPlatform : Activatable
     
     private bool active;
     
-    //[SerializeField] private GameObject[] waypoints;
     [SerializeField] private Transform platform;
 
+    public EventReference platformSound;
+    private EventInstance platformEvent;
+
+    private bool isMoving;
+    private bool isPlaying;
+    
     private void Start()
     {
+        platformEvent = FMODUnity.RuntimeManager.CreateInstance(platformSound);
         targetWaypoint = waypoints[0];
     }
 
@@ -38,6 +47,25 @@ public class MovingPlatform : Activatable
 
     private void FixedUpdate()
     {
+        if (isActive)
+        {
+            if (!isMoving)
+            {
+                platformEvent.start();
+                isMoving = true;
+            }
+        }
+        else
+        {
+            platformEvent.stop(STOP_MODE.ALLOWFADEOUT);
+            isMoving = false;
+        }
+
+        if (!isActive)
+        {
+            return;
+        }
+
         if (isElevator)
         {
             if (active || isActive)
@@ -74,19 +102,6 @@ public class MovingPlatform : Activatable
         {
             targetWaypoint = GetNextWaypoint();
         }
-        /*
-        if (Vector2.Distance(waypoints[currentWaypointIndex].transform.position, platform.position) < .1f)
-        {
-            currentWaypointIndex++;
-
-            if (currentWaypointIndex >= waypoints.Length)
-            {
-                currentWaypointIndex = 0;
-            }
-        }
-
-        platform.position = Vector2.MoveTowards(platform.position, waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
-        */
     }
 
     private void MoveUp()

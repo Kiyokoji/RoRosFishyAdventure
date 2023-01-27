@@ -188,8 +188,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5731503596298096979, guid: 88af8f037e7cf044cbd663a4ed4f1df7, type: 3}
       propertyPath: m_SplitScreen
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5731503596298096979, guid: 88af8f037e7cf044cbd663a4ed4f1df7, type: 3}
+      propertyPath: m_PlayerPrefab
+      value: 
+      objectReference: {fileID: 5846077235474277936, guid: 5b29375952f5c974694eca5b303b4b7c, type: 3}
     - target: {fileID: 5731503596298096979, guid: 88af8f037e7cf044cbd663a4ed4f1df7, type: 3}
       propertyPath: m_FixedNumberOfSplitScreens
       value: 2

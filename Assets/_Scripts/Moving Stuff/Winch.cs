@@ -10,41 +10,31 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 public class Winch : MonoBehaviour
 {
     public WinchMove winch;
-    public EventReference wheelSound;
+    public EventReference wheelEventSound;
+    [HideInInspector] public EventInstance wheelSound;
 
-    private EventInstance audioEvent;
-    
     [HideInInspector] public bool goingUp;
     [HideInInspector] public bool goingDown;
     [HideInInspector] public bool isPressing;
     
     public float winchSpeed = 5f;
-
+    public bool isPlaying = false;
+    
+    
     private void Awake()
     {
-        
-        
+        wheelSound = FMODUnity.RuntimeManager.CreateInstance(wheelEventSound);
     }
 
     void FixedUpdate()
     {
         if (isPressing)
         {
-            //audioEvent = RuntimeManager.CreateInstance(wheelSound);
-            //FMOD.Studio.PLAYBACK_STATE playbackState;
-            //audioEvent.getPlaybackState(out playbackState);
-            //bool isPLaying = playbackState != FMOD.Studio.PLAYBACK_STATE.STOPPED;
-            
-            //if (!isPLaying)
-            //{
-            //    audioEvent.start();
-            //    
-            //    Debug.Log("callign sound");
-            //}
-            //else
-            //
-             //   audioEvent.stop(STOP_MODE.IMMEDIATE);
-            //}
+            if (!isPlaying)
+            {
+                wheelSound.start();
+                isPlaying = true;
+            }
 
             if (goingDown && !goingUp)
             {
@@ -54,6 +44,11 @@ public class Winch : MonoBehaviour
             {
                 winch.GoUp();
             }
+        } 
+        else
+        {
+            wheelSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            isPlaying = false;
         }
     }
 }
