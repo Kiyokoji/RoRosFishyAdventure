@@ -91,6 +91,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RightStick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""70ef31c9-4164-4f79-adb9-94972df54b0c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""InteractRight"",
                     ""type"": ""Button"",
                     ""id"": ""cd12881b-67d4-45ae-8c5b-a0a25ce21591"",
@@ -247,7 +256,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""id"": ""8667c19a-bf71-4566-aa57-02c6bef892f7"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
@@ -332,17 +341,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""1cc88bf6-adca-4485-a50a-27e108649a68"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MousePos"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""fe0a3a30-a808-47a8-ae82-4459a430d1dc"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
@@ -404,6 +402,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""InteractLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6f96bb47-0dd8-4d28-bfba-dc59d11db1be"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RightStick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -603,6 +612,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
         m_Player_MousePos = m_Player.FindAction("MousePos", throwIfNotFound: true);
+        m_Player_RightStick = m_Player.FindAction("RightStick", throwIfNotFound: true);
         m_Player_InteractRight = m_Player.FindAction("InteractRight", throwIfNotFound: true);
         m_Player_InteractLeft = m_Player.FindAction("InteractLeft", throwIfNotFound: true);
         // Input
@@ -677,6 +687,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Join;
     private readonly InputAction m_Player_MousePos;
+    private readonly InputAction m_Player_RightStick;
     private readonly InputAction m_Player_InteractRight;
     private readonly InputAction m_Player_InteractLeft;
     public struct PlayerActions
@@ -690,6 +701,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Join => m_Wrapper.m_Player_Join;
         public InputAction @MousePos => m_Wrapper.m_Player_MousePos;
+        public InputAction @RightStick => m_Wrapper.m_Player_RightStick;
         public InputAction @InteractRight => m_Wrapper.m_Player_InteractRight;
         public InputAction @InteractLeft => m_Wrapper.m_Player_InteractLeft;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -722,6 +734,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MousePos.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
                 @MousePos.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
                 @MousePos.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePos;
+                @RightStick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
+                @RightStick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
+                @RightStick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
                 @InteractRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractRight;
                 @InteractRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractRight;
                 @InteractRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractRight;
@@ -753,6 +768,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MousePos.started += instance.OnMousePos;
                 @MousePos.performed += instance.OnMousePos;
                 @MousePos.canceled += instance.OnMousePos;
+                @RightStick.started += instance.OnRightStick;
+                @RightStick.performed += instance.OnRightStick;
+                @RightStick.canceled += instance.OnRightStick;
                 @InteractRight.started += instance.OnInteractRight;
                 @InteractRight.performed += instance.OnInteractRight;
                 @InteractRight.canceled += instance.OnInteractRight;
@@ -847,6 +865,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
         void OnMousePos(InputAction.CallbackContext context);
+        void OnRightStick(InputAction.CallbackContext context);
         void OnInteractRight(InputAction.CallbackContext context);
         void OnInteractLeft(InputAction.CallbackContext context);
     }

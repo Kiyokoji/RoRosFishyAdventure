@@ -16,11 +16,10 @@ namespace PlayerController {
         private InputActionMap player;
 
         //private PlayerInputActions _actions;
-        private InputAction _move, _jump, _interact, _interactLeft, _interactRight;
+        private InputAction _move, _jump, _interact, _interactLeft, _interactRight, _flashlight, _mousePos, _rightStick;
 
         private void Awake()
         {
-
             inputAsset = this.GetComponent<PlayerInput>().actions;
 
             player = inputAsset.FindActionMap("Player");
@@ -30,6 +29,9 @@ namespace PlayerController {
             _interact = player.FindAction("Interact");
             _interactLeft = player.FindAction("InteractLeft");
             _interactRight = player.FindAction("InteractRight");
+            _flashlight = player.FindAction("Flashlight");
+            _mousePos = player.FindAction("MousePos");
+            _rightStick = player.FindAction("RightStick");
 
             //_actions = new PlayerInputActions();
             //_move = _actions.Player.Movement;
@@ -40,7 +42,8 @@ namespace PlayerController {
 
         private void OnDisable() => player.Disable();
 
-        private FrameInput Gather() {
+        private FrameInput Gather()
+        {
             return new FrameInput {
                 JumpDown = _jump.WasPressedThisFrame(),
                 JumpHeld = _jump.IsPressed(),
@@ -50,7 +53,9 @@ namespace PlayerController {
                 InteractUp = _interact.WasReleasedThisFrame(),
                 LeftInteract = _interactLeft.IsPressed(),
                 RightInteract = _interactRight.IsPressed(),
-                
+                Flashlight = _flashlight.WasPressedThisFrame(),
+                MousePos = _mousePos.ReadValue<Vector2>(),
+                RightStick = _rightStick.ReadValue<Vector2>()
             };
         }
 
@@ -74,5 +79,8 @@ namespace PlayerController {
         public bool InteractUp;
         public bool LeftInteract;
         public bool RightInteract;
+        public bool Flashlight;
+        public Vector2 MousePos;
+        public Vector2 RightStick;
     }
 }

@@ -27,23 +27,35 @@ public class FlashlightSingle : MonoBehaviour
     
     private PlayerController.PlayerController player;
     private PlayerInputActions playerInputActions;
-    private Vector3 mousePos, screenPos;
-    
+    private Vector3 mousePos, screenPos, stickPos, lastStickPos;
+
     private StarCluster currentStarCluster, currentGrabbableStarCluster;
     private PolygonCollider2D polygonCollider;
     
     private bool flashlightToggle;
+    public bool FlashlightToggle => flashlightToggle;
+    
     private bool clusterGrabbable;
 
     private Vector2 flashLeft, flashRight;
 
     private string controlScheme;
+    public string ControlScheme
+    {
+        get => controlScheme;
+        set => controlScheme = value;
+    }
 
     private void Start()
     {
         polygonCollider = GetComponent<PolygonCollider2D>();
 
-        controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
+        //controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
+
+        foreach (var i in InputSystem.devices)
+        {
+            Debug.Log(i);
+        }
     }
 
     private void OnEnable()
@@ -67,13 +79,17 @@ public class FlashlightSingle : MonoBehaviour
         if(!player.Grounded) return;
         if (GameManager.Instance.state == GameManager.GameState.Paused) return;
 
+        return;
         if (clusterGrabbable) GrabCluster();
         else if (currentStarCluster != null) ClusterAction();
         else ToggleFlashlight();
     }
     
-    private void ToggleFlashlight()
+    public void ToggleFlashlight()
     {
+        if(!player.Grounded) return;
+        if (GameManager.Instance.state == GameManager.GameState.Paused) return;
+        
         flashlightToggle = !flashlightToggle;
         
         if (flashlightToggle)
@@ -87,14 +103,12 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(playerInputActions.devices.);
-        
         if (!flashlightToggle) return;
         UpdateScreenPos();
         
         RotateWeapon();
         
-        Debug.Log(playerCamera.WorldToScreenPoint(player.transform.position) + " | " + mousePos);
+        //Debug.Log(playerCamera.WorldToScreenPoint(player.transform.position) + " | " + mousePos);
 
         //UpdateCluster();
 
@@ -104,10 +118,17 @@ public class FlashlightSingle : MonoBehaviour
         //flashRight = Quaternion.AngleAxis(transform.rotation.z - light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
     }
 
+    public void UpdateInputPositions(Vector2 mouse, Vector2 stick)
+    {
+        mousePos = mouse;
+        stickPos = stick != Vector2.zero? stick : lastStickPos;
+        lastStickPos = stickPos;
+    }
+
     private void UpdateScreenPos()
     {
         if (controlScheme == "Gamepad") return;
-        mousePos = playerInputActions.Player.MousePos.ReadValue<Vector2>();
+        //mousePos = playerInputActions.Player.MousePos.ReadValue<Vector2>();
         screenPos = mousePos;
         screenPos.z = playerCamera.nearClipPlane + Math.Abs(playerCamera.transform.position.z);
     }
@@ -132,7 +153,7 @@ public class FlashlightSingle : MonoBehaviour
     {
         if (!playerCamera) return;
 
-        Vector2 direction = controlScheme == "Keyboard" ? playerCamera.ScreenToWorldPoint(screenPos) - transform.position : playerInputActions.Player.MousePos.ReadValue<Vector2>();
+        Vector2 direction = controlScheme == "Keyboard" ? playerCamera.ScreenToWorldPoint(screenPos) - transform.position : stickPos;
 
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);

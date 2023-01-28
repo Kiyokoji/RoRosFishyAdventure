@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RightStick",
+                    "type": "PassThrough",
+                    "id": "70ef31c9-4164-4f79-adb9-94972df54b0c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "InteractRight",
                     "type": "Button",
                     "id": "cd12881b-67d4-45ae-8c5b-a0a25ce21591",
@@ -225,7 +234,7 @@
                     "id": "8667c19a-bf71-4566-aa57-02c6bef892f7",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "Gamepad",
                     "action": "Movement",
                     "isComposite": false,
@@ -310,17 +319,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1cc88bf6-adca-4485-a50a-27e108649a68",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MousePos",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "fe0a3a30-a808-47a8-ae82-4459a430d1dc",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
@@ -382,6 +380,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "InteractLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f96bb47-0dd8-4d28-bfba-dc59d11db1be",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Gamepad",
+                    "action": "RightStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

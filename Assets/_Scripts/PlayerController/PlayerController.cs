@@ -45,6 +45,8 @@ namespace PlayerController
         private MultiTargetCam _mainCam;
         private Animator _anim;
 
+        [SerializeField] private FlashlightSingle flashlight;
+
         [Range(1, 2)] [SerializeField] private int controlScheme = 1;
         
         #endregion
@@ -101,6 +103,11 @@ namespace PlayerController
             AddToCam(_mainCam);
         }
 
+        private void OnEnable()
+        {
+            SetControlScheme();
+        }
+
         protected virtual void Update() {
             GatherInput();
             UpdateAnimator();
@@ -108,6 +115,7 @@ namespace PlayerController
             Nom();
             Winch();
             ManageSpawn();
+            HandleFlashlight();
         }
         
         protected virtual void FixedUpdate() {
@@ -123,7 +131,7 @@ namespace PlayerController
 
         protected virtual void GatherInput() {
             _frameInput = _input.FrameInput;
-
+            
             if (_frameInput.JumpDown) {
                 _jumpToConsume = true;
                 _frameJumpWasPressed = _fixedFrame;
@@ -607,7 +615,35 @@ namespace PlayerController
         
         #endregion
 
+        #region Flashlight
+
+        private void HandleFlashlight()
+        {
+            UpdateFlashlight();
+            ToggleFlashlight();
+        }
+
+        private void ToggleFlashlight()
+        {
+            if (!_frameInput.Flashlight) return;
+            flashlight.ToggleFlashlight();
+        }
+
+        private void UpdateFlashlight()
+        {
+            if (!flashlight.FlashlightToggle) return;
+
+            flashlight.UpdateInputPositions(_frameInput.MousePos, _frameInput.RightStick);
+        }
+
         
+        private void SetControlScheme()
+        {
+            flashlight.ControlScheme = _input.GetComponent<PlayerInput>().currentControlScheme;
+        }
+        
+        #endregion
+
         protected virtual void UpdateAnimator()
         {
             //anim.SetFloat("VerticalSpeed",   Mathf.Abs(_speed.y));
