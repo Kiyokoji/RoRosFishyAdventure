@@ -200,7 +200,7 @@ MonoBehaviour:
       Data3: 1014632087
       Data4: 1203380584
     Path: event:/crate falling
-  framesToCount: 2
+  framesToCount: 0
 --- !u!1 &4753510504431277154
 GameObject:
   m_ObjectHideFlags: 0

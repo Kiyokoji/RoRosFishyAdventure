@@ -5123,7 +5123,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.5
+  m_Intensity: 0.25
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -5282,7 +5282,7 @@ MonoBehaviour:
   dust: {fileID: 5676294342797885671}
   _playerPlatform: {fileID: 4637758015537888414}
   _mouth: {fileID: 990939798944128291}
-  controlScheme: 1
+  flashlight: {fileID: 7808879736058311982}
   playerID: 0
   _speed: {x: 0, y: 0}
   weight: 1
@@ -5543,7 +5543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4467725420041005872
 Transform:
   m_ObjectHideFlags: 0
@@ -5606,7 +5606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
-  light2D: {fileID: 0}
+  light2D: {fileID: 1708770803215640522}
 --- !u!1 &8704598909952517008
 GameObject:
   m_ObjectHideFlags: 0

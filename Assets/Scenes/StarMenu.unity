@@ -695,6 +695,7 @@ GameObject:
   - component: {fileID: 1412427177}
   - component: {fileID: 1412427178}
   - component: {fileID: 1412427179}
+  - component: {fileID: 1412427180}
   m_Layer: 0
   m_Name: Title Music
   m_TagString: Untagged
@@ -710,7 +711,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412427175}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 700.6332, y: 320.7308, z: 6.375885}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -738,7 +739,7 @@ MonoBehaviour:
       Data4: -600103615
     Path: event:/title screen
   Event: 
-  PlayEvent: 1
+  PlayEvent: 0
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
@@ -768,7 +769,7 @@ MonoBehaviour:
       Data4: -1799390479
     Path: event:/waves
   Event: 
-  PlayEvent: 1
+  PlayEvent: 0
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
@@ -777,6 +778,27 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &1412427180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412427175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02350861736d7304e907e439cddb68d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventEmitter: {fileID: 1412427178}
+  titleTrack:
+    Guid:
+      Data1: 1074557545
+      Data2: 1119482665
+      Data3: -1421465697
+      Data4: -600103615
+    Path: event:/title screen
+  musicDelay: 3
 --- !u!224 &1632264095 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4990782058056117073, guid: b7000af369b12df4c92b5cf5f30e0ee4, type: 3}

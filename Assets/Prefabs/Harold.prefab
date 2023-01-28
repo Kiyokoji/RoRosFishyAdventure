@@ -5340,7 +5340,7 @@ MonoBehaviour:
   dust: {fileID: 5676294342797885671}
   _playerPlatform: {fileID: 8169505825696385539}
   _mouth: {fileID: 8714196499697267284}
-  controlScheme: 1
+  flashlight: {fileID: 7808879736058311982}
   playerID: 0
   _speed: {x: 0, y: 0}
   weight: 1
@@ -5499,7 +5499,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4467725420041005872
 Transform:
   m_ObjectHideFlags: 0
@@ -5562,7 +5562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 0}
-  light2D: {fileID: 0}
+  light2D: {fileID: 1708770803215640522}
 --- !u!1 &8704598909952517008
 GameObject:
   m_ObjectHideFlags: 0
