@@ -46,8 +46,6 @@ namespace PlayerController
         private Animator _anim;
 
         [SerializeField] private FlashlightSingle flashlight;
-
-        [Range(1, 2)] [SerializeField] private int controlScheme = 1;
         
         #endregion
 
@@ -63,8 +61,6 @@ namespace PlayerController
         public Vector2 Input => _frameInput.Move;
         public Vector2 Speed => _speed;
         public Vector2 GroundNormal => _groundNormal;
-        public int ControlScheme => controlScheme;
-        
 
         public virtual void ApplyVelocity(Vector2 vel, PlayerForce forceType) {
             if (forceType == PlayerForce.Burst) _speed += vel;
@@ -625,14 +621,14 @@ namespace PlayerController
 
         private void ToggleFlashlight()
         {
-            if (!_frameInput.Flashlight) return;
+            if (!_frameInput.Flashlight || !_grounded) return;
             flashlight.ToggleFlashlight();
         }
 
         private void UpdateFlashlight()
         {
+            canMove = !flashlight.FlashlightToggle;
             if (!flashlight.FlashlightToggle) return;
-
             flashlight.UpdateInputPositions(_frameInput.MousePos, _frameInput.RightStick);
         }
 

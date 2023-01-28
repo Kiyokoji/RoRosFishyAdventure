@@ -63,10 +63,12 @@ public class FlashlightSingle : MonoBehaviour
         player = GetComponentInParent<PlayerController.PlayerController>();
         playerCamera = Camera.main;
         
+        /*
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
         
         playerInputActions.Player.Flashlight.performed += Flashlight_performed;
+        */
     }
 
     private void OnDisable()
