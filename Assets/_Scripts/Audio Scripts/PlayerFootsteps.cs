@@ -16,11 +16,15 @@ public class PlayerFootsteps : MonoBehaviour
         Grass
     };
 
+    public Transform feet;
+    public float checkDistance = 1f;
     [SerializeField] private CurrentTerrain currentTerrain;
     private FMOD.Studio.EventInstance footsteps;
 
     private void Update()
     {
+        Debug.Log(currentTerrain);
+        
         DetectTerrain();
     }
 
@@ -28,7 +32,7 @@ public class PlayerFootsteps : MonoBehaviour
     {
         RaycastHit2D[] hit;
 
-        hit = Physics2D.RaycastAll(transform.position, Vector2.down, 10f);
+        hit = Physics2D.RaycastAll(feet.position, Vector2.down, checkDistance);
 
         foreach (RaycastHit2D rayHit in hit)
         {

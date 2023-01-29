@@ -34,7 +34,7 @@ MonoBehaviour:
     m_Bits: 64
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 3151832
+    m_Bits: 3151816
   GrounderDistance: 0.15
   WallDetectorSize: {x: 0.75, y: 1.25}
   _spitForce: 80
@@ -43,7 +43,7 @@ MonoBehaviour:
   _detectionRange: 3
   _detectionLayer:
     serializedVersion: 2
-    m_Bits: 3848
+    m_Bits: 3149696
   ExternalVelocityDecay: 100
   playerJumpSound:
     Guid:

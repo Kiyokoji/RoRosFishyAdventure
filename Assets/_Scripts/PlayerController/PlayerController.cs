@@ -530,13 +530,16 @@ namespace PlayerController
 
         protected virtual void ManageSpawn()
         {
+            if (spawnManager != null)
+            {
+                spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            }
+            
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         protected virtual void SpawnPlayer()
         {
-            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-            
             if (spawnManager != null)
             {
                 spawnManager.RespawnPlayer(playerID, this.transform);

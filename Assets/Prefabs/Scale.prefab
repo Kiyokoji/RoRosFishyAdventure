@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3387435817614356997}
   - component: {fileID: 5884027808261043702}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6933715651350024036}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671095211552084}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: RightWaypoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671095226390097}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale1down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671095402121672}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale2default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671095408981719}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale2up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 1723671095648639155}
   m_Layer: 7
   m_Name: RightScale
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -374,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671095819651638}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale1up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671096111656204}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale2down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1723671096125045494}
   - component: {fileID: 1723671096125045497}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Scale
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -494,7 +494,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671096642440843}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: scale1default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +525,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723671096893201148}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: LeftWaypoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,7 +566,7 @@ GameObject:
   - component: {fileID: 1723671096966023913}
   m_Layer: 7
   m_Name: LeftScale
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -679,7 +679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 255578140394176157}
   - component: {fileID: 4068773700643650771}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -764,7 +764,7 @@ GameObject:
   - component: {fileID: 6567910795547918912}
   - component: {fileID: 3577582966514383}
   - component: {fileID: 382447000496766766}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightRope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -910,7 +910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2165330807390076049}
   - component: {fileID: 331499351023383889}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -993,7 +993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 274457423703318958}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: LeftRopeStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1024,7 +1024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7543257444680921577}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: RightRopeStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1056,7 +1056,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2316615093194257571}
   - component: {fileID: 2496826826327049054}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1139,9 +1139,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6498780996164224484}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1171,9 +1171,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3022173086550949429}
   - component: {fileID: 8796372032584915783}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1255,7 +1255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8653094321132717784}
   - component: {fileID: 7736649509830292096}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: r (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1338,7 +1338,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8194282538028576698}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1371,7 +1371,7 @@ GameObject:
   - component: {fileID: 3602121218944794553}
   - component: {fileID: 426395987222140352}
   - component: {fileID: 6441690728355709809}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LeftRope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
