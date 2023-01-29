@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using FMODUnity;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,6 +13,8 @@ using Vector3 = UnityEngine.Vector3;
 
 public class FlashlightSingle : MonoBehaviour
 {
+    public EventReference flashlightSound;
+
     [Title("Game Objects")]
     [InfoBox("The Player Camera of the Player operating this flashlight", InfoMessageType.None)]
     [InfoBox("Put the Player Camera of the operating Player in here", InfoMessageType.Error, "IsPlayerCameraPrefabUsed")]
@@ -73,7 +76,7 @@ public class FlashlightSingle : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInputActions.Player.Disable();
+        //playerInputActions.Player.Disable();
     }
 
     private void Flashlight_performed(InputAction.CallbackContext obj)
@@ -101,6 +104,8 @@ public class FlashlightSingle : MonoBehaviour
         {
             FlashLightOff();
         }
+        
+        FMODUnity.RuntimeManager.PlayOneShot(flashlightSound);
     }
 
     private void Update()

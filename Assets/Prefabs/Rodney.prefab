@@ -5287,6 +5287,7 @@ MonoBehaviour:
   _speed: {x: 0, y: 0}
   weight: 1
   hasCrate: 0
+  spawnManager: {fileID: 0}
 --- !u!114 &3342203518627882471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5605,6 +5606,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0639bc248ac608a4088d909c781b845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashlightSound:
+    Guid:
+      Data1: 284473203
+      Data2: 1125947930
+      Data3: -1480003423
+      Data4: -1287678504
+    Path: event:/flashlight
   playerCamera: {fileID: 0}
   light2D: {fileID: 1708770803215640522}
 --- !u!1 &8704598909952517008

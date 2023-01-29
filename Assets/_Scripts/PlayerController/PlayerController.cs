@@ -630,8 +630,8 @@ namespace PlayerController
 
         private void HandleFlashlight()
         {
-            //UpdateFlashlight();
-            //ToggleFlashlight();
+            UpdateFlashlight();
+            ToggleFlashlight();
         }
 
         private void ToggleFlashlight()
