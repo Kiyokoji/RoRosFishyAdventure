@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Object = UnityEngine.Object;
+using UnityEngine.SceneManagement;
 
 
 //swap player prefab once player 1 has joined 
@@ -11,6 +13,8 @@ using Object = UnityEngine.Object;
 
 public class PlayerSpawn : MonoBehaviour
 {
+    private PlayerInputActions playerInputActions;
+    
     public Object player1;
     public Object player2;
     
@@ -19,6 +23,25 @@ public class PlayerSpawn : MonoBehaviour
     private void Awake()
     {
         manager = GetComponent<PlayerInputManager>();
+        
+        playerInputActions = new PlayerInputActions();
+        playerInputActions.Player.Enable();
+
+        playerInputActions.Player.Join.performed += JoinPlayerFromAction;
+    }
+
+    public void JoinPlayerFromAction(InputAction.CallbackContext ctx)
+    {
+        if (SceneManager.GetActiveScene().name == "StarMenu")
+        {
+            return;
+        }
+        
+        if (manager.playerCount > 1) return;
+
+        manager.JoinPlayerFromActionIfNotAlreadyJoined(ctx);
+        
+        //manager.JoinPlayerFromAction(ctx);
     }
 
     public void SwapPrefab()

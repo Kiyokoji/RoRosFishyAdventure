@@ -6,10 +6,16 @@ using FMODUnity;
 public class AnimatorFunctions : MonoBehaviour
 {
 	//public string starSound;
-	public EventReference sound;
+	public EventReference hoverSound;
+	public EventReference clickSound;
 	
 	void PlaySound(){
 		
-		FMODUnity.RuntimeManager.PlayOneShot(sound);
+		FMODUnity.RuntimeManager.PlayOneShot(hoverSound);
+	}
+
+	void OnClickSound()
+	{
+		FMODUnity.RuntimeManager.PlayOneShot(clickSound);
 	}
 }	

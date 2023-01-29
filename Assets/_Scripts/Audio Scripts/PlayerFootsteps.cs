@@ -23,8 +23,6 @@ public class PlayerFootsteps : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentTerrain);
-        
         DetectTerrain();
     }
 

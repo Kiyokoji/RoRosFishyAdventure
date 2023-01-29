@@ -157,3 +157,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bounceStrength: 100
+  jumpPadSound:
+    Guid:
+      Data1: -1922115378
+      Data2: 1287148041
+      Data3: -769809508
+      Data4: -517575225
+    Path: event:/jump-pad

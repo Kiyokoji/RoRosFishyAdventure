@@ -725,7 +725,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412427175}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
@@ -755,7 +755,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412427175}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
@@ -769,7 +769,7 @@ MonoBehaviour:
       Data4: -1799390479
     Path: event:/waves
   Event: 
-  PlayEvent: 0
+  PlayEvent: 1
   StopEvent: 2
   AllowFadeout: 1
   TriggerOnce: 0
@@ -15648,7 +15648,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -15667,7 +15674,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -15686,7 +15700,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: -1488275073
+      Data2: 1201970683
+      Data3: 1477129101
+      Data4: 1662935886
+    Path: event:/mouse hover
+  clickSound:
     Guid:
       Data1: -884340622
       Data2: 1301146372
@@ -15705,7 +15726,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: -1488275073
+      Data2: 1201970683
+      Data3: 1477129101
+      Data4: 1662935886
+    Path: event:/mouse hover
+  clickSound:
     Guid:
       Data1: -884340622
       Data2: 1301146372
@@ -15724,7 +15752,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: -1488275073
+      Data2: 1201970683
+      Data3: 1477129101
+      Data4: 1662935886
+    Path: event:/mouse hover
+  clickSound:
     Guid:
       Data1: -884340622
       Data2: 1301146372
@@ -15743,7 +15778,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -15762,7 +15804,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -15781,7 +15830,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0
@@ -15800,7 +15856,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: -1488275073
+      Data2: 1201970683
+      Data3: 1477129101
+      Data4: 1662935886
+    Path: event:/mouse hover
+  clickSound:
     Guid:
       Data1: -884340622
       Data2: 1301146372
@@ -15819,7 +15882,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411618eb9cf9fc745aafc3cde84a4c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound:
+  hoverSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  clickSound:
     Guid:
       Data1: 0
       Data2: 0

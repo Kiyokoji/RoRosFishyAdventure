@@ -97,18 +97,24 @@ namespace PlayerController
             
             //add player transform to list of targets on the main camera
             AddToCam(_mainCam);
-            SpawnPlayerPosition();
+            
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         }
 
         private void OnEnable()
         {
-            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
             SetControlScheme();
         }
 
         private void OnDisable()
         {
             //flashlight.ControlScheme = null;
+        }
+
+        private void Start()
+        {
+            SpawnPlayerPosition();
         }
 
         protected virtual void Update() {
@@ -362,6 +368,8 @@ namespace PlayerController
                     isGrabbing = true;
                     grabToggle = false;
                     ResetSpeed();
+                    
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/biting on hook");
                 }
                 else
                 {
@@ -485,8 +493,6 @@ namespace PlayerController
             winch.isPressing = _frameInput.LeftInteract || _frameInput.RightInteract;
             winch.goingUp = _frameInput.LeftInteract;
             winch.goingDown = _frameInput.RightInteract;
-
-            
             
             if (winchTrigger && winch.isPressing)
             {
@@ -513,7 +519,7 @@ namespace PlayerController
 
         #region Spawn
 
-        public SpawnManager spawnManager;
+        [ReadOnly] public SpawnManager spawnManager;
         
         public void AddToCam(MultiTargetCam camera)
         {
@@ -530,20 +536,18 @@ namespace PlayerController
 
         protected virtual void ManageSpawn()
         {
-            if (spawnManager != null)
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            
+            if (spawnManager == null)
             {
                 spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             }
-            
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         protected virtual void SpawnPlayer()
         {
-            if (spawnManager != null)
-            {
+            if(spawnManager != null)
                 spawnManager.RespawnPlayer(playerID, this.transform);
-            }
         }
 
         protected virtual void SpawnPlayerPosition()
@@ -553,6 +557,7 @@ namespace PlayerController
         
         private void OnActiveSceneChanged(Scene currentScene, Scene nextScene)
         {
+            spawnManager = null;
             spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             
             SpawnPlayer();
