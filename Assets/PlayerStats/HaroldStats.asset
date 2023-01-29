@@ -21,7 +21,7 @@ MonoBehaviour:
   MaxAirJumps: 1
   HangtimeDuration: 0.35
   HangtimeGravityModifier: 0.25
-  JumpPower: 45
+  JumpPower: 49
   MaxFallSpeed: 65
   FallAcceleration: 110
   BraceDuration: 0.05
