@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 5767801642508829489}
   m_Layer: 21
   m_Name: Dust
-  m_TagString: Player1
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5026,7 +5026,7 @@ GameObject:
   - component: {fileID: 1645253260401445926}
   m_Layer: 21
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5257,7 +5257,7 @@ GameObject:
   - component: {fileID: 2418634957952983843}
   - component: {fileID: 3342203518627882471}
   - component: {fileID: 5265496216357014771}
-  - component: {fileID: 3559119581516744288}
+  - component: {fileID: 5955766229175748416}
   m_Layer: 21
   m_Name: Harold
   m_TagString: Player2
@@ -5387,7 +5387,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &3559119581516744288
+--- !u!114 &5955766229175748416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5396,7 +5396,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5846077235474277936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b3d0487e64364742ac3debcbf073199, type: 3}
+  m_Script: {fileID: 11500000, guid: f2429b959ccf2a244b610f3e0824ca4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6486764973989755281
@@ -5575,7 +5575,7 @@ GameObject:
   - component: {fileID: 59040448831903504}
   m_Layer: 21
   m_Name: Trail
-  m_TagString: Untagged
+  m_TagString: Player2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -51,7 +51,7 @@ namespace PlayerController
 
         #region External
 
-        public int playerID = 0;
+        [ReadOnly] public int playerID = 0;
         
         [HideInInspector] public Vector2 _speed;
         public event Action<bool, float> GroundedChanged;
@@ -97,11 +97,18 @@ namespace PlayerController
             
             //add player transform to list of targets on the main camera
             AddToCam(_mainCam);
+            SpawnPlayerPosition();
         }
 
         private void OnEnable()
         {
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             SetControlScheme();
+        }
+
+        private void OnDisable()
+        {
+            //flashlight.ControlScheme = null;
         }
 
         protected virtual void Update() {
@@ -506,7 +513,7 @@ namespace PlayerController
 
         #region Spawn
 
-        private SpawnManager spawnManager;
+        public SpawnManager spawnManager;
         
         public void AddToCam(MultiTargetCam camera)
         {
@@ -520,29 +527,34 @@ namespace PlayerController
                 playerID = 2;
             }
         }
-        
+
         protected virtual void ManageSpawn()
         {
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
-        private void OnActiveSceneChanged(Scene currentScene, Scene nextScene)
+        protected virtual void SpawnPlayer()
         {
             spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             
             if (spawnManager != null)
             {
-                if (playerID == 1)
-                {
-                    spawnManager.RespawnPlayer1();
-                } else if (playerID == 2)
-                {
-                    spawnManager.RespawnPlayer2();
-                }
+                spawnManager.RespawnPlayer(playerID, this.transform);
             }
         }
 
+        protected virtual void SpawnPlayerPosition()
+        {
+            SpawnPlayer();
+        }
         
+        private void OnActiveSceneChanged(Scene currentScene, Scene nextScene)
+        {
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            
+            SpawnPlayer();
+        }
+
         #endregion Spawn
 
         #region Triggers
@@ -575,7 +587,10 @@ namespace PlayerController
             if (col.CompareTag("Winch"))
             {
                 canMove = true;
-                winch.isPressing = false;
+                if (winch)
+                {
+                    winch.isPressing = false;
+                }
                 winch = null;
                 winchTrigger = false;
             }
@@ -615,8 +630,8 @@ namespace PlayerController
 
         private void HandleFlashlight()
         {
-            UpdateFlashlight();
-            ToggleFlashlight();
+            //UpdateFlashlight();
+            //ToggleFlashlight();
         }
 
         private void ToggleFlashlight()

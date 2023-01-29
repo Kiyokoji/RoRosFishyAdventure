@@ -18,7 +18,7 @@ public class RopeRenderer : MonoBehaviour
 
     void Update()
     {
-        if (GUI.changed) EditorUtility.SetDirty (this);
+        //if (GUI.changed) EditorUtility.SetDirty (this);
         
         rope.SetPosition(0, start.position - parent.position);
         rope.SetPosition(1, target.position - parent.position);

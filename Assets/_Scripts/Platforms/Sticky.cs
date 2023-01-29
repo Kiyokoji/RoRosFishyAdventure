@@ -22,6 +22,7 @@ public class Sticky : MonoBehaviour
         if (collision.CompareTag("Player1") || collision.CompareTag("Player2"))
         {
             collision.transform.SetParent(null);
+            DontDestroyOnLoad(collision);
         }
         
         if (collision.CompareTag("Object"))

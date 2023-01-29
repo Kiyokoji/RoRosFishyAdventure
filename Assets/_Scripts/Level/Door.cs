@@ -6,8 +6,6 @@ using FMODUnity;
 
 public class Door : MonoBehaviour
 {
-    
-    
     private SceneLoader loader;
     private Animator anim;
 

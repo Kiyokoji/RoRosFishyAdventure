@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
 
 
 //swap player prefab once player 1 has joined 
@@ -11,17 +13,20 @@ public class PlayerSpawn : MonoBehaviour
 {
     public Object player1;
     public Object player2;
+    
+    private PlayerInputManager manager;
 
-    public Transform spawn1;
-    public Transform spawn2;
-
-    public PlayerInputManager manager;
+    private void Awake()
+    {
+        manager = GetComponent<PlayerInputManager>();
+    }
 
     public void SwapPrefab()
     {
         //manager.playerPrefab.transform.position = spawn1.position;
         //spawn1 = spawn2;
         
+        if(manager != null)
         manager.playerPrefab = (GameObject)player2;
 
         if (manager.playerCount > 1)

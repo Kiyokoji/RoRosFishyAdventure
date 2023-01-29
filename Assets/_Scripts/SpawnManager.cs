@@ -10,21 +10,16 @@ public class SpawnManager : MonoBehaviour
 
     private GameObject player1;
     private GameObject player2;
-    
-    public void RespawnPlayer1()
-    {
-        player1 = GameObject.FindGameObjectWithTag("Player1");
-        
-        if(player1 != null)
-        player1.transform.position = spawnPoint1.position;
-    }
-    
-    public void RespawnPlayer2()
-    {
-        player2 = GameObject.FindGameObjectWithTag("Player2");
-        
-        if(player2 != null)
-        player2.transform.position = spawnPoint2.position;
-    }
 
+    public void RespawnPlayer(int ID, Transform player)
+    {
+        if (ID == 1)
+        {
+            player.position = spawnPoint1.position;
+        }
+        else if (ID == 2)
+        {
+            player.position = spawnPoint2.position;
+        }
+    }
 }
