@@ -6,6 +6,8 @@ using UnityEngine;
 public class Star : MonoBehaviour
 {
     public bool placed;
+    public int count;
+    public StarCluster cluster;
 
     private void Awake()
     {

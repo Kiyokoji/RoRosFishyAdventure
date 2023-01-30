@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7602020885209887321}
   - component: {fileID: 7602020885209887320}
   - component: {fileID: 7602020885209887303}
-  m_Layer: 3
+  m_Layer: 22
   m_Name: StarConnector
   m_TagString: StarConnector
   m_Icon: {fileID: 0}
@@ -171,6 +171,8 @@ MonoBehaviour:
   star1: {fileID: 0}
   star2: {fileID: 0}
   edgeCollider: {fileID: 7602020886084532581}
+  circle1: {fileID: 0}
+  circle2: {fileID: 0}
 --- !u!1 &7602020886084532583
 GameObject:
   m_ObjectHideFlags: 0

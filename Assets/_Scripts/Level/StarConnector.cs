@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -27,6 +29,10 @@ public class StarConnector : MonoBehaviour
     [SerializeField]
     private EdgeCollider2D edgeCollider;
     private bool IsEdgeColliderUsed() { return !(edgeCollider != null); }
+
+    public GameObject circle1, circle2;
+
+    private List<Star> starsFromConnectorLit;
     
     // Start is called before the first frame update
     private void Awake()
@@ -60,9 +66,9 @@ public class StarConnector : MonoBehaviour
         lineRenderer.SetPositions(points);
         
         Vector2[] triggerPoints = new Vector2[2];
-        triggerPoints[0] = points[0];
-        triggerPoints[1] = points[1];
-        
+        triggerPoints[0] = transform.InverseTransformPoint(points[0]);
+        triggerPoints[1] = transform.InverseTransformPoint(points[1]);
+
         edgeColliderTrigger.points = triggerPoints;
     }
 
@@ -70,34 +76,82 @@ public class StarConnector : MonoBehaviour
     /// Sets the active edge collider bounds when lit with a flashlight.
     /// </summary>
     /// <param name="points">Contact points calculated with Raycasts</param>
-    public void UpdateActiveColliderSpace(Vector2?[] points)
+    public void UpdateActiveColliderSpace(Vector2?[] points, List<Star> starsLit)
     {
         if (!starCluster.FinishedPlacing) return;
         
+        //Debug.Log(points[0] + " || " + points[1]);
+
+        foreach (var star in starsLit.ToList())
+        {
+            if (star != star1 && star != star2) starsLit.Remove(star);
+        }
+        
+        /*cases
+        
+        0 and 1 dont hit
+        0 hits but 1 doesnt, star 1 is triggered
+        0 hits but 1 doesnt, star 2 is triggered
+        0 doesnt hit but 1 does, star 1 is triggered
+        0 doesnt hit but 1 does, star 2 is triggered
+        0 and 1 hit
+        0 and 1 dont hit, but star 1 and 2 are triggered
+        
+        */
+
         Vector2[] colliderPoints = new Vector2[2];
-        if (points[0] == null && points[1] == null)
+        
+        // 0 and 1 dont hit
+        if (points[0] == null && points[1] == null) 
         {
             edgeCollider.enabled = false;
             return;
         }
-        
-        if (points[0] == null && points[1] != null)
-        {
-            colliderPoints[0] = edgeCollider.points[0];
-            colliderPoints[1] = (Vector2)points[1];
-        }
-        else if (points[0] != null && points[1] == null)
-        {
-            colliderPoints[0] = (Vector2)points[0];
-            colliderPoints[1] = edgeCollider.points[1];
-        }
-        else
-        {
-            colliderPoints[0] = (Vector2)points[0];
-            colliderPoints[1] = (Vector2)points[1];
-        }
 
+
+        if (starsLit.Count != 0)
+        {
+            // 0 hits but 1 doesnt, star 1 is triggered
+            if (points[0] == null && points[1] != null && starsLit[0] == star1)
+            {
+                colliderPoints[0] = transform.InverseTransformPoint(star1.transform.position);
+                colliderPoints[1] = transform.InverseTransformPoint((Vector2)points[1]);
+            }
+            // 0 hits but 1 doesnt, star 2 is triggered
+            else if (points[0] == null && points[1] != null && starsLit[0] == star2)
+            {
+                colliderPoints[0] = transform.InverseTransformPoint(star2.transform.position);
+                colliderPoints[1] = transform.InverseTransformPoint((Vector2)points[1]);
+            }
+            // 0 doesnt hit but 1 does, star 1 is triggered
+            else if (points[0] != null && points[1] == null && starsLit[0] == star1)
+            {
+                colliderPoints[0] = transform.InverseTransformPoint((Vector2)points[0]);
+                colliderPoints[1] = transform.InverseTransformPoint(star1.transform.position);
+            }
+            // 0 doesnt hit but 1 does, star 2 is triggered
+            else if (points[0] != null && points[1] == null && starsLit[0] == star2)
+            {
+                colliderPoints[0] = transform.InverseTransformPoint((Vector2)points[0]);
+                colliderPoints[1] = transform.InverseTransformPoint(star2.transform.position);
+            }
+            // 0 and 1 dont hit, but star 1 and 2 are triggered
+            else if (points[0] == null && points[1] == null && starsLit.Count == 2)
+            {
+                colliderPoints[0] = transform.InverseTransformPoint(star1.transform.position);
+                colliderPoints[1] = transform.InverseTransformPoint(star2.transform.position);
+            }
+        }
+        // 0 and 1 hit
+        else if (starsLit.Count == 0 && points[0] != null && points[1] != null)
+        {
+            colliderPoints[0] = transform.InverseTransformPoint((Vector2)points[0]);
+            colliderPoints[1] = transform.InverseTransformPoint((Vector2)points[1]);
+        }
+        
         if (starCluster.FinishedPlacing) edgeCollider.enabled = true;
         edgeCollider.points = colliderPoints;
+        if (circle1 != null) circle1.transform.position = colliderPoints[0];
+        if (circle2 != null) circle2.transform.position = colliderPoints[1];
     }
 }

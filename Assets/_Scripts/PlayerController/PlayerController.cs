@@ -125,6 +125,8 @@ namespace PlayerController
             Winch();
             ManageSpawn();
             HandleFlashlight();
+            
+            //Debug.Log(Camera.main.ViewportToWorldPoint(_frameInput.MousePos));
         }
         
         protected virtual void FixedUpdate() {
@@ -636,16 +638,18 @@ namespace PlayerController
 
         #region Flashlight
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void HandleFlashlight()
         {
             UpdateFlashlight();
-            ToggleFlashlight();
+            FlashlightAction();
         }
 
-        private void ToggleFlashlight()
+        private void FlashlightAction()
         {
+            SetControlScheme();
             if (!_frameInput.Flashlight || !_grounded) return;
-            flashlight.ToggleFlashlight();
+            flashlight.FlashlightAction();
         }
 
         private void UpdateFlashlight()

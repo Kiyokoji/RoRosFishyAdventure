@@ -5649,6 +5649,11 @@ MonoBehaviour:
     Path: event:/flashlight
   playerCamera: {fileID: 0}
   light2D: {fileID: 1708770803215640522}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4194304
+  c1: {fileID: 0}
+  c2: {fileID: 0}
 --- !u!1 &8704598909952517008
 GameObject:
   m_ObjectHideFlags: 0

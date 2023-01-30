@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using FMODUnity;
 using Sirenix.OdinInspector;
@@ -33,6 +34,7 @@ public class FlashlightSingle : MonoBehaviour
     private Vector3 mousePos, screenPos, stickPos, lastStickPos;
 
     private StarCluster currentStarCluster, currentGrabbableStarCluster;
+    private List<Star> starsLit;
     private PolygonCollider2D polygonCollider;
     
     private bool flashlightToggle;
@@ -49,9 +51,16 @@ public class FlashlightSingle : MonoBehaviour
         set => controlScheme = value;
     }
 
+    [SerializeField] private LayerMask layerMask;
+    
+    // DEBUG
+
+    public GameObject c1, c2;
+
     private void Start()
     {
         polygonCollider = GetComponent<PolygonCollider2D>();
+        starsLit = new List<Star>();
 
         //controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
 
@@ -89,12 +98,19 @@ public class FlashlightSingle : MonoBehaviour
         else if (currentStarCluster != null) ClusterAction();
         else ToggleFlashlight();
     }
-    
-    public void ToggleFlashlight()
+
+    public void FlashlightAction()
     {
         if(!player.Grounded) return;
         if (GameManager.Instance.state == GameManager.GameState.Paused) return;
         
+        if (clusterGrabbable) GrabCluster();
+        else if (currentStarCluster != null) ClusterAction();
+        else ToggleFlashlight();
+    }
+
+    private void ToggleFlashlight()
+    {
         flashlightToggle = !flashlightToggle;
         
         if (flashlightToggle)
@@ -121,8 +137,7 @@ public class FlashlightSingle : MonoBehaviour
 
         //Debug.Log(mousePos + " || " + playerCamera.transform.localPosition);
         //Vector3 dir = Quaternion.AngleAxis(transform.eulerAngles.z + light2D.pointLightOuterAngle / 2)
-        //flashLeft = Quaternion.AngleAxis(transform.rotation.z + light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
-        //flashRight = Quaternion.AngleAxis(transform.rotation.z - light2D.pointLightOuterAngle / 2, Vector3.forward) * transform.right * light2D.pointLightOuterRadius;
+        
     }
 
     public void UpdateInputPositions(Vector2 mouse, Vector2 stick)
@@ -138,6 +153,8 @@ public class FlashlightSingle : MonoBehaviour
         //mousePos = playerInputActions.Player.MousePos.ReadValue<Vector2>();
         screenPos = mousePos;
         screenPos.z = playerCamera.nearClipPlane + Math.Abs(playerCamera.transform.position.z);
+        
+        //Debug.Log(Camera.main.ScreenToWorldPoint(screenPos));
     }
 
     public void FlashLightOn()
@@ -159,12 +176,14 @@ public class FlashlightSingle : MonoBehaviour
     private void RotateWeapon()
     {
         if (!playerCamera) return;
-
         Vector2 direction = controlScheme == "Keyboard" ? playerCamera.ScreenToWorldPoint(screenPos) - transform.position : stickPos;
 
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         var rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = rotation;
+        
+        flashLeft = Quaternion.AngleAxis(rotation.z + light2D.pointLightOuterAngle / 2, Vector3.forward).normalized * transform.right * light2D.pointLightOuterRadius;
+        flashRight = Quaternion.AngleAxis(rotation.z - light2D.pointLightOuterAngle / 2, Vector3.forward).normalized * transform.right * light2D.pointLightOuterRadius;
     }
     
     // -----------------
@@ -199,13 +218,18 @@ public class FlashlightSingle : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (currentStarCluster != null) return;
-        if (col.CompareTag("StarCluster"))
+        if (other.CompareTag("StarCluster"))
         {
-            currentGrabbableStarCluster = col.GetComponent<StarCluster>();
+            currentGrabbableStarCluster = other.GetComponent<StarCluster>();
             clusterGrabbable = true;
+        }
+
+        if (other.CompareTag("Star"))
+        {
+            starsLit.Add(other.GetComponent<Star>());
         }
     }
 
@@ -216,18 +240,28 @@ public class FlashlightSingle : MonoBehaviour
             if (currentStarCluster != null) return;
             
             Vector2?[] points = new Vector2?[2];
-            
-            RaycastHit2D hit1 = Physics2D.Raycast(transform.position, flashLeft);
-            if (hit1.collider != null) points[0] = hit1.point;
+
+            RaycastHit2D hit1 = Physics2D.Raycast(transform.position, flashLeft.normalized, light2D.pointLightOuterRadius, layerMask);
+            if (hit1.collider != null)
+            {
+                //Debug.Log(hit1.transform.gameObject.name);
+                points[0] = hit1.point;
+            }
             else points[0] = null;
             
-            RaycastHit2D hit2 = Physics2D.Raycast(transform.position, flashRight);
-            if (hit2.collider != null) points[1] = hit2.point;
+            RaycastHit2D hit2 = Physics2D.Raycast(transform.position, flashRight.normalized, light2D.pointLightOuterRadius, layerMask);
+            if (hit2.collider != null)
+            {
+                //Debug.Log(hit2.transform.gameObject.name);
+                points[1] = hit2.point;
+            }
             else points[1] = null;
-            
-            other.GetComponent<StarConnector>().UpdateActiveColliderSpace(points);
-        }
 
+            if (c1 != null) c1.transform.position = hit1.point;
+            if (c2 != null) c2.transform.position = hit2.point;
+
+            other.GetComponent<StarConnector>().UpdateActiveColliderSpace(points, starsLit);
+        }
         
     }
 
@@ -238,11 +272,18 @@ public class FlashlightSingle : MonoBehaviour
             currentGrabbableStarCluster = null;
             clusterGrabbable = false;
         }
+        
+        if (other.CompareTag("Star"))
+        {
+            starsLit.Remove(other.GetComponent<Star>());
+        }
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        //Gizmos.DrawRay(transform.position,flashLeft * light2D.pointLightOuterRadius);
+        Gizmos.DrawRay(transform.position,flashLeft.normalized * light2D.pointLightOuterRadius);
+        Gizmos.DrawRay(transform.position,flashRight.normalized * light2D.pointLightOuterRadius);
+
     }
 }
