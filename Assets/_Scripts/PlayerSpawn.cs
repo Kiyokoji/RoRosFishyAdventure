@@ -23,6 +23,9 @@ public class PlayerSpawn : MonoBehaviour
     private void Awake()
     {
         manager = GetComponent<PlayerInputManager>();
+
+        //set player prefab to player 1
+        manager.playerPrefab = (GameObject)player1;
         
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
@@ -30,27 +33,21 @@ public class PlayerSpawn : MonoBehaviour
         playerInputActions.Player.Join.performed += JoinPlayerFromAction;
     }
 
-    public void JoinPlayerFromAction(InputAction.CallbackContext ctx)
+    private void JoinPlayerFromAction(InputAction.CallbackContext ctx)
     {
-        if (SceneManager.GetActiveScene().name == "StarMenu")
-        {
-            return;
-        }
-        
+        if (SceneManager.GetActiveScene().name == "StarMenu") return;
         if (manager.playerCount > 1) return;
 
+        //spawn player
         manager.JoinPlayerFromActionIfNotAlreadyJoined(ctx);
-        
-        //manager.JoinPlayerFromAction(ctx);
     }
 
     public void SwapPrefab()
     {
-        //manager.playerPrefab.transform.position = spawn1.position;
-        //spawn1 = spawn2;
-        
-        if(manager != null)
-        manager.playerPrefab = (GameObject)player2;
+        if (manager != null)
+        {
+            manager.playerPrefab = (GameObject)player2;
+        }
 
         if (manager.playerCount > 1)
         {
