@@ -654,7 +654,7 @@ namespace PlayerController
 
         private void UpdateFlashlight()
         {
-            canMove = !flashlight.FlashlightToggle;
+            //canMove = !flashlight.FlashlightToggle;
             if (!flashlight.FlashlightToggle) return;
             flashlight.UpdateInputPositions(_frameInput.MousePos, _frameInput.RightStick);
         }

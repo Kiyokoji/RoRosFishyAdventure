@@ -217,10 +217,19 @@ public class StarCluster : MonoBehaviour
         {
             starConnector = Instantiate(connectorPrefab, connectorContainer);
             starConnector.GetComponent<StarConnector>().InitializeConnectorLine(stars[CurrentOperatedStar - 1], stars[CurrentOperatedStar], this);
-            
-            if (CurrentOperatedStar + 1 == stars.Count)
+
+            if (CurrentOperatedStar == 1)
             {
+                starConnector.GetComponent<StarConnector>().clusterPart = StarConnector.ClusterPart.Beginning;
+            }
+            else if (CurrentOperatedStar + 1 == stars.Count)
+            {
+                starConnector.GetComponent<StarConnector>().clusterPart = StarConnector.ClusterPart.End;
                 EndClusterPlacing();
+            }
+            else
+            {
+                starConnector.GetComponent<StarConnector>().clusterPart = StarConnector.ClusterPart.Part;
             }
         }
 

@@ -35,6 +35,9 @@ public class FlashlightSingle : MonoBehaviour
 
     private StarCluster currentStarCluster, currentGrabbableStarCluster;
     private List<Star> starsLit;
+
+    private List<StarConnector> connectorsLit;
+    
     private PolygonCollider2D polygonCollider;
     
     private bool flashlightToggle;
@@ -61,6 +64,7 @@ public class FlashlightSingle : MonoBehaviour
     {
         polygonCollider = GetComponent<PolygonCollider2D>();
         starsLit = new List<Star>();
+        connectorsLit = new List<StarConnector>();
 
         //controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
 
@@ -160,6 +164,7 @@ public class FlashlightSingle : MonoBehaviour
     public void FlashLightOn()
     {
         flashlightToggle = true;
+        polygonCollider.enabled = true;
         player.CanMove = false;
         light2D.enabled = true;
         GameManager.Instance.UpdateGameState(GameManager.GameState.Flashlight);
@@ -168,6 +173,7 @@ public class FlashlightSingle : MonoBehaviour
     public void FlashLightOff()
     {
         flashlightToggle = false;
+        polygonCollider.enabled = false;
         player.CanMove = true;
         light2D.enabled = false;
         GameManager.Instance.UpdateGameState(GameManager.GameState.Moving);
@@ -231,38 +237,217 @@ public class FlashlightSingle : MonoBehaviour
         {
             starsLit.Add(other.GetComponent<Star>());
         }
+
+        if (other.CompareTag("StarConnector"))
+        {
+            connectorsLit.Add(other.GetComponent<StarConnector>());
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("StarConnector"))
-        {
-            if (currentStarCluster != null) return;
-            
-            Vector2?[] points = new Vector2?[2];
+        if (!flashlightToggle) return;
 
-            RaycastHit2D hit1 = Physics2D.Raycast(transform.position, flashLeft.normalized, light2D.pointLightOuterRadius, layerMask);
+        if (!other.CompareTag("StarConnector")) return;
+        if (currentStarCluster != null) return;
+
+        StarConnector connector = other.GetComponent<StarConnector>();
+
+        Vector2?[] points = new Vector2?[2];
+
+        /*RaycastHit2D hit1 = Physics2D.Raycast(transform.position, flashLeft.normalized, light2D.pointLightOuterRadius, layerMask);
             if (hit1.collider != null)
             {
-                //Debug.Log(hit1.transform.gameObject.name);
+                Debug.Log(hit1.transform.GetInstanceID());
                 points[0] = hit1.point;
             }
-            else points[0] = null;
-            
+            else points[0] = null; 
+
             RaycastHit2D hit2 = Physics2D.Raycast(transform.position, flashRight.normalized, light2D.pointLightOuterRadius, layerMask);
             if (hit2.collider != null)
             {
-                //Debug.Log(hit2.transform.gameObject.name);
+                Debug.Log(hit2.transform.GetInstanceID());
                 points[1] = hit2.point;
             }
             else points[1] = null;
 
+            //Debug.Log(points[0] + " || " + points[1]);
+            
             if (c1 != null) c1.transform.position = hit1.point;
             if (c2 != null) c2.transform.position = hit2.point;
 
-            other.GetComponent<StarConnector>().UpdateActiveColliderSpace(points, starsLit);
+            if (connectorsLit.Count > 1)
+            {
+                if (hit1.collider != null)
+                {
+                    if (hit1.transform.GetComponent<StarConnector>() != connector)
+                    {
+                        points[0] = null;
+                    }
+                }
+
+                if (hit2.collider != null)
+                {
+                    if (hit2.transform.GetComponent<StarConnector>() != connector)
+                    {
+                        points[1] = null;
+                    }
+                }
+            }
+            else if (starsLit.Count > 1)
+            {
+                List<Star> starsLitSorted = starsLit;
+                starsLitSorted.Sort((a, b) => a.count.CompareTo(b.count));
+                
+                // left
+                if (hit1.collider == null && hit2.collider != null)
+                {
+                    if (connector.clusterPart == StarConnector.ClusterPart.Beginning)
+                    {
+                        points[0] = connector.star2.transform.position; //
+                        points[1] = connector.star1.transform.position;
+                    }
+                    else if (connector.clusterPart == StarConnector.ClusterPart.End)
+                    {
+                        points[0] = connector.star1.transform.position; //
+                        points[1] = connector.star2.transform.position;
+                    }
+                    else
+                    {
+                        points[1] = connector.star2.transform.position;
+                    }
+                    connector.EnableCollider();
+                }
+                
+                // right
+                if (hit1.collider != null && hit2.collider == null)
+                {
+                    if (connector.clusterPart == StarConnector.ClusterPart.Beginning)
+                    {
+                        points[0] = connector.star1.transform.position;
+                        points[1] = connector.star2.transform.position; //
+                    }
+                    else if (connector.clusterPart == StarConnector.ClusterPart.End)
+                    {
+                        points[0] = connector.star2.transform.position;
+                        points[1] = connector.star1.transform.position; //
+                    }
+                    else
+                    {
+                        points[0] = connector.star1.transform.position;
+                    }
+                    connector.EnableCollider();
+                }
+            }
+            */
+
+        bool hit1Found = false;
+        bool hit2Found = false;
+        RaycastHit2D hit1 = default, hit2 = default;
+
+        RaycastHit2D[] hits1 = Physics2D.RaycastAll(transform.position, flashLeft.normalized, light2D.pointLightOuterRadius, layerMask);
+
+        Debug.Log(hits1.Length);
+        foreach (var hit in hits1)
+        {
+            if (hit.collider.GetComponent<StarConnector>() != connector) continue;
+            
+            points[0] = hit.point;
+            hit1 = hit;
+            hit1Found = true;
+            break;
+        }
+        if (!hit1Found)
+        {
+            points[0] = null;
+        }
+
+        RaycastHit2D[] hits2 = Physics2D.RaycastAll(transform.position, flashRight.normalized, light2D.pointLightOuterRadius, layerMask);
+        foreach (var hit in hits2)
+        {
+            if (hit.collider.GetComponent<StarConnector>() != connector) continue;
+
+            points[1] = hit.point;
+            hit2 = hit;
+            hit2Found = true;
+            break;
+        }
+        if (!hit2Found)
+        {
+            points[1] = null;
         }
         
+        //Debug.Log(hit1Found + " " + hit2Found);
+        
+        if (connectorsLit.Count > 1)
+        {
+            if (hit1.collider != null)
+            {
+                if (hit1.transform.GetComponent<StarConnector>() != connector)
+                {
+                    points[0] = null;
+                }
+            }
+
+            if (hit2.collider != null)
+            {
+                if (hit2.transform.GetComponent<StarConnector>() != connector)
+                {
+                    points[1] = null;
+                }
+            }
+        }
+        else if (starsLit.Count > 1)
+        {
+            List<Star> starsLitSorted = starsLit;
+            starsLitSorted.Sort((a, b) => a.count.CompareTo(b.count));
+
+            // left
+            if (hit1.collider == null && hit2.collider != null)
+            {
+                if (connector.clusterPart == StarConnector.ClusterPart.Beginning)
+                {
+                    points[0] = connector.star2.transform.position; //
+                    points[1] = connector.star1.transform.position;
+                }
+                else if (connector.clusterPart == StarConnector.ClusterPart.End)
+                {
+                    points[0] = connector.star1.transform.position; //
+                    points[1] = connector.star2.transform.position;
+                }
+                else
+                {
+                    points[1] = connector.star2.transform.position;
+                }
+
+                connector.EnableCollider();
+            }
+
+            // right
+            if (hit1.collider != null && hit2.collider == null)
+            {
+                if (connector.clusterPart == StarConnector.ClusterPart.Beginning)
+                {
+                    points[0] = connector.star1.transform.position;
+                    points[1] = connector.star2.transform.position; //
+                }
+                else if (connector.clusterPart == StarConnector.ClusterPart.End)
+                {
+                    points[0] = connector.star2.transform.position;
+                    points[1] = connector.star1.transform.position; //
+                }
+                else
+                {
+                    points[0] = connector.star1.transform.position;
+                }
+
+                connector.EnableCollider();
+            }
+        }
+        
+        //Debug.Log(points[0] + " || " + points[1]);
+        
+        other.GetComponent<StarConnector>().UpdateActiveColliderSpace(points, starsLit);
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -277,13 +462,19 @@ public class FlashlightSingle : MonoBehaviour
         {
             starsLit.Remove(other.GetComponent<Star>());
         }
+
+        if (other.CompareTag("StarConnector"))
+        {
+            connectorsLit.Remove(other.GetComponent<StarConnector>());
+            other.GetComponent<StarConnector>().DisableCollider();
+        }
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position,flashLeft.normalized * light2D.pointLightOuterRadius);
-        Gizmos.DrawRay(transform.position,flashRight.normalized * light2D.pointLightOuterRadius);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawRay(transform.position,flashLeft.normalized * light2D.pointLightOuterRadius);
+        //Gizmos.DrawRay(transform.position,flashRight.normalized * light2D.pointLightOuterRadius);
 
     }
 }
