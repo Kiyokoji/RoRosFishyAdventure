@@ -193,6 +193,11 @@ public class BookManager : MonoBehaviour
     {
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Pause Menu", 0);
     }
+
+    public void Restart()
+    {
+        
+    }
     
     public void MainMenu()
     {

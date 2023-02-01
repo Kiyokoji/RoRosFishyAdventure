@@ -62,7 +62,7 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Start()
     {
-        polygonCollider = GetComponent<PolygonCollider2D>();
+        
         starsLit = new List<Star>();
         connectorsLit = new List<StarConnector>();
 
@@ -70,7 +70,7 @@ public class FlashlightSingle : MonoBehaviour
 
         foreach (var i in InputSystem.devices)
         {
-            Debug.Log(i);
+            //Debug.Log(i);
         }
     }
 
@@ -78,7 +78,8 @@ public class FlashlightSingle : MonoBehaviour
     {
         player = GetComponentInParent<PlayerController.PlayerController>();
         playerCamera = Camera.main;
-        
+        polygonCollider = GetComponent<PolygonCollider2D>();
+        polygonCollider.enabled = false;
         /*
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
@@ -116,7 +117,7 @@ public class FlashlightSingle : MonoBehaviour
     private void ToggleFlashlight()
     {
         flashlightToggle = !flashlightToggle;
-        
+
         if (flashlightToggle)
         {
             FlashLightOn();
@@ -163,6 +164,7 @@ public class FlashlightSingle : MonoBehaviour
 
     public void FlashLightOn()
     {
+        
         flashlightToggle = true;
         polygonCollider.enabled = true;
         player.CanMove = false;

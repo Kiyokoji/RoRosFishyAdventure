@@ -8409,7 +8409,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Sound Artist:'
+  m_text: 'Sound:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 818a218b1cec2fe46aaf2cb7774c4290, type: 2}
   m_sharedMaterial: {fileID: -6294331245578579511, guid: 818a218b1cec2fe46aaf2cb7774c4290, type: 2}

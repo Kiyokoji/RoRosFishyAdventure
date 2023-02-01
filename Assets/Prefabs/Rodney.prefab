@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1708770803215640522}
   m_Layer: 20
   m_Name: Light 2D
-  m_TagString: Player
+  m_TagString: LightPlayer1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5490,7 +5490,7 @@ GameObject:
   - component: {fileID: 6300060825857170370}
   m_Layer: 20
   m_Name: Sprite Mask
-  m_TagString: Player
+  m_TagString: LightPlayer1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

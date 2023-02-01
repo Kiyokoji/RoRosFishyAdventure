@@ -95,41 +95,6 @@ public class ScaleMove : MonoBehaviour
             if (isLeftScale) { scale.leftObjects++; }
             else { scale.rightObjects++; }
         }
-        /*
-
-        if (col.CompareTag("Player1") || col.CompareTag("Player2") || col.CompareTag("Object"))
-        {
-            if (isLeftScale)
-            {
-                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
-                {
-                    scale.leftObjects += 2;
-                }
-                else
-                {
-                    scale.leftObjects++;
-                }
-            }
-            else
-            {
-                if (col.transform.GetComponent<PlayerController.PlayerController>() != null && col.transform.GetComponent<PlayerController.PlayerController>().hasCrate)
-                {
-                    scale.rightObjects += 2;
-                }
-                else
-                {
-                    scale.rightObjects++;
-                }
-            }
-        }
-        
-        if (col.CompareTag("Object"))
-        {
-            col.GetComponent<CrateDisable>().onScale = true;
-            col.GetComponent<CrateDisable>().SetScaleMove(this);
-        }
-        
-        */
     }
 
     private void OnTriggerExit2D(Collider2D col)

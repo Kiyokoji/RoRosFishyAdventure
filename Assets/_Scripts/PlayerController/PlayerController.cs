@@ -125,6 +125,11 @@ namespace PlayerController
             Winch();
             ManageSpawn();
             HandleFlashlight();
+
+            if (!spawnManager)
+            {
+                spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            }
             
             //Debug.Log(Camera.main.ViewportToWorldPoint(_frameInput.MousePos));
         }
@@ -542,14 +547,16 @@ namespace PlayerController
             
             if (spawnManager == null)
             {
-                spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+                //spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             }
         }
 
         protected virtual void SpawnPlayer()
         {
-            if(spawnManager != null)
+            if (spawnManager != null)
+            {
                 spawnManager.RespawnPlayer(playerID, this.transform);
+            }
         }
 
         protected virtual void SpawnPlayerPosition()
@@ -561,18 +568,26 @@ namespace PlayerController
         {
             spawnManager = null;
             spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+
+            if (spawnManager != null)
+            {
+                SpawnPlayer();
+            }
             
-            SpawnPlayer();
         }
 
         #endregion Spawn
 
         #region Triggers
+
+        private Collider2D colliderToIgnore;
         
         public void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Winch"))
+
+            if (col.CompareTag("Winch") )
             {
+                if (flashlight.FlashlightToggle) return;
                 winch = col.gameObject.transform.GetComponent<Winch>();
 
                 winchTrigger = true;
@@ -596,6 +611,7 @@ namespace PlayerController
         {
             if (col.CompareTag("Winch"))
             {
+                if (flashlight.FlashlightToggle) return;
                 canMove = true;
                 if (winch)
                 {
@@ -619,6 +635,12 @@ namespace PlayerController
 
         private void OnTriggerStay2D(Collider2D col)
         {
+            if (col.CompareTag("Winch") )
+            {
+                if (flashlight.FlashlightToggle) return;
+                winchTrigger = true;
+            }
+            
             if (col.CompareTag("Hook"))
             {
                 if (isGrabbing)
