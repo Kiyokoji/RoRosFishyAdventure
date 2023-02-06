@@ -24,6 +24,8 @@ MonoBehaviour:
   JumpPower: 45
   MaxFallSpeed: 60
   FallAcceleration: 110
+  BraceDuration: 0.05
+  BraceGravityModifier: 0.5
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 4
   JumpBufferFrames: 4
@@ -49,4 +51,4 @@ MonoBehaviour:
       Data2: 1309239486
       Data3: -1514568292
       Data4: 804277605
-    Path: event:/harold jump
+    Path: event:/harold/harold jump

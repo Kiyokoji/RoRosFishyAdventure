@@ -51,4 +51,25 @@ MonoBehaviour:
       Data2: 1329426439
       Data3: 55574438
       Data4: -42273167
-    Path: event:/rodney jump
+    Path: event:/rodney/rodney jump
+  playerFlashlightSound:
+    Guid:
+      Data1: 197801951
+      Data2: 1325202479
+      Data3: -1748848767
+      Data4: 330649232
+    Path: event:/rodney/beam rodney
+  playerNomSound:
+    Guid:
+      Data1: -1590011973
+      Data2: 1240535243
+      Data3: -1363336300
+      Data4: 1892504658
+    Path: event:/rodney/rodney eat sound
+  playerBlehSound:
+    Guid:
+      Data1: 871577851
+      Data2: 1234411611
+      Data3: -187978353
+      Data4: 1705282101
+    Path: event:/rodney/rodney spit sound

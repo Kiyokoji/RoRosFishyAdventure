@@ -226,7 +226,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2082151268357955136}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.082, y: -1.208, z: 0}
+  m_LocalPosition: {x: 0.082, y: -1.223, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5291,7 +5291,6 @@ GameObject:
   - component: {fileID: 2418634957952983843}
   - component: {fileID: 3342203518627882471}
   - component: {fileID: 5265496216357014771}
-  - component: {fileID: 5955766229175748416}
   m_Layer: 21
   m_Name: Harold
   m_TagString: Player2
@@ -5422,18 +5421,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &5955766229175748416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5846077235474277936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2429b959ccf2a244b610f3e0824ca4b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6486764973989755281
 GameObject:
   m_ObjectHideFlags: 0
@@ -5596,13 +5583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0639bc248ac608a4088d909c781b845e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashlightSound:
-    Guid:
-      Data1: 284473203
-      Data2: 1125947930
-      Data3: -1480003423
-      Data4: -1287678504
-    Path: event:/flashlight
+  _stats: {fileID: 11400000, guid: 38827ee29454ae341ba12843f01f9b7e, type: 2}
   playerCamera: {fileID: 0}
   light2D: {fileID: 1708770803215640522}
   layerMask:

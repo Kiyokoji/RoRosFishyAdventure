@@ -754,7 +754,7 @@ MonoBehaviour:
       Data2: 1105055580
       Data3: 717024917
       Data4: 1709988211
-    Path: event:/wheel spinning
+    Path: event:/world sounds/wheel spinning
   goingUp: 0
   goingDown: 0
   isPressing: 0

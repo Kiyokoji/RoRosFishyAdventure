@@ -199,7 +199,7 @@ MonoBehaviour:
       Data2: 1339234692
       Data3: 1014632087
       Data4: 1203380584
-    Path: event:/crate falling
+    Path: event:/world sounds/crate falling
   framesToCount: 1
 --- !u!1 &4753510504431277154
 GameObject:

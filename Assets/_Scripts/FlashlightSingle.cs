@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using FMOD.Studio;
 using FMODUnity;
+using PlayerController;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,8 +16,11 @@ using Vector3 = UnityEngine.Vector3;
 
 public class FlashlightSingle : MonoBehaviour
 {
-    public EventReference flashlightSound;
-
+    //flashlight sound
+    [SerializeField] private ScriptableStats _stats;
+    private EventInstance beamSound;
+    private bool isPlaying = false;
+    
     [Title("Game Objects")]
     [InfoBox("The Player Camera of the Player operating this flashlight", InfoMessageType.None)]
     [InfoBox("Put the Player Camera of the operating Player in here", InfoMessageType.Error, "IsPlayerCameraPrefabUsed")]
@@ -62,10 +67,10 @@ public class FlashlightSingle : MonoBehaviour
 
     private void Start()
     {
-        
         starsLit = new List<Star>();
         connectorsLit = new List<StarConnector>();
-
+        beamSound = FMODUnity.RuntimeManager.CreateInstance(_stats.playerFlashlightSound);
+        
         //controlScheme = player.ControlScheme == 1 ? "Keyboard" : "Gamepad";
 
         foreach (var i in InputSystem.devices)
@@ -126,7 +131,7 @@ public class FlashlightSingle : MonoBehaviour
             FlashLightOff();
         }
         
-        FMODUnity.RuntimeManager.PlayOneShot(flashlightSound);
+        //FMODUnity.RuntimeManager.PlayOneShot(_stats.playerFlashlightSound);
     }
 
     private void Update()
@@ -164,7 +169,7 @@ public class FlashlightSingle : MonoBehaviour
 
     public void FlashLightOn()
     {
-        
+        beamSound.start();
         flashlightToggle = true;
         polygonCollider.enabled = true;
         player.CanMove = false;
@@ -174,6 +179,7 @@ public class FlashlightSingle : MonoBehaviour
 
     public void FlashLightOff()
     {
+        beamSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         flashlightToggle = false;
         polygonCollider.enabled = false;
         player.CanMove = true;

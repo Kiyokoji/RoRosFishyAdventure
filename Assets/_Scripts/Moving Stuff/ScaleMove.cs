@@ -11,10 +11,22 @@ public class ScaleMove : MonoBehaviour
     public Transform _down;
     public Transform _default;
     private int weight;
+
+    public List<GameObject> rightScaleObjects = new List<GameObject>();
+    public List<GameObject> leftScaleObjects = new List<GameObject>();
     
     public bool isLeftScale;
     
     private float _speed;
+
+    private void Update()
+    {
+        foreach (GameObject gameObject in rightScaleObjects)
+        {
+            Debug.Log(gameObject.name);
+            weight = gameObject.GetComponent<Weight>().weight;
+        }
+    }
 
     private void Awake()
     {

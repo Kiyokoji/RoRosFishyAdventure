@@ -106,7 +106,7 @@ MonoBehaviour:
       Data2: 1114414602
       Data3: -966891363
       Data4: -195812329
-    Path: event:/door
+    Path: event:/world sounds/door
   interaction: {fileID: 3787804006189847603}
   sceneToLoad: 4
 --- !u!61 &468720123287108824

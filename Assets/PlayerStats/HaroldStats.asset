@@ -51,4 +51,25 @@ MonoBehaviour:
       Data2: 1309239486
       Data3: -1514568292
       Data4: 804277605
-    Path: event:/harold jump
+    Path: event:/harold/harold jump
+  playerFlashlightSound:
+    Guid:
+      Data1: 347244754
+      Data2: 1076775472
+      Data3: -447017816
+      Data4: 504481603
+    Path: event:/harold/beam harold
+  playerNomSound:
+    Guid:
+      Data1: 1206032069
+      Data2: 1185370957
+      Data3: 1794717333
+      Data4: 1218639396
+    Path: event:/harold/harold eat sound
+  playerBlehSound:
+    Guid:
+      Data1: -1947019012
+      Data2: 1184369716
+      Data3: 1413041812
+      Data4: -1025189206
+    Path: event:/harold/harold spit sound

@@ -196,7 +196,8 @@ public class BookManager : MonoBehaviour
 
     public void Restart()
     {
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        CloseMenus();
     }
     
     public void MainMenu()

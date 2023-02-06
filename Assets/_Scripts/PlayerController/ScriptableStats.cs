@@ -88,5 +88,11 @@ namespace PlayerController {
 
         [Header("Sounds")] 
         public EventReference playerJumpSound;
+
+        public EventReference playerFlashlightSound;
+
+        public EventReference playerNomSound;
+
+        public EventReference playerBlehSound;
     }
 }

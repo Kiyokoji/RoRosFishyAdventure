@@ -124,7 +124,7 @@ MonoBehaviour:
       Data2: 1250041161
       Data3: 598134183
       Data4: 1633486271
-    Path: event:/platform move
+    Path: event:/world sounds/platform move
 --- !u!1 &6060800129215378051
 GameObject:
   m_ObjectHideFlags: 0

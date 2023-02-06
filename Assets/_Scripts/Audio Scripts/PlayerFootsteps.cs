@@ -97,7 +97,7 @@ public class PlayerFootsteps : MonoBehaviour
 
     public void PlayFootstep(int terrain)
     {
-        footsteps = FMODUnity.RuntimeManager.CreateInstance("event:/Footsteps");
+        footsteps = FMODUnity.RuntimeManager.CreateInstance("event:/character sounds/footsteps");
         footsteps.setParameterByName("Terrain", terrain);
         //footsteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         footsteps.start();

@@ -11,15 +11,16 @@ public class SpawnManager : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
 
-    public void RespawnPlayer(int ID, Transform player)
+    public void RespawnPlayer(int id, Transform player)
     {
-        if (ID == 1)
+        if (id == 1)
         {
             player.position = spawnPoint1.position;
         }
-        else if (ID == 2)
+        else if (id == 2)
         {
             player.position = spawnPoint2.position;
         }
+
     }
 }

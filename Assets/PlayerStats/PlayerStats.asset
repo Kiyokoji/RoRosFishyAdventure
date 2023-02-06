@@ -24,6 +24,8 @@ MonoBehaviour:
   JumpPower: 45
   MaxFallSpeed: 60
   FallAcceleration: 110
+  BraceDuration: 0.05
+  BraceGravityModifier: 0.5
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 4
   JumpBufferFrames: 4
@@ -49,4 +51,4 @@ MonoBehaviour:
       Data2: 1329426439
       Data3: 55574438
       Data4: -42273167
-    Path: event:/rodney jump
+    Path: event:/rodney/rodney jump

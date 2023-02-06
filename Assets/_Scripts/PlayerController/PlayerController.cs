@@ -97,19 +97,17 @@ namespace PlayerController
             
             //add player transform to list of targets on the main camera
             AddToCam(_mainCam);
-            
-            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         }
 
         private void OnEnable()
         {
-
             SetControlScheme();
         }
 
         private void OnDisable()
         {
-            //flashlight.ControlScheme = null;
+            RemoveFromCam(_mainCam);
+            playerID = 0;
         }
 
         private void Start()
@@ -126,11 +124,6 @@ namespace PlayerController
             ManageSpawn();
             HandleFlashlight();
 
-            if (!spawnManager)
-            {
-                spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-            }
-            
             //Debug.Log(Camera.main.ViewportToWorldPoint(_frameInput.MousePos));
         }
         
@@ -459,6 +452,7 @@ namespace PlayerController
 
         protected virtual void SwallowCrate()
         {
+            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerNomSound);
             weight = 2;
             crate.SetActive(false);
             hasCrate = true;
@@ -468,6 +462,7 @@ namespace PlayerController
         
         protected virtual void SpitCrate()
         {
+            FMODUnity.RuntimeManager.PlayOneShot(_stats.playerBlehSound);
             weight = 1;
             crate.transform.SetParent(gameObject.transform);
             crate.transform.position = _mouth.transform.position;
@@ -528,7 +523,7 @@ namespace PlayerController
 
         [ReadOnly] public SpawnManager spawnManager;
         
-        public void AddToCam(MultiTargetCam camera)
+        private void AddToCam(MultiTargetCam camera)
         {
             camera.targets.Add(this.gameObject.transform);
             if (camera.targets.Count == 1)
@@ -540,23 +535,23 @@ namespace PlayerController
                 playerID = 2;
             }
         }
+        
+        private void RemoveFromCam(MultiTargetCam camera)
+        {
+            camera.targets.Remove(this.gameObject.transform);
+        }
 
         protected virtual void ManageSpawn()
         {
+            //the only way to really make it work rn
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
-            
-            if (spawnManager == null)
-            {
-                //spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-            }
         }
 
         protected virtual void SpawnPlayer()
         {
-            if (spawnManager != null)
-            {
-                spawnManager.RespawnPlayer(playerID, this.transform);
-            }
+            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            spawnManager.RespawnPlayer(playerID, transform);
         }
 
         protected virtual void SpawnPlayerPosition()
@@ -566,14 +561,16 @@ namespace PlayerController
         
         private void OnActiveSceneChanged(Scene currentScene, Scene nextScene)
         {
-            spawnManager = null;
-            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            //spawnManager = null;
+            //spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+            //StartCoroutine(spawnCooldown());
+        }
 
-            if (spawnManager != null)
-            {
-                SpawnPlayer();
-            }
-            
+        private IEnumerator spawnCooldown()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            SpawnPlayer();
         }
 
         #endregion Spawn
