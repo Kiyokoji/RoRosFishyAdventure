@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,7 +17,9 @@ public class PlayerSpawn : MonoBehaviour
     
     public GameObject player1;
     public GameObject player2;
-    
+
+    [ReadOnly] public GameObject blank;
+
     private PlayerInputManager manager;
 
     private void OnDisable()
@@ -39,10 +43,22 @@ public class PlayerSpawn : MonoBehaviour
     private void JoinPlayerFromAction(InputAction.CallbackContext ctx)
     {
         if (SceneManager.GetActiveScene().name == "StarMenu") return;
+
         if (manager.playerCount > 1) return;
 
+        if (manager.playerCount == 1 && !FindObjectOfType<SpawnManager>().player1.GetComponent<PlayerController.PlayerController>().Grounded) return;
+        
         //spawn player
         manager.JoinPlayerFromActionIfNotAlreadyJoined(ctx);
+
+        if (manager.playerCount == 2 && blank == null)
+        {
+            blank = Instantiate((GameObject)player2);
+            blank.GetComponent<PlayerController.PlayerController>().SetBlank();
+            blank.GetComponent<PlayerController.PlayerController>().playerID = 3;
+            //blank.transform.position = new Vector3(-100, 0);
+            //blank.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
 
     public void SwapPrefab()

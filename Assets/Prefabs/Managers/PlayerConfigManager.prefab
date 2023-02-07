@@ -103,5 +103,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: {fileID: 5846077235474277936, guid: f40040d9e25951445b66d3ad0cdaba66, type: 3}
   player2: {fileID: 5846077235474277936, guid: 5b29375952f5c974694eca5b303b4b7c, type: 3}
-  spawn1: {fileID: 0}
-  spawn2: {fileID: 0}
+  blank: {fileID: 6462754346360809252, guid: 9f0cc912b19c00145bebd80946f5d0bb, type: 3}

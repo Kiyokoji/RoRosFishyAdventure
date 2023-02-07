@@ -46,13 +46,15 @@ namespace PlayerController
         private Animator _anim;
 
         [SerializeField] private FlashlightSingle flashlight;
+
+        [SerializeField] private bool isBlank = false;
         
         #endregion
 
         #region External
 
         [ReadOnly] public int playerID = 0;
-        
+
         [HideInInspector] public Vector2 _speed;
         public event Action<bool, float> GroundedChanged;
         public event Action<bool> Jumped;
@@ -115,7 +117,10 @@ namespace PlayerController
             SpawnPlayerPosition();
         }
 
-        protected virtual void Update() {
+        protected virtual void Update()
+        {
+            //if (isBlank) return;
+            
             GatherInput();
             UpdateAnimator();
             Grab();
@@ -129,6 +134,8 @@ namespace PlayerController
         
         protected virtual void FixedUpdate() {
             _fixedFrame++;
+            
+            //if (isBlank) return;
 
             CheckCollisions();
             HandleCollisions();
@@ -138,7 +145,10 @@ namespace PlayerController
             ApplyVelocity();
         }
 
-        protected virtual void GatherInput() {
+        protected virtual void GatherInput()
+        {
+            if (isBlank) return;
+            
             _frameInput = _input.FrameInput;
             
             if (_frameInput.JumpDown) {
@@ -146,7 +156,15 @@ namespace PlayerController
                 _frameJumpWasPressed = _fixedFrame;
             }
         }
-        
+
+        public void SetBlank()
+        {
+            isBlank = true;
+            if (Camera.main != null) RemoveFromCam(Camera.main.GetComponent<MultiTargetCam>());
+            skeleton.gameObject.SetActive(false);
+            //_rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        }
+
 
         #region Collisions
 
@@ -525,7 +543,9 @@ namespace PlayerController
         
         private void AddToCam(MultiTargetCam camera)
         {
+            //if (isBlank) return;
             camera.targets.Add(this.gameObject.transform);
+            
             if (camera.targets.Count == 1)
             {
                 playerID = 1;
