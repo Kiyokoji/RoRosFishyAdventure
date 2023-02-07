@@ -201,7 +201,7 @@ MonoBehaviour:
       Data3: 1014632087
       Data4: 1203380584
     Path: event:/world sounds/crate falling
-  framesToCount: 1
+  framesToCount: 2
 --- !u!114 &1926924179
 MonoBehaviour:
   m_ObjectHideFlags: 0

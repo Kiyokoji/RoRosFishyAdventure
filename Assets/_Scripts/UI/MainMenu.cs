@@ -147,7 +147,7 @@ public class MainMenu : MonoBehaviour
     
     public void PlayGame()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("FirstLevel V2");
     }
 
     public void QuitGame()

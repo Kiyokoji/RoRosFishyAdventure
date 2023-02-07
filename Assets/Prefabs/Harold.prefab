@@ -5374,6 +5374,7 @@ MonoBehaviour:
   _playerPlatform: {fileID: 8169505825696385539}
   _mouth: {fileID: 8714196499697267284}
   flashlight: {fileID: 7808879736058311982}
+  isBlank: 0
   playerID: 0
   _speed: {x: 0, y: 0}
   weight: 1
@@ -5607,7 +5608,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7118980058250140111
 Transform:
   m_ObjectHideFlags: 0

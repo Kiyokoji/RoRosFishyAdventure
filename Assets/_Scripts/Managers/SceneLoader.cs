@@ -17,6 +17,7 @@ public class SceneLoader : MonoBehaviour
         Level1,
         Level2,
         Test1,
+        FirstLevelV2
     };
 
     private void Start()

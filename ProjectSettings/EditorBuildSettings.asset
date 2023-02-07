@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/StarMenu.unity
     guid: 52ea4d8c052fdeb4f8484ae9f4513e47
+  - enabled: 1
+    path: Assets/Scenes/FirstLevel V2.unity
+    guid: b12e0aedc99893444970cb16d1f990d1
   - enabled: 0
     path: Assets/Scenes/Game.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
@@ -29,7 +32,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/RubbleArea.unity
     guid: a3c595ea0d4a8e84d8ac4d44daf23341
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RobertTest2.unity
     guid: 9e0acea563d581f4884ed55fb9f0194c
   m_configObjects:
