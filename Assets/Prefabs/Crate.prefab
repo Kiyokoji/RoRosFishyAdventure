@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 4753510503372598172}
   - component: {fileID: 8947989118730383336}
   - component: {fileID: 4506854194126192779}
+  - component: {fileID: 1926924179}
   m_Layer: 12
   m_Name: Sprite
   m_TagString: Object
@@ -168,7 +169,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0018426776, y: -0.0061534345}
+  m_Offset: {x: 0.00048449636, y: -0.008869827}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -179,7 +180,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5078963, y: 1.5238886}
+  m_Size: {x: 1.4997473, y: 1.5075907}
   m_EdgeRadius: 0
 --- !u!114 &4506854194126192779
 MonoBehaviour:
@@ -201,6 +202,20 @@ MonoBehaviour:
       Data4: 1203380584
     Path: event:/world sounds/crate falling
   framesToCount: 1
+--- !u!114 &1926924179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753510503372598174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2492cfd4127684cb2f95e01a30e081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onScale: 0
+  scaleMove: {fileID: 0}
 --- !u!1 &4753510504431277154
 GameObject:
   m_ObjectHideFlags: 0

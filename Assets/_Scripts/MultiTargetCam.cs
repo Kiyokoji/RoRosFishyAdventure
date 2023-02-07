@@ -9,6 +9,8 @@ using Debug = UnityEngine.Debug;
 
 public class MultiTargetCam : MonoBehaviour
 {
+    public SpriteRenderer background;
+    
     private Vector3 velocity;
     private Camera cam;
     
@@ -32,7 +34,7 @@ public class MultiTargetCam : MonoBehaviour
         smoothTemp = smoothTime;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (targets.Count == 0) return;
 
@@ -50,13 +52,17 @@ public class MultiTargetCam : MonoBehaviour
         
         if (GetDistance() <= minDistance) return;
         Zoom();
-
+        
     }
 
     public void Zoom()
     {
         float newZoom = Mathf.Lerp(maxZoom, minZoom, GetDistance()/ zoomLimiter);
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom + buffer, Time.deltaTime);
+        
+        //float bgZoom = Mathf.Lerp()
+        
+        //background.transform.localScale = new Vector3(newZoom / 50, newZoom / 50, 0);
     }
     
     public void Move()
@@ -64,7 +70,7 @@ public class MultiTargetCam : MonoBehaviour
         Vector3 centerPoint = GetCenterPoint();
 
         Vector3 newPosition = centerPoint + offset;
-
+        
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
     }
 
