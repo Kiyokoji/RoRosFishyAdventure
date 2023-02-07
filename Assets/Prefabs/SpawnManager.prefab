@@ -112,7 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint1: {fileID: 8257210411478121014}
   spawnPoint2: {fileID: 8257210410334143834}
-  blankPoint: {fileID: 0}
+  blankPoint: {fileID: 1669331252037062991}
+  player1: {fileID: 0}
+  player2: {fileID: 0}
 --- !u!1 &8257210411478121001
 GameObject:
   m_ObjectHideFlags: 0
