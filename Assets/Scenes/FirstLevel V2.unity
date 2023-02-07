@@ -2880,6 +2880,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planks (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8806126648971886375, guid: 8965e93703bd94748bc41443301c3356, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8965e93703bd94748bc41443301c3356, type: 3}
 --- !u!4 &369315086 stripped
@@ -6685,7 +6689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933479027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 135.5, y: 75.7, z: 0}
+  m_LocalPosition: {x: 104.8, y: 67.5, z: 0}
   m_LocalScale: {x: 9.448846, y: 9.448846, z: 9.448846}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9557,7 +9561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413648693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: -0.5, z: -0.24340598}
+  m_LocalPosition: {x: -30.53, y: -1.5, z: -0.24340598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
